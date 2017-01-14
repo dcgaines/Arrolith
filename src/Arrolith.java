@@ -5,7 +5,7 @@ import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
 
-public class Test extends Game{
+public class Arrolith extends Game{
 
 	@Override
 	public void tick( Graphics2D graphics, Input input, Sound sound ) {
