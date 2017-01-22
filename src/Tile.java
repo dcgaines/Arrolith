@@ -46,4 +46,16 @@ public class Tile {
 		//TODO: continue for as many tile types as we have
 		}
 	}
+	public boolean getWalk(){
+		return walkable;
+	}
+	public double getItem(){
+		return itemChance;
+	}
+	public double getGold(){
+		return goldChance;
+	}
+	public boolean getAction(){
+		return actionable;
+	}
 }
