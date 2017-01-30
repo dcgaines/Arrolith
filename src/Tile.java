@@ -1,19 +1,25 @@
-@SuppressWarnings("unused")
+
 public class Tile {
 	private int type;
 	private boolean walkable;
 	private double itemChance;
 	private double goldChance;
 	private boolean actionable;
-	
-	public Tile(int type){
+
+	public Tile( int type ) {
 		this.type = type;
-		
-		switch(type){
+
+		switch ( type ) {
 		case TileType.GRASS:
 			walkable = true;
 			itemChance = .2;
 			goldChance = .1;
+			actionable = false;
+			break;
+		case TileType.DIRT:
+			walkable = true;
+			itemChance = .1;
+			goldChance = .05;
 			actionable = false;
 			break;
 		case TileType.GRASS_FLOWER:
@@ -25,10 +31,15 @@ public class Tile {
 			actionable = false;
 			break;
 		case TileType.TREE:
+		case TileType.TREE_BARE:
 		case TileType.ROCK:
 		case TileType.WALL:
-		case TileType.WALL_COLUMN:
-		case TileType.WALL_STATUE:
+		case TileType.INTERIOR_WALL:
+		case TileType.RIGHT_WALL:
+		case TileType.LEFT_WALL:
+		case TileType.RIGHT_COLUMN:
+		case TileType.LEFT_COLUMN:
+		case TileType.STATUE:
 			walkable = false;
 			itemChance = 0;
 			goldChance = 0;
@@ -43,19 +54,27 @@ public class Tile {
 			itemChance = 0;
 			goldChance = 0;
 			actionable = false;
-		//TODO: continue for as many tile types as we have
+			// TODO: continue for as many tile types as we have
 		}
 	}
-	public boolean getWalk(){
+
+	public boolean getWalk( ) {
 		return walkable;
 	}
-	public double getItem(){
+
+	public double getItem( ) {
 		return itemChance;
 	}
-	public double getGold(){
+
+	public double getGold( ) {
 		return goldChance;
 	}
-	public boolean getAction(){
+
+	public boolean getAction( ) {
 		return actionable;
+	}
+
+	public int getType( ) {
+		return type;
 	}
 }
