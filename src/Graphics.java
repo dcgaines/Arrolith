@@ -26,9 +26,9 @@ public class Graphics {
 	}
 	
 	
-	public void drawMap(Graphics2D g)
+	public void drawMap(Graphics2D g) throws IOException
 	{
-		Map map = null;
+		Map map = new Map(2);
 		Tile tile;
 		for (int i = 0; i < 40; i++)
 			for (int j = 0; j < 87; j++)
