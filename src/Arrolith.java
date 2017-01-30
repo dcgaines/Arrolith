@@ -9,29 +9,38 @@ import arcadia.Input;
 import arcadia.Sound;
 
 public class Arrolith extends Game {
-
-//	static Thread aThread;
-//	static Thread bThread;
-
+	//private enum STATES { STARTUP, MENU, INGAME, PAUSED; }
+	private final int STARTUP = 0;
+	private final int MENU = 0;
+	private final int 
+	private int currState;
+	
+	
+	public Arrolith()
+	{
+		currState = STARTUP;
+		
+	}
+	
+	
+	
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
-		// TODO Auto-generated method stub
-//		aThread = new Thread() {
-//			public void run() {
-//				if (input.pressed(Button.A)) {
-//					System.out.println("A Button Pressed");
-//				}
-//			}
-//		};
-//		bThread = new Thread(){
-//			public void run() {
-//				if (input.pressed(Button.B))
-//					System.out.println("B Button Pressed");
-//			}
-//		};
-//		
-//		aThread.start();
-//		bThread.start();
+		
+		//Calculations
+		switch (currState)
+		{
+		case STATES.STARTUP.ordinal():
+			
+		}
+		
+		
+		// Drawing methods placed below
+		switch (currState)
+		{
+		
+		}
+		
 	}
 
 	@Override
@@ -44,6 +53,7 @@ public class Arrolith extends Game {
 	}
 
 	public static void main(String[] args) {
+		
 		Arcadia.display(new Arcadia(new Game[] { new Arrolith() }));
 
 	}
