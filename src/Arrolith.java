@@ -10,16 +10,16 @@ import arcadia.Sound;
 
 public class Arrolith extends Game {
 	//private enum STATES { STARTUP, MENU, INGAME, PAUSED; }
-	private final int STARTUP = 0;
-	private final int MENU = 0;
-	private final int 
-	private int currState;
+	private final byte STARTUP = 0;
+	private final byte MENU = 1;
+	private final byte INGAME = 2;
+	private final byte PAUSED = 3;
+	private byte currState;
 	
 	
 	public Arrolith()
 	{
 		currState = STARTUP;
-		
 	}
 	
 	
@@ -27,18 +27,38 @@ public class Arrolith extends Game {
 	@Override
 	public void tick(Graphics2D graphics, Input input, Sound sound) {
 		
-		//Calculations
+		/*    		CALCULATIONS			 */
 		switch (currState)
 		{
-		case STATES.STARTUP.ordinal():
+		case STARTUP:
 			
+			break;
+		case MENU:
+			
+			break;
+		case INGAME:
+			
+			break;
+		case PAUSED:
+			
+			break;
 		}
 		
-		
-		// Drawing methods placed below
+		/*  			DRAWING			   */
 		switch (currState)
 		{
-		
+		case STARTUP:
+			
+			break;
+		case MENU:
+			
+			break;
+		case INGAME:
+			
+			break;
+		case PAUSED:
+			
+			break;
 		}
 		
 	}

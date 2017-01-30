@@ -19,7 +19,7 @@ public class Graphics {
 	public Graphics()
 	{
 		try {
-			this.tileStrip = ImageIO.read(new File("TILE FILENAME GOES HERE"));
+			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
