@@ -34,7 +34,7 @@ public class Graphics {
 			for (int j = 0; j < 87; j++)
 			{
 				tile = map.getTile(i, j);
-				g.drawImage(tileStrip, i * DIM, j * DIM, (i + 1) * DIM, (j + 1) * DIM, tile.getType() * 32, (tile.getType() + 1) * 32, 32, null);
+				g.drawImage(tileStrip, i * DIM, j * DIM, (i + 1) * DIM, (j + 1) * DIM, tile.getType() * 32, 0, (tile.getType() + 1) * 32, (int) 32, null);
 			}	
 	}
 	
