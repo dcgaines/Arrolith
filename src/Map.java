@@ -110,4 +110,12 @@ public class Map {
 	public Tile getTile( int i, int j ) {
 		return map[i][j];
 	}
+
+	public int getHeight( ) {
+		return height;
+	}
+
+	public int getWidth( ) {
+		return width;
+	}
 }
