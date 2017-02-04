@@ -105,7 +105,10 @@ public class Player {
 		if(upTile.getWalk()){
 			yCoord--;
 			return true;
-		} else{
+		} else if(upTile.getAction( )){
+			upTile.action( );
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -119,6 +122,9 @@ public class Player {
 		}
 		if(rightTile.getWalk()){
 			xCoord++;
+			return true;
+		} else if(rightTile.getAction()){
+			rightTile.action( );
 			return true;
 		} else{
 			return false;
@@ -135,6 +141,9 @@ public class Player {
 		if(downTile.getWalk()){
 			yCoord++;
 			return true;
+		} else if(downTile.getAction( )){
+			downTile.action( );
+			return true;
 		} else{
 			return false;
 		}
@@ -150,8 +159,23 @@ public class Player {
 		if(leftTile.getWalk()){
 			xCoord--;
 			return true;
+		} else if (leftTile.getAction( )){
+			leftTile.action( );
+			return true;
 		} else{
 			return false;
 		}
+	}
+	
+	public double getMaxHealth(){
+		return maxHealth;
+	}
+	
+	public double getHealth(){
+		return health;
+	}
+	
+	public void setHealth(double hp){
+		health = hp;
 	}
 }
