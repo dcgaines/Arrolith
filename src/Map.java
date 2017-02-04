@@ -84,7 +84,7 @@ public class Map {
 						type = TileType.RIGHT_COLUMN;
 						break;
 					case "DOOR":
-						type = TileType.DOOR;
+						type = TileType.DOOR_CLOSED;
 						break;
 					case "ROCK":
 						type = TileType.ROCK;
