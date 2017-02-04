@@ -13,9 +13,10 @@ public abstract class TileType {
 	static final byte RIGHT_COLUMN = 10;
 	static final byte LEFT_COLUMN = 11;
 	static final byte STATUE = 12;
-	static final byte DOOR = 13;
-	static final byte INTERIOR = 14;
-	static final byte ROCK = 15;
-	static final byte DIRT = 16;
+	static final byte DOOR_CLOSED = 13;
+	static final byte DOOR_OPEN = 14;
+	static final byte INTERIOR = 15;
+	static final byte ROCK = 16;
+	static final byte DIRT = 17;
 	static final byte MAP_ERR = -1;
 }
