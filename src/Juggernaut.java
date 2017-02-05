@@ -10,6 +10,7 @@ public class Juggernaut extends Player {
 		negotiation = 1;
 		tact = 3;
 		strength = 6;
+		updateStats();
 	}
 
 }

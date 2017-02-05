@@ -9,7 +9,7 @@ public class Mason extends Player {
 		negotiation = 6;
 		tact = 6;
 		strength = 3;
-
+		updateStats();
 	}
 
 }

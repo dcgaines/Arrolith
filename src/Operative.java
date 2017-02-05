@@ -9,6 +9,7 @@ public class Operative extends Player {
 		negotiation = 3;
 		tact = 6;
 		strength = 1;
+		updateStats();
 	}
 
 }

@@ -9,6 +9,7 @@ public class Savant extends Player {
 		negotiation = 1;
 		tact = 6;
 		strength = 1;
+		updateStats();
 	}
 
 }

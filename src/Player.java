@@ -39,7 +39,9 @@ public class Player {
 
 	public Player( String name ) {
 		this.name = name;
-
+	}
+	
+	public void updateStats(){
 		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
