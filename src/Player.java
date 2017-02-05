@@ -12,70 +12,33 @@ public class Player {
 	static final double baseMagicDmg = .8;
 
 	// Character name
-	private String name;
-	private int playerClass;
+	protected String name;
+	protected int playerClass;
 
 	// Health
-	private double maxHealth;
-	private double health;
+	protected double maxHealth;
+	protected double health;
 
-	private int actionPoints;
+	protected int actionPoints;
 
 	// POINTS
-	private int perseverance;
-	private int observation;
-	private int intellect;
-	private int negotiation;
-	private int tact;
-	private int strength;
+	protected int perseverance;
+	protected int observation;
+	protected int intellect;
+	protected int negotiation;
+	protected int tact;
+	protected int strength;
 
-	private double meleeDmg;
-	private double rangeDmg;
-	private double magicDmg;
+	protected double meleeDmg;
+	protected double rangeDmg;
+	protected double magicDmg;
 
 	// Location on the map
-	private int xCoord;
-	private int yCoord;
+	protected int xCoord;
+	protected int yCoord;
 
-	public Player( int pClass, String name ) {
-		playerClass = pClass;
+	public Player( String name ) {
 		this.name = name;
-
-		// Initializes points based on class
-		switch ( playerClass ) {
-		case Player.SAVANT:
-			perseverance = 3;
-			observation = 3;
-			intellect = 6;
-			negotiation = 1;
-			tact = 6;
-			strength = 1;
-			break;
-		case Player.OPERATIVE:
-			perseverance = 1;
-			observation = 6;
-			intellect = 3;
-			negotiation = 3;
-			tact = 6;
-			strength = 1;
-			break;
-		case Player.JUGGERNAUT:
-			perseverance = 6;
-			observation = 3;
-			intellect = 1;
-			negotiation = 1;
-			tact = 3;
-			strength = 6;
-			break;
-		case Player.MASON:
-			perseverance = 1;
-			observation = 1;
-			intellect = 3;
-			negotiation = 6;
-			tact = 6;
-			strength = 3;
-			break;
-		}
 
 		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
