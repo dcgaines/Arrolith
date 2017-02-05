@@ -2,6 +2,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import arcadia.Arcadia;
@@ -31,7 +32,9 @@ public class Arrolith extends Game {
 	private byte pauseState;
 	private boolean sound;
 	private File prefs;
-	Keys keys;
+	private Keys keys;
+	private Map map;
+	private ArroGraphics graphics;
 	private int scrWidth;
 	private int scrHeight;
 	
@@ -43,6 +46,13 @@ public class Arrolith extends Game {
 		pauseState = PLAY;
 		sound = true;
 		keys = new Keys();
+		graphics = new ArroGraphics();
+		try {
+			map = new Map(2);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		prefs = new File("prefs.txt");
 		try {
 			Scanner scan = new Scanner(prefs);
@@ -51,7 +61,7 @@ public class Arrolith extends Game {
 				String tmp = scan.nextLine();
 				if (tmp.contains("[SOUND]"))
 					sound = (scan.nextLine().contains("true"));
-				else if (tmp.contains("[GRAPHICS]"))
+				else if (tmp.contains("[g]"))
 					scrWidth = scan.nextInt();
 			}
 			if (scrWidth == 0) scrWidth = 1024;
@@ -65,7 +75,7 @@ public class Arrolith extends Game {
 	
 	
 	@Override
-	public void tick(Graphics2D graphics, Input input, Sound sound) {
+	public void tick(Graphics2D g, Input input, Sound sound) {
 		
 		/*    		CALCULATIONS			 */
 		
@@ -93,7 +103,13 @@ public class Arrolith extends Game {
 		switch (currState)
 		{
 		case STARTUP:
-			
+			//g.
+			try {
+				graphics.drawMap(g, map);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		case MENU:
 			
