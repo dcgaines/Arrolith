@@ -23,7 +23,7 @@ public class Map {
 			int pick;
 			String baseType;
 			Scanner scanner = new Scanner( new File( "map2P.txt" ) );
-			scanner.useDelimiter( ",\n\t" );
+			scanner.useDelimiter( "\n|\t" );
 
 			map = new Tile[height][width];
 
@@ -84,7 +84,7 @@ public class Map {
 						type = TileType.RIGHT_COLUMN;
 						break;
 					case "DOOR":
-						type = TileType.DOOR;
+						type = TileType.DOOR_CLOSED;
 						break;
 					case "ROCK":
 						type = TileType.ROCK;
