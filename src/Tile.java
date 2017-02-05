@@ -44,7 +44,7 @@ public class Tile {
 			itemChance = 0;
 			goldChance = 0;
 			actionable = false;
-		case TileType.DOOR:
+		case TileType.DOOR_CLOSED:
 			walkable = false;
 			itemChance = 0;
 			goldChance = 0;
@@ -76,5 +76,16 @@ public class Tile {
 
 	public int getType( ) {
 		return type;
+	}
+	
+	public void action(){
+		if(actionable){
+			walkable = true;
+			actionable = false;
+			// Opens door
+			if(type == TileType.DOOR_CLOSED){
+				type = TileType.DOOR_OPEN;
+			}
+		}
 	}
 }
