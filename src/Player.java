@@ -40,8 +40,8 @@ public class Player {
 	public Player( String name ) {
 		this.name = name;
 	}
-	
-	public void updateStats(){
+
+	public void updateStats( ) {
 		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
@@ -62,85 +62,93 @@ public class Player {
 
 	public boolean walkUp( Map map ) {
 		Tile upTile;
-		try{
+		try {
 			upTile = map.getTile( yCoord - 1, xCoord );
-		} catch(NullPointerException e){
+		} catch ( NullPointerException e ) {
+			return false;
+		} catch ( ArrayIndexOutOfBoundsException a ) {
 			return false;
 		}
-		if(upTile.getWalk()){
+		if ( upTile.getWalk( ) ) {
 			yCoord--;
 			return true;
-		} else if(upTile.getAction( )){
+		} else if ( upTile.getAction( ) ) {
 			upTile.action( );
 			return true;
 		} else {
 			return false;
 		}
 	}
-	
-	public boolean walkRight( Map map ){
+
+	public boolean walkRight( Map map ) {
 		Tile rightTile;
-		try{
+		try {
 			rightTile = map.getTile( yCoord, xCoord + 1 );
-		} catch(NullPointerException e){
+		} catch ( NullPointerException e ) {
+			return false;
+		} catch ( ArrayIndexOutOfBoundsException a ) {
 			return false;
 		}
-		if(rightTile.getWalk()){
+		if ( rightTile.getWalk( ) ) {
 			xCoord++;
 			return true;
-		} else if(rightTile.getAction()){
+		} else if ( rightTile.getAction( ) ) {
 			rightTile.action( );
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
 
-	public boolean walkDown( Map map ){
+	public boolean walkDown( Map map ) {
 		Tile downTile;
-		try{
+		try {
 			downTile = map.getTile( yCoord + 1, xCoord );
-		} catch(NullPointerException e){
+		} catch ( NullPointerException e ) {
+			return false;
+		} catch ( ArrayIndexOutOfBoundsException a ) {
 			return false;
 		}
-		if(downTile.getWalk()){
+		if ( downTile.getWalk( ) ) {
 			yCoord++;
 			return true;
-		} else if(downTile.getAction( )){
+		} else if ( downTile.getAction( ) ) {
 			downTile.action( );
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
-	
-	public boolean walkLeft( Map map ){
+
+	public boolean walkLeft( Map map ) {
 		Tile leftTile;
-		try{
+		try {
 			leftTile = map.getTile( yCoord, xCoord - 1 );
-		} catch(NullPointerException e){
+		} catch ( NullPointerException e ) {
+			return false;
+		} catch ( ArrayIndexOutOfBoundsException a ) {
 			return false;
 		}
-		if(leftTile.getWalk()){
+		if ( leftTile.getWalk( ) ) {
 			xCoord--;
 			return true;
-		} else if (leftTile.getAction( )){
+		} else if ( leftTile.getAction( ) ) {
 			leftTile.action( );
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
-	
-	public double getMaxHealth(){
+
+	public double getMaxHealth( ) {
 		return maxHealth;
 	}
-	
-	public double getHealth(){
+
+	public double getHealth( ) {
 		return health;
 	}
-	
-	public void setHealth(double hp){
+
+	public void setHealth( double hp ) {
 		health = hp;
 	}
 }
