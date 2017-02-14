@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
@@ -11,6 +12,7 @@ import arcadia.Game;
 import arcadia.Input;
 import arcadia.Sound;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.prefs.Preferences;
 
@@ -37,7 +39,7 @@ public class Arrolith extends Game {
 	private ArroGraphics graphics;
 	private int scrWidth;
 	private int scrHeight;
-	
+	private ArrayList<Player> players;
 	
 	public Arrolith()
 	{
@@ -47,6 +49,9 @@ public class Arrolith extends Game {
 		sound = true;
 		keys = new Keys();
 		graphics = new ArroGraphics();
+		players = new ArrayList<Player>();
+		for (int i = 0; i < 4; i++)
+			players.add(new Player("ok"));
 		try {
 			map = new Map(2);
 		} catch (IOException e1) {
@@ -69,7 +74,7 @@ public class Arrolith extends Game {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		System.out.println(scrWidth);
+		//System.out.println(scrWidth);
 	}
 	
 	
@@ -84,7 +89,16 @@ public class Arrolith extends Game {
 		switch (currState)
 		{
 		case STARTUP:
-			
+			if (keys.getKey(3) && keys.getBuffer(3))
+				players.get(0).walkUp(map);
+			else if (keys.getKey(4) && keys.getBuffer(4))
+				players.get(0).walkDown(map);
+			else if (keys.getKey(5) && keys.getBuffer(5))
+				players.get(0).walkLeft(map);
+				//graphics.moveLeft(5);
+			else if (keys.getKey(6) && keys.getBuffer(6))
+				players.get(0).walkRight(map);
+				//graphics.moveRight(5);
 			break;
 		case MENU:
 			
@@ -100,6 +114,9 @@ public class Arrolith extends Game {
 		
 		
 		/*  			DRAWING			   */
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, (int) (1920 * graphics.multiplyer), (int) (1080 * graphics.multiplyer)); // allows a clean reset of the image
+		graphics.centerMap(g, map, players.get(0));
 		switch (currState)
 		{
 		case STARTUP:

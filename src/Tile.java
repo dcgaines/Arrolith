@@ -44,11 +44,13 @@ public class Tile {
 			itemChance = 0;
 			goldChance = 0;
 			actionable = false;
+			break;
 		case TileType.DOOR_CLOSED:
 			walkable = false;
 			itemChance = 0;
 			goldChance = 0;
 			actionable = true;
+			break;
 		case TileType.INTERIOR:
 			walkable = true;
 			itemChance = 0;

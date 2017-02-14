@@ -13,30 +13,41 @@ import arcadia.Sound;
 
 public class ArroGraphics {
 	
-	static final int DIM = 22;
+	double DIM = 90;
 	
 	Image tileStrip;
 	Image sprites;
+	double offsetX, offsetY;
+	double multiplyer = (double) Game.HEIGHT / 1080;
 	
-	public ArroGraphics()
-	{
+	public ArroGraphics() {
 		try {
 			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+	public void centerMap(Graphics2D g, Map map, Player player) {
+		offsetX = ((1920 - DIM) / 2) - (player.getX() * DIM);
+		offsetY = ((1080 - DIM) / 2) - (player.getY() * DIM);
+	}
 	public void drawMap(Graphics2D g, Map map
 			//, ArrayList<Player> players
 			) throws IOException
 	{
 		Tile tile;
-		for (int i = 0; i < 40; i++)
-			for (int j = 0; j < 87; j++)
+		for (int i = 0; i < map.getHeight(); i++)
+			for (int j = 0; j < map.getWidth(); j++)
 			{
+				//System.out.println(multiplyer);
 				tile = map.getTile(i, j);
-				g.drawImage(tileStrip, i * DIM, j * DIM, (i + 1) * DIM, (j + 1) * DIM, tile.getType() * 32, 0, (tile.getType() + 1) * 32, 32, null);
+				g.drawImage(tileStrip, 
+						(int) ((j * DIM + offsetX) * multiplyer), 
+						(int) ((i * DIM + offsetY)* multiplyer), 
+						(int) (((j + 1) * DIM + offsetX) * multiplyer),
+						(int) (((i + 1) * DIM + offsetY)* multiplyer),
+						(int) tile.getType() * 32, 
+						0, (tile.getType() + 1) * 32, 32, null);
 			}	
 		//drawPlayers(players);
 	}
@@ -51,11 +62,21 @@ public class ArroGraphics {
 					players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
 		}
 	}
-	public void drawHud(Graphics2D g, ArrayList<Player> players)
-	{
+	public void drawHud(Graphics2D g, ArrayList<Player> players) {
 		int posX, posY = 0;
-		for (int i = 0; i < players.size(); i++)
-			
+		for (int i = 0; i < players.size(); i++)		
+	}
+	public void zoomIn(double speed) {
+		DIM += speed;
+	}
+	public void zoomOut(double speed) {
+		DIM -= speed;
+	}
+	public void moveLeft(double speed) {
+		offsetX += speed;
+	}
+	public void moveRight(double speed) {
+		offsetX -= speed;
 	}
 }
 
