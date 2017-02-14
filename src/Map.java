@@ -84,14 +84,50 @@ public class Map {
 					case "RCOL":
 						type = TileType.RIGHT_COLUMN;
 						break;
+					case "LCON":
+						type = TileType.LEFT_CONNECT;
+						break;
+					case "RCON":
+						type = TileType.RIGHT_CONNECT;
+						break;
 					case "DOOR":
 						type = TileType.DOOR_CLOSED;
 						break;
+					case "LDOOR":
+						type = TileType.DOOR_CLOSED_L;
+						break;
+					case "RDOOR":
+						type = TileType.DOOR_CLOSED_R;
+						break;
 					case "ROCK":
-						type = TileType.ROCK;
+						pick = (int) ( Math.random( ) * 2 );
+						if ( pick == 0 ) {
+							type = TileType.ROCK;
+						} else {
+							type = TileType.ROCK1;
+						}
+						break;
+					case "ROAD":
+						pick = (int) ( Math.random( ) * 2 );
+						if ( pick == 0 ) {
+							type = TileType.ROAD;
+						} else {
+							type = TileType.ROAD1;
+						}
 						break;
 					case "INTERIOR":
-						type = TileType.INTERIOR;
+						pick = (int) ( Math.random( ) * 3 );
+						switch(pick){
+						case 0:
+							type = TileType.INTERIOR;
+							break;
+						case 1:
+							type = TileType.INTERIOR1;
+							break;
+						case 2:
+							type = TileType.INTERIOR2;
+							break;
+						}
 						break;
 					}
 
