@@ -52,6 +52,10 @@ public class Player {
 
 	}
 
+	public int getType( ) {
+		return playerClass;
+	}
+
 	public int getX( ) {
 		return xCoord;
 	}
