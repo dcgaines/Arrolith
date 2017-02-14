@@ -1,10 +1,10 @@
 
 public class Player {
 	// Player class identifiers
-	static final int SAVANT = 0;
-	static final int OPERATIVE = 1;
-	static final int JUGGERNAUT = 2;
-	static final int MASON = 3;
+	static final int SAVANT = 1;
+	static final int OPERATIVE = 3;
+	static final int JUGGERNAUT = 0;
+	static final int MASON = 2;
 
 	// Base damages, subject to balancing
 	static final double baseMeleeDmg = 1.0;
