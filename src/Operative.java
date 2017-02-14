@@ -3,6 +3,7 @@ public class Operative extends Player {
 
 	public Operative( String name ) {
 		super( name );
+		playerClass = Player.OPERATIVE;
 		perseverance = 1;
 		observation = 6;
 		intellect = 3;

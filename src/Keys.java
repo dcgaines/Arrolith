@@ -39,7 +39,9 @@ public class Keys {
 	public boolean getKey(int index){
 		return keyPressed[index];
 	}
-	
+	public boolean getBuffer(int index) {
+		return keyBuffers[index];
+	}
 	public Keys() {
 		keyPressed = new boolean[8];
 		keyBuffers = new boolean[8];
