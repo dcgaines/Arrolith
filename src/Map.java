@@ -24,8 +24,8 @@ public class Map {
 			String baseType;
 			Scanner scanner = new Scanner( new File( "map2P.txt" ) );
 			scanner.useDelimiter( "\n|\t" );
-			height = Integer.parseInt( scanner.next( ) );
-			width = Integer.parseInt( scanner.next( ) );
+			height = Integer.parseInt( scanner.next( ).trim( ) );
+			width = Integer.parseInt( scanner.next( ).trim( ) );
 			map = new Tile[height][width];
 
 			for ( int i = 0; i < height; i++ ) {
