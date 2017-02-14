@@ -3,8 +3,8 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Map {
-	private int height = 20; // Number of tiles vertically in the game window
-	private int width = 43; // Number of tiles horizontally in the game window
+	private int height; // Number of tiles vertically in the game window
+	private int width; // Number of tiles horizontally in the game window
 	private Tile[][] map;
 
 	public Map( int players ) throws IOException {
@@ -24,7 +24,8 @@ public class Map {
 			String baseType;
 			Scanner scanner = new Scanner( new File( "map2P.txt" ) );
 			scanner.useDelimiter( "\n|\t" );
-
+			height = scanner.nextInt( );
+			width = scanner.nextInt( );
 			map = new Tile[height][width];
 
 			for ( int i = 0; i < height; i++ ) {
