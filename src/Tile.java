@@ -33,6 +33,7 @@ public class Tile {
 		case TileType.TREE:
 		case TileType.TREE_BARE:
 		case TileType.ROCK:
+		case TileType.ROCK1:
 		case TileType.WALL:
 		case TileType.INTERIOR_WALL:
 		case TileType.RIGHT_WALL:
