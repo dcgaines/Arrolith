@@ -66,7 +66,7 @@ public class Arrolith extends Game {
 				String tmp = scan.nextLine();
 				if (tmp.contains("[SOUND]"))
 					sound = (scan.nextLine().contains("true"));
-				else if (tmp.contains("[g]"))
+				else if (tmp.contains("[GRAPHICS]"))
 					scrWidth = scan.nextInt();
 			}
 			if (scrWidth == 0) scrWidth = 1024;

@@ -1,0 +1,4 @@
+[SOUND]
+true
+[GRAPHICS]
+1080
