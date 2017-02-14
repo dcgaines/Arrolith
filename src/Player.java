@@ -1,5 +1,5 @@
 
-public class Player {
+public abstract class Player {
 	// Player class identifiers
 	static final int SAVANT = 1;
 	static final int OPERATIVE = 3;
