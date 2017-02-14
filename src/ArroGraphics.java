@@ -13,7 +13,7 @@ import arcadia.Sound;
 
 public class ArroGraphics {
 	
-	double DIM = 90;
+	double DIM = 100;
 	
 	Image tileStrip;
 	Image sprites;
@@ -23,6 +23,7 @@ public class ArroGraphics {
 	public ArroGraphics() {
 		try {
 			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
+			this.sprites = ImageIO.read(new File("sprites.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -31,9 +32,7 @@ public class ArroGraphics {
 		offsetX = ((1920 - DIM) / 2) - (player.getX() * DIM);
 		offsetY = ((1080 - DIM) / 2) - (player.getY() * DIM);
 	}
-	public void drawMap(Graphics2D g, Map map
-			//, ArrayList<Player> players
-			) throws IOException
+	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players) throws IOException
 	{
 		Tile tile;
 		for (int i = 0; i < map.getHeight(); i++)
@@ -48,7 +47,8 @@ public class ArroGraphics {
 						(int) (((i + 1) * DIM + offsetY)* multiplyer),
 						(int) tile.getType() * 32, 
 						0, (tile.getType() + 1) * 32, 32, null);
-			}	
+			}
+		drawPlayers(g, players);
 		//drawPlayers(players);
 	}
 	private void drawPlayers(Graphics2D g, ArrayList<Player> players)
@@ -60,13 +60,13 @@ public class ArroGraphics {
 					(int) ((players.get(i).getX() * DIM + offsetX) * multiplyer),
 					(int) ((players.get(i).getY() * DIM + offsetY) * multiplyer), 
 					(int) (((players.get(i).getX() + 1) * DIM + offsetX) * multiplyer),
-					(int) ((((players.get(i).getY() + 1) + 1) * DIM + offsetY)* multiplyer),
+					(int) (((players.get(i).getY() + 1) * DIM + offsetY)* multiplyer),
 			 		players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
 		}
 	}
 	public void drawHud(Graphics2D g, ArrayList<Player> players) {
 		int posX, posY = 0;
-		for (int i = 0; i < players.size(); i++)		
+		//for (int i = 0; i < players.size(); i++)		
 	}
 	public void zoomIn(double speed) {
 		DIM += speed;

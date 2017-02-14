@@ -50,8 +50,8 @@ public class Arrolith extends Game {
 		keys = new Keys();
 		graphics = new ArroGraphics();
 		players = new ArrayList<Player>();
-		for (int i = 0; i < 4; i++)
-			players.add(new Player("ok"));
+		for (int i = 0; i < 1; i++)
+			players.add(new Juggernaut("ok"));
 		try {
 			map = new Map(2);
 		} catch (IOException e1) {
@@ -122,7 +122,7 @@ public class Arrolith extends Game {
 		case STARTUP:
 			//g.
 			try {
-				graphics.drawMap(g, map);
+				graphics.drawMap(g, map, players);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
