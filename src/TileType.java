@@ -18,8 +18,8 @@ public abstract class TileType {
 	static final byte DOOR_CLOSED = 15;
 	static final byte DOOR_OPEN = 16;
 	static final byte DOOR_CLOSED_R = 17;
-	static final byte DOOR_CLOSED_L = 18;
-	static final byte DOOR_OPEN_R = 19;
+	static final byte DOOR_OPEN_R = 18;
+	static final byte DOOR_CLOSED_L = 19;
 	static final byte DOOR_OPEN_L = 20;
 	static final byte INTERIOR = 21;
 	static final byte INTERIOR1 = 22;

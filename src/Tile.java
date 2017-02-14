@@ -39,6 +39,8 @@ public class Tile {
 		case TileType.LEFT_WALL:
 		case TileType.RIGHT_COLUMN:
 		case TileType.LEFT_COLUMN:
+		case TileType.LEFT_CONNECT:
+		case TileType.RIGHT_CONNECT:
 		case TileType.STATUE:
 			walkable = false;
 			itemChance = 0;
@@ -46,12 +48,18 @@ public class Tile {
 			actionable = false;
 			break;
 		case TileType.DOOR_CLOSED:
+		case TileType.DOOR_CLOSED_L:
+		case TileType.DOOR_CLOSED_R:
 			walkable = false;
 			itemChance = 0;
 			goldChance = 0;
 			actionable = true;
 			break;
 		case TileType.INTERIOR:
+		case TileType.INTERIOR1:
+		case TileType.INTERIOR2:
+		case TileType.ROAD:
+		case TileType.ROAD1:
 			walkable = true;
 			itemChance = 0;
 			goldChance = 0;
