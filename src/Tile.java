@@ -60,6 +60,9 @@ public class Tile {
 		case TileType.INTERIOR2:
 		case TileType.ROAD:
 		case TileType.ROAD1:
+		case TileType.DOOR_OPEN:
+		case TileType.DOOR_OPEN_L:
+		case TileType.DOOR_OPEN_R:
 			walkable = true;
 			itemChance = 0;
 			goldChance = 0;
@@ -93,8 +96,16 @@ public class Tile {
 			walkable = true;
 			actionable = false;
 			// Opens door
-			if(type == TileType.DOOR_CLOSED){
+			switch(type){
+			case TileType.DOOR_CLOSED:
 				type = TileType.DOOR_OPEN;
+				break;
+			case TileType.DOOR_CLOSED_L:
+				type = TileType.DOOR_OPEN_L;
+				break;
+			case TileType.DOOR_CLOSED_R:
+				type = TileType.DOOR_OPEN_R;
+				break;
 			}
 		}
 	}
