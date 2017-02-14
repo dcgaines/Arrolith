@@ -116,16 +116,16 @@ public class Map {
 						}
 						break;
 					case "INTERIOR":
-						pick = (int) ( Math.random( ) * 3 );
+						pick = (int) ( Math.random( ) * 10 );
 						switch(pick){
 						case 0:
-							type = TileType.INTERIOR;
-							break;
-						case 1:
 							type = TileType.INTERIOR1;
 							break;
-						case 2:
+						case 1:
 							type = TileType.INTERIOR2;
+							break;
+						default:
+							type = TileType.INTERIOR;
 							break;
 						}
 						break;
