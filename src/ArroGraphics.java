@@ -57,9 +57,11 @@ public class ArroGraphics {
 		{
 			//TODO	replace player with necessary methods
 			g.drawImage(sprites, 
-					players.get(i).getX() * DIM, players.get(i).getX() * DIM, 
-					(players.get(i).getX() + 1) * DIM, (players.get(i).getX() + 1) * DIM,
-					players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
+					(int) ((players.get(i).getX() * DIM + offsetX) * multiplyer),
+					(int) ((players.get(i).getY() * DIM + offsetY) * multiplyer), 
+					(int) (((players.get(i).getX() + 1) * DIM + offsetX) * multiplyer),
+					(int) ((((players.get(i).getY() + 1) + 1) * DIM + offsetY)* multiplyer),
+			 		players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
 		}
 	}
 	public void drawHud(Graphics2D g, ArrayList<Player> players) {
