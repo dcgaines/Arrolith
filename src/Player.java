@@ -63,7 +63,24 @@ public abstract class Player {
 	public int getY( ) {
 		return yCoord;
 	}
-
+	
+	public void setInitPos(byte playerNum, Map map) {
+		switch (playerNum) {
+		case 0:
+			xCoord = 0; yCoord = 0;
+			break;
+		case 1:
+			xCoord = map.getWidth() - 1; yCoord = map.getHeight() - 1;
+			break;
+		case 2:
+			xCoord = 0; yCoord = map.getHeight() - 1;
+			break;
+		case 3:
+			xCoord = map.getWidth() - 1; yCoord = 0;
+			break;
+		}
+	}
+	
 	public boolean walkUp( Map map ) {
 		Tile upTile;
 		try {

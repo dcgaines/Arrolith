@@ -1,8 +1,20 @@
-	import arcadia.Button;
+	import arcadia.Arcadia;
+import arcadia.Button;
 	import arcadia.Input;
 public class Keys {
+	public final byte A = 0;
+	public final byte B = 1;
+	public final byte C = 2;
+	public final byte UP = 3;
+	public final byte DOWN = 4;
+	public final byte LEFT = 5;
+	public final byte RIGHT = 6;
+	public final byte S = 7;
+	
 	private boolean [] keyPressed;
 	private boolean [] keyBuffers;
+	
+	
 	
 	/**
 	 * Place this before calculations to check key inputs
@@ -36,9 +48,13 @@ public class Keys {
 		}
 	}
 	
+	public void setBuffer(int index) {
+		keyBuffers[index] = false;
+	}
 	public boolean getKey(int index){
 		return keyPressed[index];
 	}
+	
 	public boolean getBuffer(int index) {
 		return keyBuffers[index];
 	}
