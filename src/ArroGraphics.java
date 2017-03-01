@@ -1,5 +1,6 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
@@ -16,6 +17,8 @@ public class ArroGraphics {
 	Image tileStrip;
 	Image sprites;
 	Image splash;
+	private Font alegreya;
+	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
 	
@@ -26,6 +29,12 @@ public class ArroGraphics {
 			this.sprites = ImageIO.read(new File("sprites.png"));
 			this.splash = ImageIO.read(new File("splash.png"));
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
+					.deriveFont(100 * (float) multiplyer);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -107,6 +116,7 @@ public class ArroGraphics {
 		g.fillRect(0, 0, (int) (1920 * multiplyer), (int) (1080 * multiplyer)); // allows a clean reset of the image
 		g.drawImage(splash,(int)(-233 * multiplyer), (int)(-355 * multiplyer), (int)(2167 * multiplyer), (int)(996 * multiplyer), 0,0,  4106, 2310, null);
 		g.setColor(Color.WHITE);
+		g.setFont(alegreya);
 		switch (menuState)
 		{
 		case 0:
