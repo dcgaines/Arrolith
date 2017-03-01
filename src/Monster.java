@@ -48,6 +48,10 @@ public class Monster {
 		
 		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
+		
+		// Make monsters weaker than players
+		maxHealth /= 2;
+		
 		health = maxHealth;
 
 		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength - 1 ) / 10. );

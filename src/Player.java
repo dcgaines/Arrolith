@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public abstract class Player {
 	// Player class identifiers
@@ -36,6 +37,9 @@ public abstract class Player {
 	// Location on the map
 	protected int xCoord;
 	protected int yCoord;
+	
+	// ArrayList of actions
+	protected ArrayList<Action> actions = new ArrayList<Action>();
 
 	public Player( String name ) {
 		this.name = name;
