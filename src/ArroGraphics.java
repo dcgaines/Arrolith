@@ -7,11 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import arcadia.Arcadia;
-import arcadia.Button;
 import arcadia.Game;
-import arcadia.Input;
-import arcadia.Sound;
 
 public class ArroGraphics {
 	
