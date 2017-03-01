@@ -1,3 +1,4 @@
+import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
@@ -15,8 +16,13 @@ public class Menu {
 		state = PLAY;
 		
 	}
+	
+	private void setup() {
+		
+	}
+	
 	//Returns false if moving into ingame
-	public boolean calculate(Keys keys, Map map) {
+	public int calculate(Keys keys, Map map) {
 		switch (state)
 		{
 		case PLAY:
@@ -31,22 +37,7 @@ public class Menu {
 			break;
 		case TWOPLAYERS:
 			if (keys.getKey(keys.A) && keys.getBuffer(keys.A)) {
-				//Generate map
-				try { map = new Map(2); }
-				catch (IOException e1) { e1.printStackTrace(); }
-				//TODO: Generate players
-				Random rand = new Random();
-//				for (byte i = 0; i < 2; i++) {
-//					int n = rand.nextInt(4) + 1;
-//					switch (n) {
-//					case 1: players.add(new Savant("")); break;
-//					case 2: players.add(new Mason("")); break;
-//					case 3: players.add(new Juggernaut("")); break;
-//					case 4: players.add(new Operative("")); break;
-//					}
-//					players.get(i).setInitPos(i, map);
-//				}
-				return false;
+				return 2;
 			}
 			else if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) 
 				state = THREEPLAYERS;
@@ -68,6 +59,9 @@ public class Menu {
 				state = PLAY;
 			break;
 		}
-		return true;
+		return -1;
+	}
+	public void draw(Graphics2D g, ArroGraphics graphics) {
+		graphics.drawMenu(g, state);
 	}
 }

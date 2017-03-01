@@ -83,6 +83,7 @@ public class ArroGraphics {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer)); 
 		g.setColor(Color.WHITE);
+		g.setFont(alegreya);
 		g.setStroke(new BasicStroke(15 * multiplyer));
 		g.drawRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer));
 		g.drawString("Moves Rem: " + Integer.toString(14 - actionsUsed), 119 * multiplyer, 132 * multiplyer);

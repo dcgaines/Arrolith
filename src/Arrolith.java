@@ -8,17 +8,17 @@ import arcadia.Input;
 import arcadia.Sound;
 
 public class Arrolith extends Game {
-	Update update;
+	
 	
 	
 	
 	public Arrolith() {
-		update = new Update();
+		Update.init();
 	}
 	
 	@Override
 	public void tick(Graphics2D g, Input input, Sound sound) {
-		update.tick(g, input, sound);
+		Update.tick(g, input, sound);
 	}
 
 	@Override

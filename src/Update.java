@@ -2,7 +2,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 import arcadia.Input;
@@ -11,34 +13,34 @@ import arcadia.Sound;
 public class Update {
 	
 	//Abstraction variables
-	private final byte STARTUP = 0;
-	private final byte MENU = 1;
-	private final byte INGAME = 2;
-	private final byte PAUSED = 3;
+	private static final byte STARTUP = 0;
+	private static final byte MENU = 1;
+	private static final byte INGAME = 2;
+	private static final byte PAUSED = 3;
 	
 	//Game variables
-	private byte currState;
+	private static byte currState;
 	//private byte currPlayer;
-	private byte actionsUsed;
-	private int tFrame; //used for the timing of the phases
-	private ArrayList<Player> players;
+	private static byte actionsUsed;
+	private static int tFrame; //used for the timing of the phases
+	public static ArrayList<Player> players;
 	
 	
 	//Settings variables
-	private boolean sound;
-	private int scrWidth;
-	private int scrHeight;
+	private static boolean sound;
+	private static int scrWidth;
+	private static int scrHeight;
 	
 	//Objects
-	private Menu menu;
-	private File prefs;
-	private Keys keys;
-	private Map map;
-	private ArroGraphics graphics;
-	private InGame game;
+	private static Menu menu;
+	private static File prefs;
+	private static Keys keys;
+	private static Map map;
+	private static ArroGraphics graphics;
+	private static InGame game;
 	
 	
-	public Update() {
+	public static void init() {
 		
 		//Initialize game variables
 		currState = STARTUP;
@@ -73,11 +75,26 @@ public class Update {
 			e.printStackTrace();
 		}
 		
-		
 	}
 		
-	
-	private void calculate(Input input) {
+	public static void setMap(int numPlayers) {
+		//Generate map
+		try { map = new Map(numPlayers); }
+		catch (IOException e1) { e1.printStackTrace(); }
+		//TODO: Generate players
+		Random rand = new Random();
+		for (byte i = 0; i < 2; i++) {
+			int n = rand.nextInt(4) + 1;
+			switch (n) {
+			case 1: Update.players.add(new Savant("")); break;
+			case 2: Update.players.add(new Mason("")); break;
+			case 3: Update.players.add(new Juggernaut("")); break;
+			case 4: Update.players.add(new Operative("")); break;
+			}
+			players.get(i).setInitPos(i, map);
+		}
+	}
+	private static void calculate(Input input) {
 		keys.checkKeys(input);
 		switch (currState)
 		{
@@ -85,7 +102,11 @@ public class Update {
 			currState = MENU;
 			break;
 		case MENU:
-			menu.calculate(keys, map);
+			int temp = menu.calculate(keys, map);
+			if (temp != -1) {
+				setMap(temp);
+				currState = INGAME;
+			}
 			break;
 		case INGAME:	
 			game.calculate(keys);
@@ -96,7 +117,7 @@ public class Update {
 		keys.setBuffers();
 	}
 	
-	private void draw(Graphics2D g) {
+	private static void draw(Graphics2D g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, (int) (1920 * graphics.multiplyer), (int) (1080 * graphics.multiplyer)); // allows a clean reset of the image
 		switch (currState)
@@ -105,7 +126,7 @@ public class Update {
 			
 			break;
 		case MENU:
-			graphics.drawMenu(g, menu.state);
+			menu.draw(g, graphics);
 			break;
 		case INGAME:
 			graphics.centerMap(g, map, players.get(game.currPlayer));
@@ -129,7 +150,7 @@ public class Update {
 		} 
 	}
 	
-	public void tick(Graphics2D g, Input input, Sound sound) {
+	public static void tick(Graphics2D g, Input input, Sound sound) {
 		/*    		CALCULATIONS			 */
 		calculate(input);
 		
