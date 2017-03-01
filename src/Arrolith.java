@@ -158,53 +158,17 @@ public class Arrolith extends Game {
 		case INGAME:
 			switch (turnPhase) {
 			case READY:
-				
-				if (keys.getKey(keys.A) && keys.getBuffer(keys.A)) {
-					turnPhase = MOVE;
-					actionsUsed = 0;
-					tFrame = 0;
-				}
 				break;
 			case MOVE:
-				
-				if (actionsUsed > 13 || tFrame > 600) {
-					tFrame = 0;
-					turnPhase = ACTION;
-				}
-				if (keys.getKey(keys.UP) && keys.getBuffer(keys.UP)) {
-					if (players.get(currPlayer).walkUp(map))
-						actionsUsed++;
-				}
-				else if (keys.getKey(keys.DOWN) && keys.getBuffer(keys.DOWN)) {
-					if (players.get(currPlayer).walkDown(map))
-						actionsUsed++;
-				}
-				else if (keys.getKey(keys.LEFT) && keys.getBuffer(keys.LEFT)) {
-					if (players.get(currPlayer).walkLeft(map))
-						actionsUsed++;
-				}
-				else if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) {
-					if (players.get(currPlayer).walkRight(map))
-						actionsUsed++;
-				}
-				tFrame++;
 				break;
 			case ACTION:
-				turnPhase = PASS;
 				break;
 			case PASS:
-				currPlayer++;
-				if (currPlayer > players.size() - 1)
-					currPlayer = 0;
-				tFrame = 0;
-				actionsUsed = 0;
-				turnPhase = READY;
 				break;
 			}
 			
 			break;
 		case PAUSED:
-			
 			break;
 		}
 		keys.setBuffers();
@@ -226,7 +190,7 @@ public class Arrolith extends Game {
 			graphics.centerMap(g, map, players.get(currPlayer));
 			graphics.drawMap(g, map, players);
 			graphics.drawHud(g, players, actionsUsed, tFrame);
-			if (turnPhase == READY) {
+			/*if (turnPhase == READY) {
 				g.setColor(Color.BLACK);
 				g.fillRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
 						(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
@@ -236,7 +200,7 @@ public class Arrolith extends Game {
 						(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
 				g.drawString("Press A", 800 * graphics.multiplyer, 504 * graphics.multiplyer);
 				g.drawString("to start.", 800 * graphics.multiplyer, 640 * graphics.multiplyer);
-			}
+			}*/
 			break;
 		case PAUSED:
 			
