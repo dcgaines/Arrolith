@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Monster {
 
@@ -28,6 +29,9 @@ public class Monster {
 	// Location on the map
 	protected int xCoord;
 	protected int yCoord;
+	
+	// ArrayList of actions
+	protected ArrayList<Action> actions;
 
 	public Monster( Player p ) {
 		owner = p;
@@ -45,6 +49,8 @@ public class Monster {
 		
 		xCoord = owner.xCoord;
 		yCoord = owner.yCoord;
+		
+		actions = owner.actions;
 		
 		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
