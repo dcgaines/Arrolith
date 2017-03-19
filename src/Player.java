@@ -21,6 +21,7 @@ public abstract class Player {
 	protected double health;
 
 	protected int actionPoints;
+	protected int maxAP;
 
 	// POINTS
 	protected int perseverance;
@@ -37,9 +38,9 @@ public abstract class Player {
 	// Location on the map
 	protected int xCoord;
 	protected int yCoord;
-	
+
 	// ArrayList of actions
-	protected ArrayList<Action> actions = new ArrayList<Action>();
+	protected ArrayList<Action> actions = new ArrayList<Action>( );
 
 	public Player( String name ) {
 		this.name = name;
@@ -47,6 +48,7 @@ public abstract class Player {
 
 	public void updateStats( ) {
 		actionPoints = 2 + ( tact / 3 );
+		maxAP = actionPoints;
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
 
@@ -67,24 +69,28 @@ public abstract class Player {
 	public int getY( ) {
 		return yCoord;
 	}
-	
-	public void setInitPos(byte playerNum, Map map) {
-		switch (playerNum) {
+
+	public void setInitPos( byte playerNum, Map map ) {
+		switch ( playerNum ) {
 		case 0:
-			xCoord = 0; yCoord = 0;
+			xCoord = 0;
+			yCoord = 0;
 			break;
 		case 1:
-			xCoord = map.getWidth() - 1; yCoord = map.getHeight() - 1;
+			xCoord = map.getWidth( ) - 1;
+			yCoord = map.getHeight( ) - 1;
 			break;
 		case 2:
-			xCoord = 0; yCoord = map.getHeight() - 1;
+			xCoord = 0;
+			yCoord = map.getHeight( ) - 1;
 			break;
 		case 3:
-			xCoord = map.getWidth() - 1; yCoord = 0;
+			xCoord = map.getWidth( ) - 1;
+			yCoord = 0;
 			break;
 		}
 	}
-	
+
 	public boolean walkUp( Map map ) {
 		Tile upTile;
 		try {
@@ -175,5 +181,13 @@ public abstract class Player {
 
 	public void setHealth( double hp ) {
 		health = hp;
+	}
+
+	public int getAP( ) {
+		return actionPoints;
+	}
+
+	public int getMaxAP( ) {
+		return maxAP;
 	}
 }
