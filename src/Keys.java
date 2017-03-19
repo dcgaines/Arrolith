@@ -21,6 +21,9 @@ public class Keys {
 	 * @param input - input instance
 	 */
 	public void checkKeys(Input input) {
+		//checkKey(input, Button.A, 0);
+		//checkKey(input, Button.B, 1);
+		//TODO modularize
 		if (input.pressed(Button.A))  keyPressed[0] = true;
 		else {                        keyPressed[0] = false; keyBuffers[0] = true; }
 		if (input.pressed(Button.B))  keyPressed[1] = true;
@@ -37,6 +40,16 @@ public class Keys {
 		else {                        keyPressed[6] = false; keyBuffers[6] = true; }
 		if (input.pressed(Button.S))  keyPressed[7] = true;
 		else {                        keyPressed[7] = false; keyBuffers[7] = true; }
+	}
+	
+	private void checkKey(Input input, Button button, int index) {
+		if (input.pressed(button)) {
+			keyPressed[index] = true;
+		}
+		else {
+			keyPressed[index] = false;
+			keyBuffers[index] = true;
+		}
 	}
 	
 	/**
