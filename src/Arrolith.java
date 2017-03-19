@@ -9,19 +9,14 @@ import arcadia.Sound;
 
 public class Arrolith extends Game {
 	
-	
-	
-	
 	public Arrolith() {
 		Update.init();
 	}
 	
-	@Override
 	public void tick(Graphics2D g, Input input, Sound sound) {
 		Update.tick(g, input, sound);
 	}
 
-	@Override
 	public Image cover() {
 		try {
 			return ImageIO.read(new File("splash.png"));

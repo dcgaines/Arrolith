@@ -21,7 +21,6 @@ public class Update {
 	//Game variables
 	private static byte currState;
 	//private byte currPlayer;
-	private static byte actionsUsed;
 	private static int tFrame; //used for the timing of the phases
 	public static ArrayList<Player> players;
 	
@@ -32,12 +31,12 @@ public class Update {
 	private static int scrHeight;
 	
 	//Objects
-	private static Menu menu;
-	private static File prefs;
-	private static Keys keys;
-	private static Map map;
-	private static ArroGraphics graphics;
-	private static InGame game;
+	public static Menu menu;
+	public static File prefs;
+	public static Keys keys;
+	public static Map map;
+	public static ArroGraphics graphics;
+	public static InGame game;
 	
 	
 	public static void init() {
@@ -102,7 +101,7 @@ public class Update {
 			currState = MENU;
 			break;
 		case MENU:
-			int temp = menu.calculate(keys, map);
+			int temp = menu.calculate(keys, map); //menu returns the number of players to be added, -1 if no selection
 			if (temp != -1) {
 				setMap(temp);
 				currState = INGAME;
@@ -131,18 +130,8 @@ public class Update {
 		case INGAME:
 			graphics.centerMap(g, map, players.get(game.currPlayer));
 			graphics.drawMap(g, map, players);
-			graphics.drawHud(g, players, actionsUsed, tFrame);
-			/*if (turnPhase == READY) {
-				g.setColor(Color.BLACK);
-				g.fillRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-						(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-				g.setColor(Color.WHITE);
-				g.setStroke(new BasicStroke(15 * graphics.multiplyer));
-				g.drawRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-						(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-				g.drawString("Press A", 800 * graphics.multiplyer, 504 * graphics.multiplyer);
-				g.drawString("to start.", 800 * graphics.multiplyer, 640 * graphics.multiplyer);
-			}*/
+			graphics.drawHud(g, players, game.actionsUsed, tFrame);
+			
 			break;
 		case PAUSED:
 			
