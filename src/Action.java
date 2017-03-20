@@ -53,4 +53,24 @@ public class Action {
 	public int getCost( ) {
 		return cost;
 	}
+
+	@Override
+	public String toString( ) {
+		String str = name + "\t";
+		if(actionType == ATTACK){
+			if(attackType == STRONG)
+				str += "Strong ";
+			if(attackType == WEAK)
+				str += "Weak ";
+			if(weaponType == RANGED)
+				str += "ranged ";
+			if(weaponType == MELEE)
+				str += "melee ";
+			if(weaponType == MAGIC)
+				str += "magic ";
+			str += "attack\t";
+		}
+		str += "AP: " + cost;		
+		return str;
+	}
 }
