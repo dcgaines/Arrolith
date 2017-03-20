@@ -36,15 +36,16 @@ public class Menu {
 				state = PLAY;
 			break;
 		case TWOPLAYERS:
-			if (keys.getKey(keys.A) && keys.getBuffer(keys.A)) {
+			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
 				return 2;
-			}
 			else if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) 
 				state = THREEPLAYERS;
 			else if (keys.getKey(keys.B) && keys.getBuffer(keys.B))
 				state = PLAY;
 			break;
 		case THREEPLAYERS:
+			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
+				return 3;
 			if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) 
 				state = FOURPLAYERS;
 			else if (keys.getKey(keys.LEFT) && keys.getBuffer(keys.LEFT))
@@ -53,6 +54,8 @@ public class Menu {
 				state = PLAY;
 			break;
 		case FOURPLAYERS:
+			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
+				return 4;
 			if (keys.getKey(keys.LEFT) && keys.getBuffer(keys.LEFT))
 				state = THREEPLAYERS;
 			else if (keys.getKey(keys.B) && keys.getBuffer(keys.B))

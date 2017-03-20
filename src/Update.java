@@ -82,7 +82,7 @@ public class Update {
 		catch (IOException e1) { e1.printStackTrace(); }
 		//TODO: Generate players
 		Random rand = new Random();
-		for (byte i = 0; i < 2; i++) {
+		for (byte i = 0; i < numPlayers; i++) {
 			int n = rand.nextInt(4) + 1;
 			switch (n) {
 			case 1: Update.players.add(new Savant("")); break;
@@ -108,7 +108,7 @@ public class Update {
 			}
 			break;
 		case INGAME:	
-			game.calculate(keys);
+			game.calculate(keys, tFrame);
 			break;
 		case PAUSED:
 			break;
@@ -130,7 +130,7 @@ public class Update {
 		case INGAME:
 			graphics.centerMap(g, map, players.get(game.currPlayer));
 			graphics.drawMap(g, map, players);
-			graphics.drawHud(g, players, game.actionsUsed, tFrame);
+			graphics.drawHud(g, players, game.actionsUsed, tFrame, game.currPlayer);
 			
 			break;
 		case PAUSED:
@@ -145,5 +145,8 @@ public class Update {
 		
 		/*  			DRAWING			   */
 		draw(g);
-		}
+	}
+	public static void incFrame() { tFrame++; }
+	public static int getFrame() { return tFrame; }
+	public static void resetFrame() { tFrame = 0; }
 }

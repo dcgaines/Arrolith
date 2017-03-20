@@ -37,14 +37,21 @@ public class InGame {
 				turnPhase = MOVE;
 			break;
 		case MOVE:
-			if (actionsUsed < 14 && tFrame < 420) {
+			if (actionsUsed < Update.players.get(currPlayer).getMaxAP() && tFrame < 420) {
 				if (checkMovement(keys)) //if any key is pressed whatsoever
 					actionsUsed++;
+				Update.incFrame();
+
+				break;
 			}
-			break;
 		case ACTION:
-			break;
 		case PASS:
+			currPlayer++;
+			if (currPlayer >= Update.players.size())
+				currPlayer = 0;
+			actionsUsed = 0;
+			Update.resetFrame();
+			turnPhase = READY;
 			break;
 		}
 	}

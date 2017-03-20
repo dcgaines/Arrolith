@@ -79,14 +79,14 @@ public class ArroGraphics {
 	}
 	
 	//Draws the HUD on the screen
-	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame) {
+	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer)); 
 		g.setColor(Color.WHITE);
 		g.setFont(alegreya);
 		g.setStroke(new BasicStroke(15 * multiplyer));
 		g.drawRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer));
-		g.drawString("Moves Rem: " + Integer.toString(14 - actionsUsed), 119 * multiplyer, 132 * multiplyer);
+		g.drawString("Moves Rem: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
 		String timeLeft = Integer.toString((600 - tFrame) / 30);
 		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
 	}
