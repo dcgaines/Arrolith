@@ -21,27 +21,21 @@ public class Keys {
 	 * @param input - input instance
 	 */
 	public void checkKeys(Input input) {
-		//checkKey(input, Button.A, 0);
-		//checkKey(input, Button.B, 1);
-		//TODO modularize
-		if (input.pressed(Button.A))  keyPressed[0] = true;
-		else {                        keyPressed[0] = false; keyBuffers[0] = true; }
-		if (input.pressed(Button.B))  keyPressed[1] = true;
-		else {                        keyPressed[1] = false; keyBuffers[1] = true; }
-		if (input.pressed(Button.C))  keyPressed[2] = true;
-		else {                        keyPressed[2] = false; keyBuffers[2] = true; }
-		if (input.pressed(Button.U))  keyPressed[3] = true;
-		else {                        keyPressed[3] = false; keyBuffers[3] = true; }
-		if (input.pressed(Button.D))  keyPressed[4] = true;
-		else {                        keyPressed[4] = false; keyBuffers[4] = true; }
-		if (input.pressed(Button.L))  keyPressed[5] = true;
-		else {                        keyPressed[5] = false; keyBuffers[5] = true; }
-		if (input.pressed(Button.R))  keyPressed[6] = true;
-		else {                        keyPressed[6] = false; keyBuffers[6] = true; }
-		if (input.pressed(Button.S))  keyPressed[7] = true;
-		else {                        keyPressed[7] = false; keyBuffers[7] = true; }
+		checkKey(input, Button.A, 0);
+		checkKey(input, Button.B, 1);
+		checkKey(input, Button.C, 2);
+		checkKey(input, Button.U, 3);
+		checkKey(input, Button.D, 4);
+		checkKey(input, Button.L, 5);
+		checkKey(input, Button.R, 6);
+		checkKey(input, Button.S, 7);
 	}
-	
+	public boolean isKeyPressed(int key) {
+		return getKey(key) && getBuffer(key);
+	}
+	public boolean isKeyHeld(int key) {
+		return getKey(key);
+	}
 	private void checkKey(Input input, Button button, int index) {
 		if (input.pressed(button)) {
 			keyPressed[index] = true;

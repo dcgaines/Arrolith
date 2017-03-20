@@ -22,16 +22,25 @@ public class InGame {
 		actionsUsed = 0;
 	}
 	
-	public void calculate(Keys keys) {
+	private boolean checkMovement(Keys keys) {
+		//note - movement only occurs when first conditions
+		return ((keys.isKeyPressed(keys.DOWN)  && Update.players.get(currPlayer).walkDown(Update.map))    //checks walking down
+			||  (keys.isKeyPressed(keys.UP)    && Update.players.get(currPlayer).walkUp(Update.map))      //checks walking up
+		    ||  (keys.isKeyPressed(keys.LEFT)  && Update.players.get(currPlayer).walkLeft(Update.map))    //checks walking left
+		    || 	(keys.isKeyPressed(keys.RIGHT) && Update.players.get(currPlayer).walkRight(Update.map))); //checks walking right
+	}
+	
+	public void calculate(Keys keys, int tFrame) {
 		switch (turnPhase) {
 		case READY:
 			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
 				turnPhase = MOVE;
 			break;
 		case MOVE:
-			if (actionsUsed < 20)
-			if (Update.players.get(currPlayer).walkDown(Update.map))
-				actionsUsed++;
+			if (actionsUsed < 14 && tFrame < 420) {
+				if (checkMovement(keys)) //if any key is pressed whatsoever
+					actionsUsed++;
+			}
 			break;
 		case ACTION:
 			break;
