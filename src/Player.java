@@ -190,4 +190,8 @@ public abstract class Player {
 	public int getMaxAP( ) {
 		return maxAP;
 	}
+	
+	public ArrayList<Action> getActions() {
+		return actions;
+	}
 }
