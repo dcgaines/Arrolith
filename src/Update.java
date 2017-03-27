@@ -34,7 +34,6 @@ public class Update {
 	public static Menu menu;
 	public static File prefs;
 	public static Keys keys;
-	public static Map map;
 	public static ArroGraphics graphics;
 	public static InGame game;
 	
@@ -76,23 +75,6 @@ public class Update {
 		
 	}
 		
-	public static void setMap(int numPlayers) {
-		//Generate map
-		try { map = new Map(numPlayers); }
-		catch (IOException e1) { e1.printStackTrace(); }
-		//TODO: Generate players
-		Random rand = new Random();
-		for (byte i = 0; i < numPlayers; i++) {
-			int n = rand.nextInt(4) + 1;
-			switch (n) {
-			case 1: Update.players.add(new Savant("")); break;
-			case 2: Update.players.add(new Mason("")); break;
-			case 3: Update.players.add(new Juggernaut("")); break;
-			case 4: Update.players.add(new Operative("")); break;
-			}
-			players.get(i).setInitPos(i, map);
-		}
-	}
 	private static void calculate(Input input) {
 		keys.checkKeys(input);
 		switch (currState)
@@ -101,9 +83,9 @@ public class Update {
 			currState = MENU;
 			break;
 		case MENU:
-			int temp = menu.calculate(keys, map); //menu returns the number of players to be added, -1 if no selection
+			int temp = menu.calculate(keys); //menu returns the number of players to be added, -1 if no selection
 			if (temp != -1) {
-				setMap(temp);
+				game.init(temp);
 				currState = INGAME;
 			}
 			break;
@@ -128,9 +110,7 @@ public class Update {
 			menu.draw(g, graphics);
 			break;
 		case INGAME:
-			graphics.centerMap(g, map, players.get(game.currPlayer));
-			graphics.drawMap(g, map, players);
-			graphics.drawHud(g, players, game.actionsUsed, tFrame, game.currPlayer);
+			game.draw(g, graphics);
 			
 			break;
 		case PAUSED:

@@ -22,7 +22,7 @@ public class Menu {
 	}
 	
 	//Returns false if moving into ingame
-	public int calculate(Keys keys, Map map) {
+	public int calculate(Keys keys) {
 		switch (state)
 		{
 		case PLAY:
