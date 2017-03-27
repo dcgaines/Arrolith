@@ -61,10 +61,17 @@ public class Combat {
 		Player o = players.get( opponent );
 
 		listActions( p );
+		Scanner actionScanner = new Scanner(System.in);
+		Action performed = p.getActions().get(actionScanner.nextInt( ));
 	}
 
 	private static void listActions( Player p ) {
 		ArrayList<Action> actions = p.getActions();
+		System.out.println( "Please choose an action: " );
+		for(int i = 0; i < actions.size( ); i++){
+			
+			System.out.println( i + ". " + actions.get( i ).toString( ));
+		}
 	}
 
 	private static void printStats( ) {

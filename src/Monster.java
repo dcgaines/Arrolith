@@ -63,6 +63,13 @@ public class Monster {
 		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength - 1 ) / 10. );
 		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation - 1 ) / 10. );
 		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect - 1 ) / 10. );
-
+	}
+	
+	public int getX(){
+		return xCoord;
+	}
+	
+	public int getY(){
+		return yCoord;
 	}
 }
