@@ -179,8 +179,16 @@ public abstract class Player {
 		return health;
 	}
 
-	public void setHealth( double hp ) {
-		health = hp;
+	public void addHealth( double hp ) {
+		health += hp;
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	
+	public void subtractHealth( double hp ){
+		health -= hp;
+		if(health < 0)
+			health = 0;
 	}
 
 	public int getAP( ) {
