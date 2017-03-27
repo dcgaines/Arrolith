@@ -194,4 +194,8 @@ public abstract class Player {
 	public ArrayList<Action> getActions() {
 		return actions;
 	}
+	
+	public void resetAP(){
+		actionPoints = maxAP;
+	}
 }
