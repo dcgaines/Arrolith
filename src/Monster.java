@@ -50,7 +50,7 @@ public class Monster {
 		tact = 2;
 		strength = 2;
 		
-		actionPoints = 3;
+		actionPoints = 2;
 		maxHealth = 10;
 		
 		health = maxHealth;

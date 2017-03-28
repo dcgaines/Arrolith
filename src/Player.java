@@ -8,9 +8,9 @@ public abstract class Player {
 	static final int MASON = 2;
 
 	// Base damages, subject to balancing
-	static final double baseMeleeDmg = 1.0;
-	static final double baseRangeDmg = .7;
-	static final double baseMagicDmg = .8;
+	static final double baseMeleeDmg = 4.0;
+	static final double baseRangeDmg = 3.2;
+	static final double baseMagicDmg = 3.6;
 
 	// Character name
 	protected String name;
@@ -19,6 +19,8 @@ public abstract class Player {
 	// Health
 	protected double maxHealth;
 	protected double health;
+	
+	protected double defense = 0;
 
 	protected int actionPoints;
 	protected int maxAP;
@@ -186,6 +188,14 @@ public abstract class Player {
 	}
 	
 	public void subtractHealth( double hp ){
+		if(defense > 0)
+			if(hp > defense){
+				hp -= defense;
+				defense = 0;
+			} else {
+				defense -= hp;
+				hp = 0;
+			}
 		health -= hp;
 		if(health < 0)
 			health = 0;
@@ -205,5 +215,9 @@ public abstract class Player {
 	
 	public void resetAP(){
 		actionPoints = maxAP;
+	}
+	
+	public void defend(){
+		defense = 1 + tact;
 	}
 }

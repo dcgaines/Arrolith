@@ -125,6 +125,7 @@ public class Combat {
 			p.addHealth(5);
 			break;
 		case Action.DEFEND:
+			p.defend();
 			break;
 		}
 		p.actionPoints -= a.getCost( );
