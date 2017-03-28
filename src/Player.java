@@ -52,9 +52,9 @@ public abstract class Player {
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect - 1 ) / 10. );
+		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 
 	}
 
