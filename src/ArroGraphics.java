@@ -17,6 +17,7 @@ public class ArroGraphics {
 	Image tileStrip;
 	Image sprites;
 	Image splash;
+	Image monster;
 	private Font alegreya;
 	
 	double offsetX, offsetY;
@@ -28,6 +29,7 @@ public class ArroGraphics {
 			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
 			this.sprites = ImageIO.read(new File("sprites.png"));
 			this.splash = ImageIO.read(new File("splash.png"));
+			this.monster = ImageIO.read(new File("monster.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -63,21 +65,31 @@ public class ArroGraphics {
 			}
 		drawPlayers(g, players);
 	}
-	
+	private int posX(double x) { return (int) ((x + offsetX) * multiplyer); }
+	private int posY(double y) { return (int) ((y + offsetY) * multiplyer); }
 	//Draws the players on the map
-	private void drawPlayers(Graphics2D g, ArrayList<Player> players)
-	{
-		for (int i = 0; i < players.size(); i++)
-		{
+	private void drawPlayers(Graphics2D g, ArrayList<Player> players) {
+		for (int i = 0; i < players.size(); i++) {
 			g.drawImage(sprites, 
-					(int) ((players.get(i).getX() * DIM + offsetX) * multiplyer),
-					(int) ((players.get(i).getY() * DIM + offsetY) * multiplyer), 
-					(int) (((players.get(i).getX() + 1) * DIM + offsetX) * multiplyer),
-					(int) (((players.get(i).getY() + 1) * DIM + offsetY)* multiplyer),
+					posX(players.get(i).getX() * DIM),
+					posY(players.get(i).getY() * DIM),
+					posX((players.get(i).getX() + 1) * DIM),
+					posY((players.get(i).getY() + 1) * DIM),
 			 		players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
 		}
 	}
 	
+	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
+		for (int i = 0; i < monsters.size(); i++) {
+			Monster temp = monsters.get(i);
+			g.drawImage(monster, 
+					posX(temp.getX()),
+					posY(temp.getY()),
+					posX(temp.getX() + DIM),
+					posY(temp.getY() + DIM),
+					0, 0, 32, 32, null);
+		}
+	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
 		g.setColor(Color.BLACK);

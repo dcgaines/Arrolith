@@ -40,7 +40,6 @@ public class InGame {
 		    || 	(keys.isKeyPressed(keys.RIGHT) && Update.players.get(currPlayer).walkRight(map))); //checks walking right
 	}
 	
-	
 	public void init(int numPlayers) {
 		//Generate map
 		try { 
@@ -58,9 +57,7 @@ public class InGame {
 			for (int i = 0; i < numOfMonsters; i++) {
 				int x = scan.nextInt();
 				int y = scan.nextInt();
-				monsters.add(null
-						//new Monster(x, y)
-						);
+				monsters.add(new Monster(x, y));
 			}
 			
 			
