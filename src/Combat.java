@@ -59,19 +59,32 @@ public class Combat {
 	public static void turn( int player, int opponent ) {
 		Player p = players.get( player );
 		Player o = players.get( opponent );
-
+		int act = 0;
+		Action performed = null;
 		listActions( p );
-		Scanner actionScanner = new Scanner(System.in);
-		Action performed = p.getActions().get(actionScanner.nextInt( ));
+		Scanner actionScanner = new Scanner( System.in );
+		do {
+			act = actionScanner.nextInt( );
+			if(act == 7)
+				break;
+			performed = p.getActions( ).get( act );
+			if ( performed.getCost( ) > p.getAP( ) ) {
+				System.out.println( "Insufficient action points, select a different action." );
+			} else {
+				perform(performed, p, o);
+			}
+		} while ( p.getAP( ) > 0 );
+		actionScanner.close( );
 	}
 
 	private static void listActions( Player p ) {
-		ArrayList<Action> actions = p.getActions();
+		ArrayList<Action> actions = p.getActions( );
 		System.out.println( "Please choose an action: " );
-		for(int i = 0; i < actions.size( ); i++){
-			
-			System.out.println( i + ". " + actions.get( i ).toString( ));
+		for ( int i = 0; i < actions.size( ); i++ ) {
+
+			System.out.println( i + ". " + actions.get( i ).toString( ) );
 		}
+		System.out.println( "7. End Turn" );
 	}
 
 	private static void printStats( ) {
@@ -82,5 +95,38 @@ public class Combat {
 		Player p2 = players.get( 1 );
 		System.out.printf( "Health: %f/%f\tAP: %d\n\n", p2.getHealth( ), p2.getMaxHealth( ), p2.getMaxAP( ) );
 
+	}
+	
+	private static void perform(Action a, Player p, Player o){
+		switch(a.getActionType( )){
+		case Action.ATTACK:
+			switch(a.getWeaponType( )){
+			case Action.MELEE:
+				if(a.getAttackType() == Action.WEAK)
+					o.subtractHealth( p.meleeDmg );
+				else
+					o.subtractHealth( p.meleeDmg * 1.5 );
+				break;
+			case Action.RANGED:
+				if(a.getAttackType( ) == Action.WEAK)
+					o.subtractHealth( p.rangeDmg );
+				else
+					o.subtractHealth( p.rangeDmg * 1.5 );
+				break;
+			case Action.MAGIC:
+				if(a.getAttackType( ) == Action.WEAK)
+					o.subtractHealth( p.magicDmg );
+				else
+					o.subtractHealth( p.magicDmg * 1.5 );
+				break;
+			}
+			break;
+		case Action.HEAL:
+			p.addHealth(5);
+			break;
+		case Action.DEFEND:
+			break;
+		}
+		p.actionPoints -= a.getCost( );
 	}
 }
