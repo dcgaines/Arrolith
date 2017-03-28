@@ -37,6 +37,28 @@ public class Monster {
 		owner = p;
 		updateStats( );
 	}
+	
+	public Monster(int x, int y){
+		owner = null;
+		xCoord = x;
+		yCoord = y;
+		
+		perseverance = 2;
+		observation = 2;
+		intellect = 2;
+		negotiation = 2;
+		tact = 2;
+		strength = 2;
+		
+		actionPoints = 3;
+		maxHealth = 10;
+		
+		health = maxHealth;
+
+		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
+	}
 
 	// Only call when first instantiated
 	public void updateStats( ) {
@@ -60,9 +82,9 @@ public class Monster {
 		
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect - 1 ) / 10. );
+		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 	}
 	
 	public int getX(){
