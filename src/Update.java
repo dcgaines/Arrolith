@@ -90,7 +90,7 @@ public class Update {
 			}
 			break;
 		case INGAME:	
-			game.calculate(keys, tFrame);
+			game.calculate(keys);
 			break;
 		case PAUSED:
 			break;

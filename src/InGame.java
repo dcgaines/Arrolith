@@ -1,8 +1,11 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 /**
  * This class is used for making update methods for 
@@ -13,6 +16,8 @@ public class InGame {
 
 	
 	protected Map map;
+	ArrayList<Monster> monsters = null;
+	
 	
 	private byte turnPhase;
 	private final byte READY = 0;
@@ -38,8 +43,30 @@ public class InGame {
 	
 	public void init(int numPlayers) {
 		//Generate map
-		try { map = new Map(numPlayers); }
-		catch (IOException e1) { e1.printStackTrace(); }
+		try { 
+			map = new Map(numPlayers); 
+			Scanner scan = null;
+			//read in monsters
+			switch (numPlayers) {
+			case 2:  scan = new Scanner(new File("monsters2p.txt")); break;
+			case 3:  scan = new Scanner(new File("monsters3p.txt")); break;
+			case 4:  scan = new Scanner(new File("monsters4p.txt")); break;
+			default: throw new IOException();
+			}
+			int numOfMonsters = scan.nextInt();
+			monsters = new ArrayList<Monster>(numOfMonsters);
+			for (int i = 0; i < numOfMonsters; i++) {
+				int x = scan.nextInt();
+				int y = scan.nextInt();
+				monsters.add(null
+						//new Monster(x, y)
+						);
+			}
+			
+			
+			scan.close();		
+		} catch (IOException e1) { e1.printStackTrace(); }
+		
 		//TODO: Generate players
 		Random rand = new Random();
 		for (byte i = 0; i < numPlayers; i++) {
@@ -55,16 +82,15 @@ public class InGame {
 	}
 	
 	
-	public void calculate(Keys keys, int tFrame) {
+	public void calculate(Keys keys) {
 		switch (turnPhase) {
 		case READY:
 			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
 				turnPhase = MOVE;
 			break;
 		case MOVE:
-			if (actionsUsed < Update.players.get(currPlayer).getMaxAP() && tFrame < 420) {
-				if (checkMovement(keys)) //if any key is pressed whatsoever
-					actionsUsed++;
+			if (Update.players.get(currPlayer).getAP() > 0 && Update.getFrame() < 420) {
+				checkMovement(keys); //if any key is pressed whatsoever
 				Update.incFrame();
 				
 				break;

@@ -86,8 +86,8 @@ public class ArroGraphics {
 		g.setFont(alegreya);
 		g.setStroke(new BasicStroke(15 * multiplyer));
 		g.drawRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer));
-		g.drawString("Moves Rem: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
-		String timeLeft = Integer.toString((600 - tFrame) / 30);
+		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
+		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
 		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
 	}
 	
