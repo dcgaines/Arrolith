@@ -52,9 +52,9 @@ public abstract class Player {
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect - 1 ) / 10. );
+		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 
 	}
 
@@ -179,8 +179,16 @@ public abstract class Player {
 		return health;
 	}
 
-	public void setHealth( double hp ) {
-		health = hp;
+	public void addHealth( double hp ) {
+		health += hp;
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	
+	public void subtractHealth( double hp ){
+		health -= hp;
+		if(health < 0)
+			health = 0;
 	}
 
 	public int getAP( ) {
@@ -193,5 +201,9 @@ public abstract class Player {
 	
 	public ArrayList<Action> getActions() {
 		return actions;
+	}
+	
+	public void resetAP(){
+		actionPoints = maxAP;
 	}
 }
