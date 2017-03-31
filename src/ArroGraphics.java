@@ -16,6 +16,7 @@ public class ArroGraphics {
 	
 	Image tileStrip;
 	Image sprites;
+	Image portraits;
 	Image splash;
 	Image monster;
 	private Font alegreya;
@@ -30,6 +31,7 @@ public class ArroGraphics {
 			this.sprites = ImageIO.read(new File("sprites.png"));
 			this.splash = ImageIO.read(new File("splash.png"));
 			this.monster = ImageIO.read(new File("monster.png"));
+			this.portraits = ImageIO.read(new File("portraits.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -48,7 +50,7 @@ public class ArroGraphics {
 	}
 	
 	//Draws the map and players
-	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players)
+	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players, ArrayList<Monster> monsters)
 	{
 		Tile tile; //temporary tile space
 		for (int i = 0; i < map.getHeight(); i++)
@@ -63,6 +65,7 @@ public class ArroGraphics {
 						(int) tile.getType() * 32, 
 						0, (tile.getType() + 1) * 32, 32, null);
 			}
+		drawMonsters(g, monsters);
 		drawPlayers(g, players);
 	}
 	private int posX(double x) { return (int) ((x + offsetX) * multiplyer); }
@@ -83,26 +86,39 @@ public class ArroGraphics {
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster temp = monsters.get(i);
 			g.drawImage(monster, 
-					posX(temp.getX()),
-					posY(temp.getY()),
-					posX(temp.getX() + DIM),
-					posY(temp.getY() + DIM),
+					posX(temp.getX() * DIM),
+					posY(temp.getY() * DIM),
+					posX(temp.getX() * DIM + DIM),
+					posY(temp.getY() * DIM + DIM),
 					0, 0, 32, 32, null);
 		}
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer)); 
+		g.fillRect(0, multiplyer(800), multiplyer(1920), multiplyer(280)); 
 		g.setColor(Color.WHITE);
 		g.setFont(alegreya);
-		g.setStroke(new BasicStroke(15 * multiplyer));
-		g.drawRect(0, 0, (int) (1920 * multiplyer), (int) (200 * multiplyer));
-		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
-		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
-		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
+		g.setStroke(new BasicStroke(multiplyer(8)));
+		g.drawRect(0, multiplyer(800), multiplyer(1920), multiplyer(280));
+//		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
+//		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
+//		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
+		for (int i = 0; i < players.size(); i++) {
+			g.drawImage(portraits, 
+					multiplyer(i * 480 + 10),
+					multiplyer(811),
+					multiplyer(i * 480 + 266),
+					multiplyer(1067),
+					(players.get(i).getType()) * 64, 
+					0,
+					(players.get(i).getType() + 1) * 64,
+					64, null);
+		}
 	}
-	
+	private int multiplyer(double num) {
+		return (int) (num * multiplyer);
+	}
 	//Zooms in on the map
 	public void zoomIn(double speed) {
 		DIM += speed;
@@ -126,25 +142,25 @@ public class ArroGraphics {
 	//Draws the menu
 	//TODO: Change when menu has been designed
 	public void drawMenu(Graphics2D g, int menuState) {
-		g.fillRect(0, 0, (int) (1920 * multiplyer), (int) (1080 * multiplyer)); // allows a clean reset of the image
-		g.drawImage(splash,(int)(-233 * multiplyer), (int)(-355 * multiplyer), (int)(2167 * multiplyer), (int)(996 * multiplyer), 0,0,  4106, 2310, null);
+		g.fillRect(0, 0, multiplyer(1920), multiplyer(1080)); // allows a clean reset of the image
+		g.drawImage(splash,multiplyer(-233), multiplyer(-355), multiplyer(2167), multiplyer(996), 0,0, 4106, 2310, null);
 		g.setColor(Color.WHITE);
 		g.setFont(alegreya);
 		switch (menuState)
 		{
 		case 0:
-			g.drawString(">  Play  <", 796 * multiplyer, 762 * multiplyer);
-			g.drawString("Sound", 827 * multiplyer, 882 * multiplyer);
+			g.drawString(">  Play  <", multiplyer(796), multiplyer(762));
+			g.drawString("Sound", multiplyer(827), multiplyer(882));
 			break;
 		case 4: //sound
-			g.drawString("Play", 865 * multiplyer, 762 * multiplyer);
-			g.drawString(">  Sound  <", 759 * multiplyer, 882 * multiplyer);
+			g.drawString("Play", multiplyer(865), multiplyer(762));
+			g.drawString(">  Sound  <", multiplyer(759), multiplyer(882));
 			break;
 		case 1: case 2: case 3: // 2 players
-			g.drawString(Integer.toString(menuState + 1), 935 * multiplyer, 762 * multiplyer);
-			if (menuState == 1 || menuState == 2) g.drawString(">", 1004 * multiplyer, 762 * multiplyer);
-			if (menuState == 2 || menuState == 3) g.drawString("<", 875 * multiplyer, 762 * multiplyer);
-			g.drawString("Players", 801 * multiplyer, 882 * multiplyer);
+			g.drawString(Integer.toString(menuState + 1), multiplyer(935), multiplyer(762));
+			if (menuState == 1 || menuState == 2) g.drawString(">", multiplyer(1004), multiplyer(762));
+			if (menuState == 2 || menuState == 3) g.drawString("<", multiplyer(875),  multiplyer(762));
+			g.drawString("Players", multiplyer(801), multiplyer(882));
 			break;
 		}
 	}

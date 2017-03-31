@@ -24,12 +24,15 @@ public class InGame {
 	private final byte MOVE = 1;
 	private final byte ACTION = 2;
 	private final byte PASS = 3;
+	private final byte COMBAT = 4;
 	public byte currPlayer;
 	public byte actionsUsed;
+	private boolean transition;
 	
 	public InGame() {
 		currPlayer = 0;
 		actionsUsed = 0;
+		transition = false;
 	}
 	
 	private boolean checkMovement(Keys keys) {
@@ -78,6 +81,13 @@ public class InGame {
 		}
 	}
 	
+	private boolean checkMonsters() {
+		for (int i = 0; i < monsters.size(); i++)
+			if 	(monsters.get(i).getX() == Update.players.get(currPlayer).getX()
+			  && monsters.get(i).getY() == Update.players.get(currPlayer).getY())
+				return true;
+		return false;
+	}
 	
 	public void calculate(Keys keys) {
 		switch (turnPhase) {
@@ -88,6 +98,11 @@ public class InGame {
 		case MOVE:
 			if (Update.players.get(currPlayer).getAP() > 0 && Update.getFrame() < 420) {
 				checkMovement(keys); //if any key is pressed whatsoever
+				if (checkMonsters()) {
+					turnPhase = COMBAT;
+					Update.resetFrame();
+					transition = true;
+				}
 				Update.incFrame();
 				
 				break;
@@ -101,28 +116,48 @@ public class InGame {
 			Update.resetFrame();
 			turnPhase = READY;
 			break;
+		case COMBAT:
+			if (transition) {
+				if (Update.getFrame() > 5)
+					transition = false;
+				Update.incFrame();
+			}
+			else {
+				
+			}
+			break;
 		}
 	}
 	
 	public void draw(Graphics2D g, ArroGraphics graphics) {
 		
-		graphics.centerMap(g, map, Update.players.get(currPlayer));
-		graphics.drawMap(g, map, Update.players);
-		graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 		
-		if (turnPhase == READY) {
-			g.setColor(Color.BLACK);
-			g.fillRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-				(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-			g.setColor(Color.WHITE);
-			g.setStroke(new BasicStroke(15 * graphics.multiplyer));
-			g.drawRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-				(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-			g.drawString("Press A", 800 * graphics.multiplyer, 504 * graphics.multiplyer);
-			g.drawString("to start.", 800 * graphics.multiplyer, 640 * graphics.multiplyer);
+		
+		
+		if (turnPhase == COMBAT) {
+			//white transition
+			if (transition) {
+				int rgb = (int) (((6 - Update.getFrame()) / 6.) * 255);
+				g.setColor(new Color(rgb, rgb, rgb, rgb));
+				g.fillRect(0, 0, (int) (1920 * graphics.multiplyer), (int) (1080 * graphics.multiplyer));
+			}
+		}
+		else {
+			graphics.centerMap(g, map, Update.players.get(currPlayer));
+			graphics.drawMap(g, map, Update.players, monsters);
+			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
+			if (turnPhase == READY) {
+				g.setColor(Color.BLACK);
+				g.fillRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
+					(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
+				g.setColor(Color.WHITE);
+				g.setStroke(new BasicStroke(15 * graphics.multiplyer));
+				g.drawRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
+					(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
+				g.drawString("Press A", 800 * graphics.multiplyer, 504 * graphics.multiplyer);
+				g.drawString("to start.", 800 * graphics.multiplyer, 640 * graphics.multiplyer);
+			}
 		}
 	}
-	
-	
 	
 }
