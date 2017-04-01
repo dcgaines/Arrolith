@@ -92,10 +92,10 @@ public class Combat {
 
 	private static void printStats( ) {
 		System.out.println( "Player:" );
-		System.out.printf( "Health: %.2f/%.2f\tAP: %d\n\n", player.getHealth( ), player.getMaxHealth( ), player.getMaxAP( ) );
+		System.out.printf( "Health: %d/%d\tAP: %d\n\n", player.getHealth( ), player.getMaxHealth( ), player.getMaxAP( ) );
 		
 		System.out.println( "Monster:" );
-		System.out.printf( "Health: %.2f/%.2f\n\n", monster.getHealth( ), monster.getMaxHealth( ));
+		System.out.printf( "Health: %d/%d\n\n", monster.getHealth( ), monster.getMaxHealth( ));
 
 	}
 	
