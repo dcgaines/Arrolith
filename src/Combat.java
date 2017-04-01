@@ -107,19 +107,19 @@ public class Combat {
 				if(a.getAttackType() == Action.WEAK)
 					o.subtractHealth( p.meleeDmg );
 				else
-					o.subtractHealth( p.meleeDmg * 3 / 2 );
+					o.subtractHealth( p.meleeDmg * 2 );
 				break;
 			case Action.RANGED:
 				if(a.getAttackType( ) == Action.WEAK)
 					o.subtractHealth( p.rangeDmg );
 				else
-					o.subtractHealth( p.rangeDmg * 3 / 2 );
+					o.subtractHealth( p.rangeDmg * 2 );
 				break;
 			case Action.MAGIC:
 				if(a.getAttackType( ) == Action.WEAK)
 					o.subtractHealth( p.magicDmg );
 				else
-					o.subtractHealth( p.magicDmg * 3 / 2 );
+					o.subtractHealth( p.magicDmg * 2 );
 				break;
 			}
 			break;
