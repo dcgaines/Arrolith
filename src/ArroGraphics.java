@@ -18,7 +18,7 @@ public class ArroGraphics {
 	Image sprites;
 	Image portraits;
 	Image splash;
-	Image monster;
+	Animation monster;
 	private Font alegreya;
 	
 	double offsetX, offsetY;
@@ -30,7 +30,7 @@ public class ArroGraphics {
 			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
 			this.sprites = ImageIO.read(new File("sprites.png"));
 			this.splash = ImageIO.read(new File("splash.png"));
-			this.monster = ImageIO.read(new File("monster.png"));
+			this.monster = new Animation(ImageIO.read(new File("monster.png")), 32, 32, new int[]{60, 65, 70, 75});
 			this.portraits = ImageIO.read(new File("portraits.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -83,15 +83,12 @@ public class ArroGraphics {
 	}
 	
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
+		monster.calculate();
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster temp = monsters.get(i);
-			g.drawImage(monster, 
-					posX(temp.getX() * DIM),
-					posY(temp.getY() * DIM),
-					posX(temp.getX() * DIM + DIM),
-					posY(temp.getY() * DIM + DIM),
-					0, 0, 32, 32, null);
+			monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
 		}
+		
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
