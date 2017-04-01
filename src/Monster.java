@@ -36,6 +36,7 @@ public class Monster {
 	public Monster( Player p ) {
 		owner = p;
 		updateStats( );
+		act();
 	}
 	
 	public Monster(int x, int y){
@@ -50,7 +51,6 @@ public class Monster {
 		tact = 2;
 		strength = 2;
 		
-		actionPoints = 2;
 		maxHealth = 10;
 		
 		health = maxHealth;
@@ -58,8 +58,17 @@ public class Monster {
 		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
 		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
 		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
+		
+		act();
 	}
 
+	public void act(){
+		actions.add( new Action("Weak Attack", 1, Action.ATTACK, Action.MELEE, Action.WEAK) );
+		actions.add( new Action("Strong Attack", 1, Action.ATTACK, Action.MELEE, Action.STRONG) );
+		actions.add( new Action("Defend", 1, Action.DEFEND) );
+		actions.add( new Action("Heal", 1, Action.HEAL) );
+	}
+	
 	// Only call when first instantiated
 	public void updateStats( ) {
 		perseverance = owner.perseverance;
@@ -72,9 +81,6 @@ public class Monster {
 		xCoord = owner.xCoord;
 		yCoord = owner.yCoord;
 		
-		actions = owner.actions;
-		
-		actionPoints = 2 + ( tact / 3 );
 		maxHealth = 20 + ( perseverance * 2 );
 		
 		// Make monsters weaker than players
