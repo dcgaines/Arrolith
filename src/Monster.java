@@ -21,7 +21,7 @@ public class Monster extends Being{
 		tact = 2;
 		strength = 2;
 		
-		maxHealth = 10;
+		maxHealth = 20;
 		
 		health = maxHealth;
 

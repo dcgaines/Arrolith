@@ -25,7 +25,7 @@ public abstract class Being {
 	protected double rangeDmg;
 	protected double magicDmg;
 	
-	protected ArrayList<Action> actions;
+	protected ArrayList<Action> actions = new ArrayList<Action>();
 	
 	
 	public int getX(){

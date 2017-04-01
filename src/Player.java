@@ -6,7 +6,6 @@ public abstract class Player extends Being{
 	static final int JUGGERNAUT = 0;
 	static final int MASON = 2;
 
-
 	// Character name
 	protected String name;
 	protected int playerClass;
@@ -24,9 +23,9 @@ public abstract class Player extends Being{
 		maxHealth = 20 + ( perseverance * 2 );
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
+		meleeDmg = Being.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Being.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Being.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 
 	}
 
