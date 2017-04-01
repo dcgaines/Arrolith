@@ -1,5 +1,5 @@
 
-public abstract class Player extends Being{
+public abstract class Player extends Being {
 	// Player class identifiers
 	static final int SAVANT = 1;
 	static final int OPERATIVE = 3;
@@ -20,13 +20,10 @@ public abstract class Player extends Being{
 	public void updateStats( ) {
 		actionPoints = 2 + ( tact / 3 );
 		maxAP = actionPoints;
-		maxHealth = 20 + ( perseverance * 2 );
+		maxHealth = 2000 + ( perseverance * 200 );
 		health = maxHealth;
 
-		meleeDmg = Being.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
-		rangeDmg = Being.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
-		magicDmg = Being.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
-
+		setDamages( );
 	}
 
 	public int getType( ) {
@@ -142,8 +139,8 @@ public abstract class Player extends Being{
 		return maxAP;
 	}
 
-	public void resetAP(){
+	public void resetAP( ) {
 		actionPoints = maxAP;
 	}
-	
+
 }
