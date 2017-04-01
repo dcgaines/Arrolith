@@ -4,8 +4,10 @@ import java.util.Scanner;
 public class Combat {
 
 	static ArrayList<Player> players = new ArrayList<Player>( );
+	static Scanner scanner;
 
 	public static void main( String[] args ) {
+		scanner = new Scanner(System.in);
 		createPlayers( );
 		while ( true ) {
 			// First player's turn
@@ -27,11 +29,11 @@ public class Combat {
 				break;
 			}
 		}
+		scanner.close( );
 	}
 
 	public static void createPlayers( ) {
 		System.out.print( "Please choose the 2 classes\n" + "Operative: 0\nJuggernaut: 1\nSavant: 2\nMason: 3\n" );
-		Scanner scanner = new Scanner( System.in );
 		int class1 = scanner.nextInt( );
 		int class2 = scanner.nextInt( );
 
@@ -52,20 +54,18 @@ public class Combat {
 			players.add( new Savant( "Player 2" ) );
 		if ( class2 == 3 )
 			players.add( new Mason( "Player 2" ) );
-
-		scanner.close( );
 	}
 
 	public static void turn( int player, int opponent ) {
 		Player p = players.get( player );
 		Player o = players.get( opponent );
+		p.resetAP( );
 		int act = 0;
 		Action performed = null;
 		listActions( p );
-		Scanner actionScanner = new Scanner( System.in );
 		do {
-			act = actionScanner.nextInt( );
-			if(act == 7)
+			act = scanner.nextInt( );
+			if(act == 6)
 				break;
 			performed = p.getActions( ).get( act );
 			if ( performed.getCost( ) > p.getAP( ) ) {
@@ -74,7 +74,6 @@ public class Combat {
 				perform(performed, p, o);
 			}
 		} while ( p.getAP( ) > 0 );
-		actionScanner.close( );
 	}
 
 	private static void listActions( Player p ) {
@@ -84,16 +83,16 @@ public class Combat {
 
 			System.out.println( i + ". " + actions.get( i ).toString( ) );
 		}
-		System.out.println( "7. End Turn" );
+		System.out.println( "6. End Turn" );
 	}
 
 	private static void printStats( ) {
 		System.out.println( "Player 1:" );
 		Player p1 = players.get( 0 );
-		System.out.printf( "Health: %f/%f\tAP: %d\n\n", p1.getHealth( ), p1.getMaxHealth( ), p1.getMaxAP( ) );
+		System.out.printf( "Health: %.2f/%.2f\tAP: %d\n\n", p1.getHealth( ), p1.getMaxHealth( ), p1.getMaxAP( ) );
 		System.out.println( "Player 2:" );
 		Player p2 = players.get( 1 );
-		System.out.printf( "Health: %f/%f\tAP: %d\n\n", p2.getHealth( ), p2.getMaxHealth( ), p2.getMaxAP( ) );
+		System.out.printf( "Health: %.2f/%.2f\tAP: %d\n\n", p2.getHealth( ), p2.getMaxHealth( ), p2.getMaxAP( ) );
 
 	}
 	

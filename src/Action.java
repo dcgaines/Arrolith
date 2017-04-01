@@ -56,7 +56,7 @@ public class Action {
 
 	@Override
 	public String toString( ) {
-		String str = name + "\t";
+		String str = name + " | ";
 		if(actionType == ATTACK){
 			if(attackType == STRONG)
 				str += "Strong ";
@@ -68,7 +68,7 @@ public class Action {
 				str += "melee ";
 			if(weaponType == MAGIC)
 				str += "magic ";
-			str += "attack\t";
+			str += "attack | ";
 		}
 		str += "AP: " + cost;		
 		return str;
