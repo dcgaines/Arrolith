@@ -17,7 +17,7 @@ public class InGame {
 	
 	protected Map map;
 	ArrayList<Monster> monsters = null;
-	
+	protected Combat combat = null;
 	
 	private byte turnPhase;
 	private final byte READY = 0;
@@ -102,6 +102,7 @@ public class InGame {
 					turnPhase = COMBAT;
 					Update.resetFrame();
 					transition = true;
+					//TODO: Combat instantiation: combat = new Combat();
 				}
 				Update.incFrame();
 				
@@ -123,7 +124,7 @@ public class InGame {
 				Update.incFrame();
 			}
 			else {
-				
+				//TODO: call combat.calculate();
 			}
 			break;
 		}
