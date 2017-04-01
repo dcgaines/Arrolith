@@ -10,7 +10,7 @@ public class Monster {
 	// Health
 	protected double maxHealth;
 	protected double health;
-	protected int actionPoints;
+	protected double defense = 0;
 	
 	protected Player owner;
 
@@ -99,5 +99,41 @@ public class Monster {
 	
 	public int getY(){
 		return yCoord;
+	}
+	
+	public double getMaxHealth( ) {
+		return maxHealth;
+	}
+
+	public double getHealth( ) {
+		return health;
+	}
+
+	public void addHealth( double hp ) {
+		health += hp;
+		if(health > maxHealth)
+			health = maxHealth;
+	}
+	
+	public void subtractHealth( double hp ){
+		if(defense > 0)
+			if(hp > defense){
+				hp -= defense;
+				defense = 0;
+			} else {
+				defense -= hp;
+				hp = 0;
+			}
+		health -= hp;
+		if(health < 0)
+			health = 0;
+	}
+
+	public ArrayList<Action> getActions() {
+		return actions;
+	}
+
+	public void defend(){
+		defense = 1 + tact;
 	}
 }
