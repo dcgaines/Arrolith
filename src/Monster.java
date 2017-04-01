@@ -1,37 +1,7 @@
-import java.util.ArrayList;
 
-public class Monster {
+public class Monster extends Being{
 
-	// Base damages, subject to balancing
-	static final double baseMeleeDmg = 1.0;
-	static final double baseRangeDmg = .7;
-	static final double baseMagicDmg = .8;
-
-	// Health
-	protected double maxHealth;
-	protected double health;
-	protected double defense = 0;
-	
 	protected Player owner;
-
-	// POINTS
-	protected int perseverance;
-	protected int observation;
-	protected int intellect;
-	protected int negotiation;
-	protected int tact;
-	protected int strength;
-
-	protected double meleeDmg;
-	protected double rangeDmg;
-	protected double magicDmg;
-
-	// Location on the map
-	protected int xCoord;
-	protected int yCoord;
-	
-	// ArrayList of actions
-	protected ArrayList<Action> actions;
 
 	public Monster( Player p ) {
 		owner = p;
@@ -55,9 +25,9 @@ public class Monster {
 		
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
+		meleeDmg = Being.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
+		rangeDmg = Being.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
+		magicDmg = Being.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 		
 		act();
 	}
@@ -93,47 +63,5 @@ public class Monster {
 		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
 	}
 	
-	public int getX(){
-		return xCoord;
-	}
-	
-	public int getY(){
-		return yCoord;
-	}
-	
-	public double getMaxHealth( ) {
-		return maxHealth;
-	}
 
-	public double getHealth( ) {
-		return health;
-	}
-
-	public void addHealth( double hp ) {
-		health += hp;
-		if(health > maxHealth)
-			health = maxHealth;
-	}
-	
-	public void subtractHealth( double hp ){
-		if(defense > 0)
-			if(hp > defense){
-				hp -= defense;
-				defense = 0;
-			} else {
-				defense -= hp;
-				hp = 0;
-			}
-		health -= hp;
-		if(health < 0)
-			health = 0;
-	}
-
-	public ArrayList<Action> getActions() {
-		return actions;
-	}
-
-	public void defend(){
-		defense = 1 + tact;
-	}
 }
