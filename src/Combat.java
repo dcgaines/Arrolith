@@ -3,78 +3,81 @@ import java.util.Scanner;
 
 public class Combat {
 
-	static ArrayList<Player> players = new ArrayList<Player>( );
+	static Player player;
+	static Monster monster = new Monster(0, 0);
+	
+	static Scanner scanner;
 
 	public static void main( String[] args ) {
+		scanner = new Scanner(System.in);
 		createPlayers( );
 		while ( true ) {
 			// First player's turn
-			System.out.println( "Player 1's turn" );
+			System.out.println( "Player's turn" );
 			printStats( );
-			turn( 0, 1 );
+			playerTurn();
 			// Check win condition
-			if ( players.get( 1 ).getHealth( ) <= 0 ) {
-				System.out.println( "Player 1 wins!" );
+			if ( monster.getHealth( ) <= 0 ) {
+				System.out.println( "Player wins!" );
 				break;
 			}
 			// Second player's turn
-			System.out.println( "Player 2's turn" );
+			System.out.println( "Monster's turn" );
 			printStats( );
-			turn( 1, 0 );
+			monsterTurn( );
 			// Check win condition
-			if ( players.get( 0 ).getHealth( ) <= 0 ) {
-				System.out.println( "Player 2 wins!" );
+			if ( player.getHealth( ) <= 0 ) {
+				System.out.println( "Player loses!" );
 				break;
 			}
 		}
-	}
-
-	public static void createPlayers( ) {
-		System.out.print( "Please choose the 2 classes\n" + "Operative: 0\nJuggernaut: 1\nSavant: 2\nMason: 3\n" );
-		Scanner scanner = new Scanner( System.in );
-		int class1 = scanner.nextInt( );
-		int class2 = scanner.nextInt( );
-
-		if ( class1 == 0 )
-			players.add( new Operative( "Player 1" ) );
-		if ( class1 == 1 )
-			players.add( new Juggernaut( "Player 1" ) );
-		if ( class1 == 2 )
-			players.add( new Savant( "Player 1" ) );
-		if ( class1 == 3 )
-			players.add( new Mason( "Player 1" ) );
-
-		if ( class2 == 0 )
-			players.add( new Operative( "Player 2" ) );
-		if ( class2 == 1 )
-			players.add( new Juggernaut( "Player 2" ) );
-		if ( class2 == 2 )
-			players.add( new Savant( "Player 2" ) );
-		if ( class2 == 3 )
-			players.add( new Mason( "Player 2" ) );
-
 		scanner.close( );
 	}
 
-	public static void turn( int player, int opponent ) {
-		Player p = players.get( player );
-		Player o = players.get( opponent );
+	public static void createPlayers( ) {
+		System.out.print( "Please choose the player class\n" + "Operative: 0\nJuggernaut: 1\nSavant: 2\nMason: 3\n" );
+		int class1 = scanner.nextInt( );
+
+		if ( class1 == 0 )
+			player = new Operative( "Player" );
+		if ( class1 == 1 )
+			player = new Juggernaut( "Player" );
+		if ( class1 == 2 )
+			player = new Savant( "Player" );
+		if ( class1 == 3 )
+			player = new Mason( "Player" );
+
+		monster = new Monster(0,0);
+	}
+
+	private static void playerTurn( ) {
+		player.resetAP( );
 		int act = 0;
 		Action performed = null;
-		listActions( p );
-		Scanner actionScanner = new Scanner( System.in );
+		listActions( player );
 		do {
-			act = actionScanner.nextInt( );
-			if(act == 7)
+			act = scanner.nextInt( );
+			if(act == 6)
 				break;
-			performed = p.getActions( ).get( act );
-			if ( performed.getCost( ) > p.getAP( ) ) {
+			performed = player.getActions( ).get( act );
+			if ( performed.getCost( ) > player.getAP( ) ) {
 				System.out.println( "Insufficient action points, select a different action." );
 			} else {
-				perform(performed, p, o);
+				perform(performed, player, monster);
 			}
-		} while ( p.getAP( ) > 0 );
-		actionScanner.close( );
+		} while ( player.getAP( ) > 0 );
+	}
+	
+	private static void monsterTurn(){
+		int numActions;
+		if(monster.getHealth( ) < monster.getMaxHealth( ))
+			numActions = 4;
+		else
+			numActions = 3;
+		
+		int act = (int)(Math.random( ) * numActions);
+		Action performed = monster.getActions( ).get( act );
+		perform(performed, monster, player);
 	}
 
 	private static void listActions( Player p ) {
@@ -84,20 +87,19 @@ public class Combat {
 
 			System.out.println( i + ". " + actions.get( i ).toString( ) );
 		}
-		System.out.println( "7. End Turn" );
+		System.out.println( "6. End Turn" );
 	}
 
 	private static void printStats( ) {
-		System.out.println( "Player 1:" );
-		Player p1 = players.get( 0 );
-		System.out.printf( "Health: %f/%f\tAP: %d\n\n", p1.getHealth( ), p1.getMaxHealth( ), p1.getMaxAP( ) );
-		System.out.println( "Player 2:" );
-		Player p2 = players.get( 1 );
-		System.out.printf( "Health: %f/%f\tAP: %d\n\n", p2.getHealth( ), p2.getMaxHealth( ), p2.getMaxAP( ) );
+		System.out.println( "Player:" );
+		System.out.printf( "Health: %d/%d\tAP: %d\n\n", player.getHealth( ), player.getMaxHealth( ), player.getMaxAP( ) );
+		
+		System.out.println( "Monster:" );
+		System.out.printf( "Health: %d/%d\n\n", monster.getHealth( ), monster.getMaxHealth( ));
 
 	}
 	
-	private static void perform(Action a, Player p, Player o){
+	private static void perform(Action a, Being p, Being o){
 		switch(a.getActionType( )){
 		case Action.ATTACK:
 			switch(a.getWeaponType( )){
@@ -105,28 +107,30 @@ public class Combat {
 				if(a.getAttackType() == Action.WEAK)
 					o.subtractHealth( p.meleeDmg );
 				else
-					o.subtractHealth( p.meleeDmg * 1.5 );
+					o.subtractHealth( p.meleeDmg * 2 );
 				break;
 			case Action.RANGED:
 				if(a.getAttackType( ) == Action.WEAK)
 					o.subtractHealth( p.rangeDmg );
 				else
-					o.subtractHealth( p.rangeDmg * 1.5 );
+					o.subtractHealth( p.rangeDmg * 2 );
 				break;
 			case Action.MAGIC:
 				if(a.getAttackType( ) == Action.WEAK)
 					o.subtractHealth( p.magicDmg );
 				else
-					o.subtractHealth( p.magicDmg * 1.5 );
+					o.subtractHealth( p.magicDmg * 2 );
 				break;
 			}
 			break;
 		case Action.HEAL:
-			p.addHealth(5);
+			p.addHealth(250);
 			break;
 		case Action.DEFEND:
+			p.defend();
 			break;
 		}
-		p.actionPoints -= a.getCost( );
+		if(p instanceof Player)
+			((Player)p).actionPoints -= a.getCost( );
 	}
 }

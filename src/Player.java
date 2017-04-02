@@ -1,46 +1,17 @@
-import java.util.ArrayList;
 
-public abstract class Player {
+public abstract class Player extends Being {
 	// Player class identifiers
 	static final int SAVANT = 1;
 	static final int OPERATIVE = 3;
 	static final int JUGGERNAUT = 0;
 	static final int MASON = 2;
 
-	// Base damages, subject to balancing
-	static final double baseMeleeDmg = 1.0;
-	static final double baseRangeDmg = .7;
-	static final double baseMagicDmg = .8;
-
 	// Character name
 	protected String name;
 	protected int playerClass;
 
-	// Health
-	protected double maxHealth;
-	protected double health;
-
 	protected int actionPoints;
 	protected int maxAP;
-
-	// POINTS
-	protected int perseverance;
-	protected int observation;
-	protected int intellect;
-	protected int negotiation;
-	protected int tact;
-	protected int strength;
-
-	protected double meleeDmg;
-	protected double rangeDmg;
-	protected double magicDmg;
-
-	// Location on the map
-	protected int xCoord;
-	protected int yCoord;
-
-	// ArrayList of actions
-	protected ArrayList<Action> actions = new ArrayList<Action>( );
 
 	public Player( String name ) {
 		this.name = name;
@@ -49,25 +20,14 @@ public abstract class Player {
 	public void updateStats( ) {
 		actionPoints = 2 + ( tact / 3 );
 		maxAP = actionPoints;
-		maxHealth = 20 + ( perseverance * 2 );
+		maxHealth = 2000 + ( perseverance * 200 );
 		health = maxHealth;
 
-		meleeDmg = Player.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. );
-		rangeDmg = Player.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. );
-		magicDmg = Player.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. );
-
+		setDamages( );
 	}
 
 	public int getType( ) {
 		return playerClass;
-	}
-
-	public int getX( ) {
-		return xCoord;
-	}
-
-	public int getY( ) {
-		return yCoord;
 	}
 
 	public void setInitPos( byte playerNum, Map map ) {
@@ -171,26 +131,6 @@ public abstract class Player {
 		}
 	}
 
-	public double getMaxHealth( ) {
-		return maxHealth;
-	}
-
-	public double getHealth( ) {
-		return health;
-	}
-
-	public void addHealth( double hp ) {
-		health += hp;
-		if(health > maxHealth)
-			health = maxHealth;
-	}
-	
-	public void subtractHealth( double hp ){
-		health -= hp;
-		if(health < 0)
-			health = 0;
-	}
-
 	public int getAP( ) {
 		return actionPoints;
 	}
@@ -198,12 +138,9 @@ public abstract class Player {
 	public int getMaxAP( ) {
 		return maxAP;
 	}
-	
-	public ArrayList<Action> getActions() {
-		return actions;
-	}
-	
-	public void resetAP(){
+
+	public void resetAP( ) {
 		actionPoints = maxAP;
 	}
+
 }

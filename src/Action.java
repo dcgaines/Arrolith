@@ -56,21 +56,21 @@ public class Action {
 
 	@Override
 	public String toString( ) {
-		String str = name + "\t";
-		if(actionType == ATTACK){
-			if(attackType == STRONG)
+		String str = name + " | ";
+		if ( actionType == ATTACK ) {
+			if ( attackType == STRONG )
 				str += "Strong ";
-			if(attackType == WEAK)
+			if ( attackType == WEAK )
 				str += "Weak ";
-			if(weaponType == RANGED)
+			if ( weaponType == RANGED )
 				str += "ranged ";
-			if(weaponType == MELEE)
+			if ( weaponType == MELEE )
 				str += "melee ";
-			if(weaponType == MAGIC)
+			if ( weaponType == MAGIC )
 				str += "magic ";
-			str += "attack\t";
+			str += "attack | ";
 		}
-		str += "AP: " + cost;		
+		str += "AP: " + cost;
 		return str;
 	}
 }
