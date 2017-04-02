@@ -100,6 +100,7 @@ public class ArroGraphics {
 		for (int i = 0; i < num.length(); i++) {
 			drawNumber(g, Byte.parseByte(Character.toString(num.charAt(i))),
 					posX, posY, height, width);
+			posX += width + (width / 5);
 		}
 	}
 	private void drawCustomNumbers(Graphics2D g, double number, int posX, int posY, int height, int width) {
@@ -111,6 +112,8 @@ public class ArroGraphics {
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
 		g.drawImage(HUD_timer, multiplyer(808), 0, multiplyer(1112), multiplyer(56), 0, 0, 76, 14, null);
+		drawCustomNumbers(g, Update.players.get(currPlayer).getAP() - actionsUsed, multiplyer(916), multiplyer(8), multiplyer(40), multiplyer(20));
+		drawCustomNumbers(g, (420 - tFrame) / 30, multiplyer(1024), multiplyer(8), multiplyer(40), multiplyer(20));
 //		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
 //		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
 //		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
