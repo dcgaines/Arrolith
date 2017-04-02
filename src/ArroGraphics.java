@@ -19,6 +19,7 @@ public class ArroGraphics {
 	Image portraits;
 	Image splash;
 	Animation monster;
+	Image HUD, HUD_pts, HUD_timer;
 	private Font alegreya;
 	
 	double offsetX, offsetY;
@@ -30,8 +31,11 @@ public class ArroGraphics {
 			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
 			this.sprites = ImageIO.read(new File("sprites.png"));
 			this.splash = ImageIO.read(new File("splash.png"));
-			this.monster = new Animation(ImageIO.read(new File("monster.png")), 32, 32, new int[]{60, 65, 70, 75});
+			this.monster = new Animation(ImageIO.read(new File("monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
 			this.portraits = ImageIO.read(new File("portraits.png"));
+			this.HUD = ImageIO.read(new File("hud.png"));
+			this.HUD_pts = ImageIO.read(new File("hud_pts.png"));
+			this.HUD_timer = ImageIO.read(new File("hud_timer.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -92,26 +96,37 @@ public class ArroGraphics {
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
-		g.setColor(Color.BLACK);
-		g.fillRect(0, multiplyer(800), multiplyer(1920), multiplyer(280)); 
-		g.setColor(Color.WHITE);
-		g.setFont(alegreya);
-		g.setStroke(new BasicStroke(multiplyer(8)));
-		g.drawRect(0, multiplyer(800), multiplyer(1920), multiplyer(280));
+		g.drawImage(HUD, 0, multiplyer(800), multiplyer(1920), multiplyer(1080), 0, 0, 480, 70, null);
+		g.drawImage(HUD_timer, multiplyer(808), 0, multiplyer(1112), multiplyer(56), 0, 0, 76, 14, null);
 //		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
 //		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
 //		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
 		for (int i = 0; i < players.size(); i++) {
+			g.drawImage(HUD_pts, multiplyer(i * 480 + 12), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
+			//draw portrait
 			g.drawImage(portraits, 
-					multiplyer(i * 480 + 10),
+					multiplyer(i * 480 + 112),
 					multiplyer(811),
-					multiplyer(i * 480 + 266),
+					multiplyer(i * 480 + 368),
 					multiplyer(1067),
 					(players.get(i).getType()) * 64, 
 					0,
 					(players.get(i).getType() + 1) * 64,
 					64, null);
+			
 		}
+	}
+	public void drawReady(Graphics2D g) {
+		g.setColor(Color.BLACK);
+		g.setFont(alegreya);
+		g.fillRect(multiplyer(760), multiplyer(340), 
+			multiplyer(400), (int) (400 * multiplyer));
+		g.setColor(Color.WHITE);
+		g.setStroke(new BasicStroke(multiplyer(15)));
+		g.drawRect(multiplyer(760), multiplyer(340), 
+			multiplyer(400), multiplyer(400));
+		g.drawString("Press A", multiplyer(800), multiplyer(504));
+		g.drawString("to start.", multiplyer(800), multiplyer(640));
 	}
 	private int multiplyer(double num) {
 		return (int) (num * multiplyer);

@@ -148,15 +148,7 @@ public class InGame {
 			graphics.drawMap(g, map, Update.players, monsters);
 			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 			if (turnPhase == READY) {
-				g.setColor(Color.BLACK);
-				g.fillRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-					(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-				g.setColor(Color.WHITE);
-				g.setStroke(new BasicStroke(15 * graphics.multiplyer));
-				g.drawRect((int) (760 * graphics.multiplyer), (int) (340 * graphics.multiplyer), 
-					(int) (400 * graphics.multiplyer), (int) (400 * graphics.multiplyer));
-				g.drawString("Press A", 800 * graphics.multiplyer, 504 * graphics.multiplyer);
-				g.drawString("to start.", 800 * graphics.multiplyer, 640 * graphics.multiplyer);
+				graphics.drawReady(g);
 			}
 		}
 	}
