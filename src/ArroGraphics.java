@@ -20,6 +20,7 @@ public class ArroGraphics {
 	Image splash;
 	Animation monster;
 	Image HUD, HUD_pts, HUD_timer;
+	Image numbers;
 	private Font alegreya;
 	
 	double offsetX, offsetY;
@@ -36,6 +37,7 @@ public class ArroGraphics {
 			this.HUD = ImageIO.read(new File("hud.png"));
 			this.HUD_pts = ImageIO.read(new File("hud_pts.png"));
 			this.HUD_timer = ImageIO.read(new File("hud_timer.png"));
+			this.numbers = ImageIO.read(new File("nums.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -50,7 +52,7 @@ public class ArroGraphics {
 	//Centers the map around the current player
 	public void centerMap(Graphics2D g, Map map, Player player) {
 		offsetX = ((1920 - DIM) / 2) - (player.getX() * DIM);
-		offsetY = ((1080 - DIM) / 2) - (player.getY() * DIM);
+		offsetY = ((1080 - DIM) / 2) - (player.getY() * DIM) - 160;
 	}
 	
 	//Draws the map and players
@@ -92,19 +94,41 @@ public class ArroGraphics {
 			Monster temp = monsters.get(i);
 			monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
 		}
+	}
+	private void drawCustomNumbers(Graphics2D g, int number, int posX, int posY, int height, int width) {
+		String num = Integer.toString(number);
+		for (int i = 0; i < num.length(); i++) {
+			drawNumber(g, Byte.parseByte(Character.toString(num.charAt(i))),
+					posX, posY, height, width);
+		}
+	}
+	private void drawCustomNumbers(Graphics2D g, double number, int posX, int posY, int height, int width) {
 		
+	}
+	private void drawNumber(Graphics2D g, byte number, int posX, int posY, int height, int width) {
+		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 10, null);
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
-		g.drawImage(HUD, 0, multiplyer(800), multiplyer(1920), multiplyer(1080), 0, 0, 480, 70, null);
 		g.drawImage(HUD_timer, multiplyer(808), 0, multiplyer(1112), multiplyer(56), 0, 0, 76, 14, null);
 //		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
 //		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
 //		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
-		for (int i = 0; i < players.size(); i++) {
-			g.drawImage(HUD_pts, multiplyer(i * 480 + 12), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
-			//draw portrait
-			g.drawImage(portraits, 
+		for (int i = 0; i < 4; i++) {
+			g.drawImage(HUD, multiplyer(i * 480),
+							 multiplyer(800), 
+							 multiplyer((i + 1) * 480), 
+							 multiplyer(1080), 0, 0, 120, 70, null);
+			if (i < players.size()) {
+				g.drawImage(HUD_pts, multiplyer(i * 480 + 12), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
+				drawCustomNumbers(g, players.get(i).perseverance, multiplyer(i * 480 + 72), multiplyer(812), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).observation, multiplyer(i * 480 + 72), multiplyer(856), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).intellect, multiplyer(i * 480 + 72), multiplyer(900), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).negotiation, multiplyer(i * 480 + 72), multiplyer(944), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).tact, multiplyer(i * 480 + 72), multiplyer(988), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).strength, multiplyer(i * 480 + 72), multiplyer(1032), multiplyer(40), multiplyer(20));
+				//draw portrait
+				g.drawImage(portraits, 
 					multiplyer(i * 480 + 112),
 					multiplyer(811),
 					multiplyer(i * 480 + 368),
@@ -113,7 +137,7 @@ public class ArroGraphics {
 					0,
 					(players.get(i).getType() + 1) * 64,
 					64, null);
-			
+				}
 		}
 	}
 	public void drawReady(Graphics2D g) {
