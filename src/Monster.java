@@ -49,7 +49,7 @@ public class Monster extends Being {
 		xCoord = owner.xCoord;
 		yCoord = owner.yCoord;
 
-		maxHealth = 20 + ( perseverance * 2 );
+		maxHealth = 1800 + ( perseverance * 100 );
 
 		// Make monsters weaker than players
 		maxHealth /= 2;
