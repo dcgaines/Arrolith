@@ -37,7 +37,7 @@ public class Combat {
 		else if (keys.isKeyPressed(upDown))
 			selChoice = udPress;
 	}
-	public void calculate(Keys keys) {
+	public int calculate(Keys keys) {		
 		if (playerTurn) {
 			switch (selChoice) {
 			case FIGHT:
@@ -78,42 +78,24 @@ public class Combat {
 				break;
 			}
 			if (!playerTurn && monster.getHealth( ) <= 0 ) {
-				//TODO: end combat - player wins
+				player.resetAP();
+				return 1;
 			} 
 		}
 		else {
 			monsterTurn();
 			playerTurn = true;
 			if ( player.getHealth( ) <= 0 ) {
-				//TODO: end combat - player loses
-			}
+				player.resetAP();
+				return 2;
+			}	
 		}
-		/*while ( true ) {
-			// First player's turn
-			System.out.println( "Player's turn" );
-			printStats( );
-			playerTurn();
-			// Check win condition
-			if ( monster.getHealth( ) <= 0 ) {
-				System.out.println( "Player wins!" );
-				break;
-			}
-			// Second player's turn
-			System.out.println( "Monster's turn" );
-			printStats( );
-			monsterTurn( );
-			// Check win condition
-			if ( player.getHealth( ) <= 0 ) {
-				System.out.println( "Player loses!" );
-				break;
-			}
-		}
-		*/
+		return 0;
 	}
 	public void draw(Graphics2D g, ArroGraphics graphics) {
 		graphics.drawCombatOptions(g, selChoice, player);
 		graphics.drawBattleHUD(g, player);
-		
+		graphics.drawCombatMonster(g, monster);
 			
 		//draw defend
 		//draw heal
@@ -123,6 +105,7 @@ public class Combat {
 	private void playerTurn(int act) {
 		if(act == 6) {
 			playerTurn = false;
+			System.out.println("Ended turn.");
 			return;
 		}
 		Action performed = player.getActions( ).get( act );
@@ -131,8 +114,10 @@ public class Combat {
 			} else {
 				System.out.println(player.getActions().get(act).toString());
 				perform(performed, player, monster);
-				if (player.getAP() <= 0)
+				if (player.getAP() <= 0){
 					playerTurn = false;
+					System.out.println("Ended turn.");
+				}
 			}
 	}
 	
@@ -146,6 +131,8 @@ public class Combat {
 		int act = (int)(Math.random( ) * numActions);
 		Action performed = monster.getActions( ).get( act );
 		perform(performed, monster, player);
+		player.resetAP();
+		selChoice = FIGHT;
 	}
 
 	private void listActions(Graphics2D g) {

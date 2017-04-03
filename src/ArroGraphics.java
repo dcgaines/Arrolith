@@ -19,7 +19,7 @@ public class ArroGraphics {
 	Image portraits;
 	Image splash;
 	Animation monster;
-	Image HUD, HUD_pts, HUD_timer, HUD_battle;
+	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image numbers;
 	private Font alegreya;
 	private Font alegreya50;
@@ -43,6 +43,7 @@ public class ArroGraphics {
 			this.HUD = ImageIO.read(new File("hud.png"));
 			this.HUD_pts = ImageIO.read(new File("hud_pts.png"));
 			this.HUD_timer = ImageIO.read(new File("hud_timer.png"));
+			this.HUD_stats = ImageIO.read(new File("hud_stats.png"));
 			this.numbers = ImageIO.read(new File("nums.png"));
 			this.HUD_battle = ImageIO.read(new File("hud_battle.png"));
 			this.borderStroke = new BasicStroke(multiplyer(15));
@@ -160,7 +161,7 @@ public class ArroGraphics {
 		}
 	}
 	public void drawCombatMonster(Graphics2D g, Monster m) {
-		
+		monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
 	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
@@ -197,13 +198,14 @@ public class ArroGraphics {
 							 multiplyer((i + 1) * 480), 
 							 multiplyer(1080), 0, 0, 120, 70, null);
 			if (i < players.size()) {
-				g.drawImage(HUD_pts, multiplyer(i * 480 + 12), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
+				g.drawImage(HUD_pts, multiplyer(i * 480 + 23), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
 				drawCustomNumbers(g, players.get(i).perseverance, multiplyer(i * 480 + 72), multiplyer(812), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).observation, multiplyer(i * 480 + 72), multiplyer(856), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).intellect, multiplyer(i * 480 + 72), multiplyer(900), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).negotiation, multiplyer(i * 480 + 72), multiplyer(944), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).tact, multiplyer(i * 480 + 72), multiplyer(988), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).strength, multiplyer(i * 480 + 72), multiplyer(1032), multiplyer(40), multiplyer(20));
+				g.drawImage(HUD_stats, multiplyer(i * 480 + 380), multiplyer(868), multiplyer(i * 480 + 416), multiplyer(1000), 0, 0, 9, 33, null);
 				//draw portrait
 				g.drawImage(portraits, 
 					multiplyer(i * 480 + 112),

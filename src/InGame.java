@@ -124,7 +124,13 @@ public class InGame {
 				Update.incFrame();
 			}
 			else {
-				combat.calculate(keys);
+				int result = combat.calculate(keys);
+				if (result > 0) {
+					turnPhase = ACTION;
+					//add insignias to players stuff
+				} else if (result < 0) {
+					//remove coins
+				}
 			}
 			break;
 		}
