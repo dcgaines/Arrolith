@@ -58,5 +58,9 @@ public class Monster extends Being {
 
 		setDamages( );
 	}
+	
+	public Player getOwner(){
+		return owner;
+	}
 
 }
