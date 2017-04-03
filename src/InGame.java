@@ -102,7 +102,7 @@ public class InGame {
 					turnPhase = COMBAT;
 					Update.resetFrame();
 					transition = true;
-					//TODO: Combat instantiation: combat = new Combat();
+					combat = new Combat(Update.players.get(currPlayer), null);
 				}
 				Update.incFrame();
 				
@@ -124,7 +124,13 @@ public class InGame {
 				Update.incFrame();
 			}
 			else {
-				//TODO: call combat.calculate();
+				int result = combat.calculate(keys);
+				if (result > 0) {
+					turnPhase = ACTION;
+					//add insignias to players stuff
+				} else if (result < 0) {
+					//remove coins
+				}
 			}
 			break;
 		}
@@ -136,6 +142,7 @@ public class InGame {
 		
 		
 		if (turnPhase == COMBAT) {
+			combat.draw(g, graphics);
 			//white transition
 			if (transition) {
 				int rgb = (int) (((6 - Update.getFrame()) / 6.) * 255);
