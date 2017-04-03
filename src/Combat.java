@@ -124,7 +124,7 @@ public class Combat {
 			}
 			break;
 		case Action.HEAL:
-			p.addHealth(250);
+			p.addHealth(100);
 			break;
 		case Action.DEFEND:
 			p.defend();
