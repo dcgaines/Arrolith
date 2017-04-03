@@ -64,8 +64,13 @@ public abstract class Player extends Being {
 			yCoord--;
 			return true;
 		} else if ( upTile.getAction( ) ) {
-			upTile.action( );
-			return true;
+			if(actionPoints == 0)
+				return false;
+			else {
+				actionPoints--;
+				upTile.action( );
+				return true;
+			}
 		} else {
 			return false;
 		}
@@ -84,8 +89,14 @@ public abstract class Player extends Being {
 			xCoord++;
 			return true;
 		} else if ( rightTile.getAction( ) ) {
-			rightTile.action( );
-			return true;
+			if(actionPoints == 0)
+				return false;
+			else {
+				actionPoints--;
+				rightTile.action( );
+				return true;
+			}
+			
 		} else {
 			return false;
 		}
@@ -104,8 +115,13 @@ public abstract class Player extends Being {
 			yCoord++;
 			return true;
 		} else if ( downTile.getAction( ) ) {
-			downTile.action( );
-			return true;
+			if(actionPoints == 0)
+				return false;
+			else {
+				downTile.action( );
+				actionPoints--;
+				return true;
+			}
 		} else {
 			return false;
 		}
@@ -124,8 +140,13 @@ public abstract class Player extends Being {
 			xCoord--;
 			return true;
 		} else if ( leftTile.getAction( ) ) {
-			leftTile.action( );
-			return true;
+			if(actionPoints == 0)
+				return false;
+			else {
+				leftTile.action( );
+				actionPoints--;
+				return true;
+			}
 		} else {
 			return false;
 		}
