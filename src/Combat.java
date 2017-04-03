@@ -1,17 +1,94 @@
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Combat {
 
-	static Player player;
-	static Monster monster = new Monster(0, 0);
+	private final byte FIGHT = -1;
+	private final byte ATTACK1 = 0;
+	private final byte ATTACK2 = 1;
+	private final byte ATTACK3 = 2;
+	private final byte ATTACK4 = 3;
+	private final byte DEFEND = 4;
+	private final byte HEAL = 5;
+	private final byte ENDTURN = 6;
+	private byte selChoice;
 	
-	static Scanner scanner;
+	Player player;
+	Monster monster;
+	boolean playerTurn;
+	ArrayList<Action> actions;
+	
+	public Combat(Player p, Monster m) {
+		player = p;
+		actions = p.getActions();
+		if (m == null) 
+			monster = new Monster(0, 0);
+		else
+			monster = m;
+		selChoice = FIGHT;
+		playerTurn = true;
+	}
 
-	public static void main( String[] args ) {
-		scanner = new Scanner(System.in);
-		createPlayers( );
-		while ( true ) {
+	private void checkKeys(Keys keys,byte leftRight, byte lrPress, byte upDown, byte udPress) {
+		if (keys.isKeyPressed(leftRight)) 
+			selChoice = lrPress;
+		else if (keys.isKeyPressed(upDown))
+			selChoice = udPress;
+	}
+	public void calculate(Keys keys) {
+		if (playerTurn) {
+			switch (selChoice) {
+			case FIGHT:
+				if (keys.isKeyPressed(keys.A)) selChoice = ATTACK1;
+				else checkKeys(keys, keys.RIGHT, DEFEND, keys.DOWN, HEAL);
+				break;
+			case DEFEND:
+				if (keys.isKeyPressed(keys.A)) playerTurn(DEFEND);
+				else checkKeys(keys, keys.LEFT, FIGHT, keys.DOWN, ENDTURN);
+				break;
+			case HEAL:
+				if (keys.isKeyPressed(keys.A)) playerTurn(HEAL);
+				else checkKeys(keys, keys.RIGHT, ENDTURN, keys.UP, FIGHT);
+				break;
+			case ENDTURN:
+				if (keys.isKeyPressed(keys.A))	playerTurn(ENDTURN);
+				else checkKeys(keys, keys.LEFT, HEAL, keys.UP, DEFEND);
+				break;
+			case ATTACK1:
+				if (keys.isKeyPressed(keys.A)) playerTurn(ATTACK1);
+				else if (keys.isKeyPressed(keys.B)) selChoice = FIGHT;
+				else checkKeys(keys, keys.RIGHT, ATTACK2, keys.DOWN, ATTACK3);
+				break;
+			case ATTACK2:
+				if (keys.isKeyPressed(keys.A)) playerTurn(ATTACK2);
+				else if (keys.isKeyPressed(keys.B)) selChoice = FIGHT;
+				else checkKeys(keys, keys.LEFT, ATTACK1, keys.DOWN, ATTACK4);
+				break;
+			case ATTACK3:
+				if (keys.isKeyPressed(keys.A)) playerTurn(ATTACK3);
+				else if (keys.isKeyPressed(keys.B)) selChoice = FIGHT;
+				else checkKeys(keys, keys.RIGHT, ATTACK4, keys.UP, ATTACK1);
+				break;
+			case ATTACK4:
+				if (keys.isKeyPressed(keys.A)) playerTurn(ATTACK4);
+				else if (keys.isKeyPressed(keys.B)) selChoice = FIGHT;
+				else checkKeys(keys, keys.LEFT, ATTACK3, keys.UP, ATTACK2);
+				break;
+			}
+			if (!playerTurn && monster.getHealth( ) <= 0 ) {
+				//TODO: end combat - player wins
+			} 
+		}
+		else {
+			monsterTurn();
+			playerTurn = true;
+			if ( player.getHealth( ) <= 0 ) {
+				//TODO: end combat - player loses
+			}
+		}
+		/*while ( true ) {
 			// First player's turn
 			System.out.println( "Player's turn" );
 			printStats( );
@@ -31,44 +108,35 @@ public class Combat {
 				break;
 			}
 		}
-		scanner.close( );
+		*/
+	}
+	public void draw(Graphics2D g, ArroGraphics graphics) {
+		graphics.drawCombatOptions(g, selChoice, player);
+		graphics.drawBattleHUD(g, player);
+		
+			
+		//draw defend
+		//draw heal
+		//draw endturn
 	}
 
-	public static void createPlayers( ) {
-		System.out.print( "Please choose the player class\n" + "Operative: 0\nJuggernaut: 1\nSavant: 2\nMason: 3\n" );
-		int class1 = scanner.nextInt( );
-
-		if ( class1 == 0 )
-			player = new Operative( "Player" );
-		if ( class1 == 1 )
-			player = new Juggernaut( "Player" );
-		if ( class1 == 2 )
-			player = new Savant( "Player" );
-		if ( class1 == 3 )
-			player = new Mason( "Player" );
-
-		monster = new Monster(0,0);
-	}
-
-	private static void playerTurn( ) {
-		player.resetAP( );
-		int act = 0;
-		Action performed = null;
-		listActions( player );
-		do {
-			act = scanner.nextInt( );
-			if(act == 6)
-				break;
-			performed = player.getActions( ).get( act );
+	private void playerTurn(int act) {
+		if(act == 6) {
+			playerTurn = false;
+			return;
+		}
+		Action performed = player.getActions( ).get( act );
 			if ( performed.getCost( ) > player.getAP( ) ) {
-				System.out.println( "Insufficient action points, select a different action." );
+				return;
 			} else {
+				System.out.println(player.getActions().get(act).toString());
 				perform(performed, player, monster);
+				if (player.getAP() <= 0)
+					playerTurn = false;
 			}
-		} while ( player.getAP( ) > 0 );
 	}
 	
-	private static void monsterTurn(){
+	private void monsterTurn(){
 		int numActions;
 		if(monster.getHealth( ) < monster.getMaxHealth( ))
 			numActions = 4;
@@ -80,9 +148,9 @@ public class Combat {
 		perform(performed, monster, player);
 	}
 
-	private static void listActions( Player p ) {
-		ArrayList<Action> actions = p.getActions( );
-		System.out.println( "Please choose an action: " );
+	private void listActions(Graphics2D g) {
+		//TODO: change to drawing actions to screen
+		
 		for ( int i = 0; i < actions.size( ); i++ ) {
 
 			System.out.println( i + ". " + actions.get( i ).toString( ) );
@@ -90,7 +158,8 @@ public class Combat {
 		System.out.println( "6. End Turn" );
 	}
 
-	private static void printStats( ) {
+	private void printStats( ) {
+		//TODO: change to drawing hud
 		System.out.println( "Player:" );
 		System.out.printf( "Health: %d/%d\tAP: %d\n\n", player.getHealth( ), player.getMaxHealth( ), player.getMaxAP( ) );
 		
@@ -99,7 +168,8 @@ public class Combat {
 
 	}
 	
-	private static void perform(Action a, Being p, Being o){
+	private void perform(Action a, Being p, Being o){
+		//leave alone
 		switch(a.getActionType( )){
 		case Action.ATTACK:
 			switch(a.getWeaponType( )){

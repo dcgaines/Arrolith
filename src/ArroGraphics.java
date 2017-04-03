@@ -19,9 +19,15 @@ public class ArroGraphics {
 	Image portraits;
 	Image splash;
 	Animation monster;
-	Image HUD, HUD_pts, HUD_timer;
+	Image HUD, HUD_pts, HUD_timer, HUD_battle;
 	Image numbers;
 	private Font alegreya;
+	private Font alegreya50;
+	BasicStroke borderStroke;
+	
+	
+	/*****			CUSTOM COLORS  			****/
+	Color shade = new Color(0,0,0,125);
 	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
@@ -38,12 +44,15 @@ public class ArroGraphics {
 			this.HUD_pts = ImageIO.read(new File("hud_pts.png"));
 			this.HUD_timer = ImageIO.read(new File("hud_timer.png"));
 			this.numbers = ImageIO.read(new File("nums.png"));
+			this.HUD_battle = ImageIO.read(new File("hud_battle.png"));
+			this.borderStroke = new BasicStroke(multiplyer(15));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
+			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -87,7 +96,72 @@ public class ArroGraphics {
 			 		players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
 		}
 	}
-	
+	public void drawBattleHUD(Graphics2D g, Player player) {
+		g.drawImage(HUD_battle, 0,
+				 multiplyer(800), 
+				 multiplyer(1920), 
+				 multiplyer(1080), 0, 0, 480, 70, null);
+		g.drawImage(portraits, 
+				multiplyer(832),
+				multiplyer(811),
+				multiplyer(1088),
+				multiplyer(1067),
+				(player.getType()) * 64, 
+				0,
+				(player.getType() + 1) * 64,
+				64, null);
+	}
+	private void drawAction(Graphics2D g, Player p, int index, int x, int y) {
+		g.drawString(p.getActions().get(index).getName(), x, y);
+		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
+					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
+					  /*public static final int RANGED = 0;
+						public static final int MELEE = 1;
+						public static final int MAGIC = 2;*/
+		g.drawString(type, x, y + multiplyer(60));
+		g.drawString(Integer.toString(p.getActions().get(index).getCost()), x, y + multiplyer(120));
+	}
+	public void drawCombatOptions(Graphics2D g, int selChoice, Player p) {
+		if (selChoice >= 0 && selChoice <= 3) {
+			//TODO: draw fighting options
+			g.setFont(alegreya50);
+			g.setColor(Color.white);
+			drawAction(g, p, 0, multiplyer(10), multiplyer(50));
+			drawAction(g, p, 1, multiplyer(490), multiplyer(50));
+			drawAction(g, p, 2, multiplyer(10), multiplyer(250));
+			drawAction(g, p, 3, multiplyer(490), multiplyer(250));
+		}
+		else {
+			g.setColor(Color.RED);
+			g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+		}
+		g.setColor(Color.GREEN);
+		g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
+		g.setColor(Color.BLUE);
+		g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
+		g.setColor(Color.YELLOW);
+		g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
+		g.setColor(shade);
+		if (selChoice > 3) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+		if (selChoice != 4) g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
+		if (selChoice != 5) g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
+		if (selChoice != 6) g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
+		g.setColor(Color.WHITE);
+		g.setStroke(borderStroke);
+		switch (selChoice) {
+		case -1: g.drawRect(0, 0, multiplyer(960), multiplyer(400)); break;
+		case 4: g.drawRect(multiplyer(960), 0, multiplyer(960), multiplyer(400)); break;
+		case 5: g.drawRect(0, multiplyer(400), multiplyer(960), multiplyer(400)); break;
+		case 6: g.drawRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400)); break;
+		case 0: g.drawRect(0, 0, multiplyer(480), multiplyer(200)); break;
+		case 1: g.drawRect(multiplyer(480), 0, multiplyer(480), multiplyer(200)); break;
+		case 2: g.drawRect(0, multiplyer(200), multiplyer(480), multiplyer(200)); break;
+		case 3: g.drawRect(multiplyer(480), multiplyer(200), multiplyer(480), multiplyer(200)); break;
+		}
+	}
+	public void drawCombatMonster(Graphics2D g, Monster m) {
+		
+	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
 		for (int i = 0; i < monsters.size(); i++) {
@@ -149,7 +223,7 @@ public class ArroGraphics {
 		g.fillRect(multiplyer(760), multiplyer(340), 
 			multiplyer(400), (int) (400 * multiplyer));
 		g.setColor(Color.WHITE);
-		g.setStroke(new BasicStroke(multiplyer(15)));
+		g.setStroke(borderStroke);
 		g.drawRect(multiplyer(760), multiplyer(340), 
 			multiplyer(400), multiplyer(400));
 		g.drawString("Press A", multiplyer(800), multiplyer(504));
