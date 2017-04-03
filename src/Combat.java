@@ -87,7 +87,7 @@ public class Combat {
 			playerTurn = true;
 			if ( player.getHealth( ) <= 0 ) {
 				player.resetAP();
-				return 2;
+				return -1;
 			}	
 		}
 		return 0;
