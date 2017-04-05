@@ -121,6 +121,9 @@ public class Tile {
 			default:
 				Update.game.removePotion(x, y);
 				p.addHealth(300 + 30 * p.intellect);
+				p.xCoord = x;
+				p.yCoord = y;
+				break;
 			}
 		}
 	}
