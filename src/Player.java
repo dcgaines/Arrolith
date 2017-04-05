@@ -12,6 +12,8 @@ public abstract class Player extends Being {
 
 	protected int actionPoints;
 	protected int maxAP;
+	
+	protected int insignias;
 
 	public Player( String name ) {
 		this.name = name;
@@ -163,5 +165,12 @@ public abstract class Player extends Being {
 	public void resetAP( ) {
 		actionPoints = maxAP;
 	}
+	
+	public int getInsignias(){
+		return insignias;
+	}
 
+	public void addInsignias(int i){
+		insignias += i;
+	}
 }
