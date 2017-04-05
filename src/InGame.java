@@ -81,6 +81,8 @@ public class InGame {
 			}
 			Update.players.get(i).setInitPos(i, map);
 		}
+		
+		placePotions();
 	}
 	
 	private int checkMonsters() {
