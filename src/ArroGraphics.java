@@ -20,14 +20,17 @@ public class ArroGraphics {
 	Image splash;
 	Animation monster;
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
+	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
 	Image numbers;
 	private Font alegreya;
 	private Font alegreya50;
+	private Font pressStart;
 	BasicStroke borderStroke;
 	
 	
 	/*****			CUSTOM COLORS  			****/
 	Color shade = new Color(0,0,0,125);
+	Color gold = new Color(255,185,0);
 	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
@@ -47,6 +50,11 @@ public class ArroGraphics {
 			this.numbers = ImageIO.read(new File("nums.png"));
 			this.HUD_battle = ImageIO.read(new File("hud_battle.png"));
 			this.borderStroke = new BasicStroke(multiplyer(15));
+			this.opt_fight = ImageIO.read(new File("bttl_fight.png"));
+			this.opt_defend = ImageIO.read(new File("bttl_defend.png"));
+			this.opt_heal = ImageIO.read(new File("bttl_heal.png"));
+			this.opt_default = ImageIO.read(new File("bttl_default.png"));
+			this.opt_end = ImageIO.read(new File("bttl_end.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -54,6 +62,7 @@ public class ArroGraphics {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
 			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
+			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(100 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,52 +121,49 @@ public class ArroGraphics {
 				(player.getType() + 1) * 64,
 				64, null);
 	}
-	private void drawAction(Graphics2D g, Player p, int index, int x, int y) {
-		g.drawString(p.getActions().get(index).getName(), x, y);
+	private void drawAction(Graphics2D g, Player p, int index, int startX, int startY) {
+		g.drawString(p.getActions().get(index).getName(), startX + multiplyer(70), startY + multiplyer(120));
 		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
 					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
 					  /*public static final int RANGED = 0;
 						public static final int MELEE = 1;
 						public static final int MAGIC = 2;*/
-		g.drawString(type, x, y + multiplyer(60));
-		g.drawString(Integer.toString(p.getActions().get(index).getCost()), x, y + multiplyer(120));
+		g.drawString(type, startX + multiplyer(70), startY + multiplyer(240));
+		g.drawString(Integer.toString(p.getActions().get(index).getCost()), startX + multiplyer(70), startY + multiplyer(360));
 	}
 	public void drawCombatOptions(Graphics2D g, int selChoice, Player p) {
 		if (selChoice >= 0 && selChoice <= 3) {
 			//TODO: draw fighting options
-			g.setFont(alegreya50);
+			g.drawImage(opt_default, 0, 0, multiplyer(960), multiplyer(400), 0, 0, 120, 50, null);
+			g.drawImage(opt_default, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
+			g.drawImage(opt_default, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
+			g.drawImage(opt_default, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
+			g.setFont(alegreya);
 			g.setColor(Color.white);
-			drawAction(g, p, 0, multiplyer(10), multiplyer(50));
-			drawAction(g, p, 1, multiplyer(490), multiplyer(50));
-			drawAction(g, p, 2, multiplyer(10), multiplyer(250));
-			drawAction(g, p, 3, multiplyer(490), multiplyer(250));
+			drawAction(g, p, 0, 0, 0);
+			drawAction(g, p, 1, multiplyer(960), 0);
+			drawAction(g, p, 2, 0, multiplyer(400));
+			drawAction(g, p, 3, multiplyer(960), multiplyer(400));
 		}
 		else {
-			g.setColor(Color.RED);
-			g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+			g.drawImage(opt_fight, 0, 0, multiplyer(960), multiplyer(400), 0, 0, 120, 50, null);
+			g.drawImage(opt_defend, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
+			g.drawImage(opt_heal, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
+			g.drawImage(opt_end, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
 		}
-		g.setColor(Color.GREEN);
-		g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
-		g.setColor(Color.BLUE);
-		g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
-		g.setColor(Color.YELLOW);
-		g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
+		
 		g.setColor(shade);
-		if (selChoice > 3) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
-		if (selChoice != 4) g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
-		if (selChoice != 5) g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
-		if (selChoice != 6) g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
-		g.setColor(Color.WHITE);
+		if (selChoice > 0) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+		if (selChoice != 4 && selChoice != 1) g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
+		if (selChoice != 5 && selChoice != 2) g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
+		if (selChoice != 6 && selChoice != 3) g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
+		g.setColor(gold);
 		g.setStroke(borderStroke);
 		switch (selChoice) {
-		case -1: g.drawRect(0, 0, multiplyer(960), multiplyer(400)); break;
-		case 4: g.drawRect(multiplyer(960), 0, multiplyer(960), multiplyer(400)); break;
-		case 5: g.drawRect(0, multiplyer(400), multiplyer(960), multiplyer(400)); break;
-		case 6: g.drawRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400)); break;
-		case 0: g.drawRect(0, 0, multiplyer(480), multiplyer(200)); break;
-		case 1: g.drawRect(multiplyer(480), 0, multiplyer(480), multiplyer(200)); break;
-		case 2: g.drawRect(0, multiplyer(200), multiplyer(480), multiplyer(200)); break;
-		case 3: g.drawRect(multiplyer(480), multiplyer(200), multiplyer(480), multiplyer(200)); break;
+		case -1: case 0: g.drawRect(0, 0, multiplyer(960), multiplyer(400)); break;
+		case 4: case 1: g.drawRect(multiplyer(960), 0, multiplyer(960), multiplyer(400)); break;
+		case 5: case 2: g.drawRect(0, multiplyer(400), multiplyer(960), multiplyer(400)); break;
+		case 6: case 3: g.drawRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400)); break;
 		}
 	}
 	public void drawCombatMonster(Graphics2D g, Monster m) {

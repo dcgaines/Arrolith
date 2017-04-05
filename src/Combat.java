@@ -105,7 +105,7 @@ public class Combat {
 	private void playerTurn(int act) {
 		if(act == 6) {
 			playerTurn = false;
-			System.out.println("Ended turn.");
+			System.out.println("Ended turn. " + player.getHealth());
 			return;
 		}
 		Action performed = player.getActions( ).get( act );
@@ -116,7 +116,7 @@ public class Combat {
 				perform(performed, player, monster);
 				if (player.getAP() <= 0){
 					playerTurn = false;
-					System.out.println("Ended turn.");
+					System.out.println("Ended turn."+ player.getHealth());
 				}
 			}
 	}

@@ -115,6 +115,7 @@ public class InGame {
 			}
 		case ACTION:
 		case PASS:
+			Update.players.get(currPlayer).resetAP();
 			currPlayer++;
 			if (currPlayer >= Update.players.size())
 				currPlayer = 0;
@@ -135,7 +136,9 @@ public class InGame {
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
 					//add insignias to players stuff
 				} else if (result < 0) {
+					turnPhase = ACTION;
 					Update.players.get(currPlayer).setInitPos(currPlayer, map);
+					Update.players.get(currPlayer).addHealth(Update.players.get(currPlayer).getMaxHealth());
 					//remove coins
 				}
 			}
