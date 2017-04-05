@@ -70,7 +70,7 @@ public abstract class Player extends Being {
 				return false;
 			else {
 				actionPoints--;
-				upTile.action( );
+				upTile.action( this );
 				return true;
 			}
 		} else {
@@ -95,7 +95,7 @@ public abstract class Player extends Being {
 				return false;
 			else {
 				actionPoints--;
-				rightTile.action( );
+				rightTile.action( this );
 				return true;
 			}
 			
@@ -120,7 +120,7 @@ public abstract class Player extends Being {
 			if(actionPoints == 0)
 				return false;
 			else {
-				downTile.action( );
+				downTile.action( this );
 				actionPoints--;
 				return true;
 			}
@@ -145,7 +145,7 @@ public abstract class Player extends Being {
 			if(actionPoints == 0)
 				return false;
 			else {
-				leftTile.action( );
+				leftTile.action( this );
 				actionPoints--;
 				return true;
 			}

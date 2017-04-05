@@ -1,12 +1,15 @@
 
 public class Tile {
 	private int type;
+	private int x;
+	private int y;
+	
 	private boolean walkable;
 	private double itemChance;
 	private double goldChance;
 	private boolean actionable;
 
-	public Tile( int type ) {
+	public Tile( int x, int y, int type ) {
 		this.type = type;
 
 		switch ( type ) {
@@ -92,7 +95,15 @@ public class Tile {
 		return type;
 	}
 	
-	public void action(){
+	public void setWalk(boolean b){
+		walkable = b;
+	}
+	
+	public void setAct(boolean b){
+		actionable = b;
+	}
+	
+	public void action(Player p){
 		if(actionable){
 			walkable = true;
 			actionable = false;
@@ -107,6 +118,9 @@ public class Tile {
 			case TileType.DOOR_CLOSED_R:
 				type = TileType.DOOR_OPEN_R;
 				break;
+			default:
+				Update.game.removePotion(x, y);
+				p.addHealth(300 + 30 * p.intellect);
 			}
 		}
 	}
