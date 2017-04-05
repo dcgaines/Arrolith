@@ -29,6 +29,8 @@ public class InGame {
 	public byte actionsUsed;
 	private boolean transition;
 	
+	int currMonster;
+	
 	public InGame() {
 		currPlayer = 0;
 		actionsUsed = 0;
@@ -81,12 +83,13 @@ public class InGame {
 		}
 	}
 	
-	private boolean checkMonsters() {
+	private int checkMonsters() {
 		for (int i = 0; i < monsters.size(); i++)
 			if 	(monsters.get(i).getX() == Update.players.get(currPlayer).getX()
-			  && monsters.get(i).getY() == Update.players.get(currPlayer).getY())
-				return true;
-		return false;
+			  && monsters.get(i).getY() == Update.players.get(currPlayer).getY() 
+			  && monsters.get(i).getOwner() != Update.players.get(currPlayer)) 
+				return i;
+		return -1;
 	}
 	
 	public void calculate(Keys keys) {
@@ -98,11 +101,13 @@ public class InGame {
 		case MOVE:
 			if (Update.players.get(currPlayer).getAP() > 0 && Update.getFrame() < 420) {
 				checkMovement(keys); //if any key is pressed whatsoever
-				if (checkMonsters()) {
+				currMonster = checkMonsters();
+				if (currMonster != -1) {
 					turnPhase = COMBAT;
 					Update.resetFrame();
 					transition = true;
-					combat = new Combat(Update.players.get(currPlayer), null);
+					combat = new Combat(Update.players.get(currPlayer), monsters.get(currMonster));
+					Update.players.get(currPlayer).resetAP();
 				}
 				Update.incFrame();
 				
@@ -110,6 +115,7 @@ public class InGame {
 			}
 		case ACTION:
 		case PASS:
+			Update.players.get(currPlayer).resetAP();
 			currPlayer++;
 			if (currPlayer >= Update.players.size())
 				currPlayer = 0;
@@ -127,8 +133,12 @@ public class InGame {
 				int result = combat.calculate(keys);
 				if (result > 0) {
 					turnPhase = ACTION;
+					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
 					//add insignias to players stuff
 				} else if (result < 0) {
+					turnPhase = ACTION;
+					Update.players.get(currPlayer).setInitPos(currPlayer, map);
+					Update.players.get(currPlayer).addHealth(Update.players.get(currPlayer).getMaxHealth());
 					//remove coins
 				}
 			}
