@@ -62,7 +62,7 @@ public class ArroGraphics {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
 			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
-			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(100 * (float) multiplyer);
+			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(50 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -120,6 +120,17 @@ public class ArroGraphics {
 				0,
 				(player.getType() + 1) * 64,
 				64, null);
+		drawNumber(g, (byte) player.perseverance,  multiplyer(76), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.observation,  multiplyer(172), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.intellect,  multiplyer(268), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.negotiation,  multiplyer(364), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.tact,  multiplyer(460), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.strength,  multiplyer(556), multiplyer(920), multiplyer(36), multiplyer(20));
+		g.setColor(gold);
+		double rectWidth = 480 * (player.getHealth() / (double) player.getMaxHealth());
+		g.fillRect(multiplyer(1236), multiplyer(876), multiplyer(rectWidth), multiplyer(36));
+		drawCustomNumbers(g, player.getHealth(), multiplyer(1256 + rectWidth), multiplyer(876), multiplyer(36), multiplyer(20));
+		drawCustomNumbers(g, player.getAP(), multiplyer(1236), multiplyer(960), multiplyer(36), multiplyer(20));
 	}
 	private void drawAction(Graphics2D g, Player p, int index, int startX, int startY) {
 		g.drawString(p.getActions().get(index).getName(), startX + multiplyer(70), startY + multiplyer(120));
@@ -138,7 +149,7 @@ public class ArroGraphics {
 			g.drawImage(opt_default, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
-			g.setFont(alegreya);
+			g.setFont(pressStart);
 			g.setColor(Color.white);
 			drawAction(g, p, 0, 0, 0);
 			drawAction(g, p, 1, multiplyer(960), 0);
@@ -153,7 +164,7 @@ public class ArroGraphics {
 		}
 		
 		g.setColor(shade);
-		if (selChoice > 0) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+		if (selChoice > 0 || selChoice == -2) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
 		if (selChoice != 4 && selChoice != 1) g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
 		if (selChoice != 5 && selChoice != 2) g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
 		if (selChoice != 6 && selChoice != 3) g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
@@ -166,8 +177,16 @@ public class ArroGraphics {
 		case 6: case 3: g.drawRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400)); break;
 		}
 	}
-	public void drawCombatMonster(Graphics2D g, Monster m) {
+	public void drawCombatMonster(Graphics2D g, Monster m, boolean betweenTurn, int tFrame) {
 		monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+		g.setColor(Color.white);
+		double width = 320 * (m.getHealth() / (double) m.getMaxHealth());
+		g.fillRect(multiplyer(800), multiplyer(600), multiplyer(width), multiplyer(100));
+		if (betweenTurn) {
+			g.setFont(pressStart);
+			String dots = tFrame < 20 ? "." : tFrame < 40 ? ".." : "...";
+			g.drawString(dots, multiplyer(950), multiplyer(100));
+		}
 	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
@@ -188,7 +207,7 @@ public class ArroGraphics {
 		
 	}
 	private void drawNumber(Graphics2D g, byte number, int posX, int posY, int height, int width) {
-		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 10, null);
+		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 9, null);
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
