@@ -18,6 +18,8 @@ public class Combat {
 	Player player;
 	Monster monster;
 	boolean playerTurn;
+	boolean betweenTurn;
+	int tFrame;
 	ArrayList<Action> actions;
 	
 	public Combat(Player p, Monster m) {
@@ -29,6 +31,8 @@ public class Combat {
 			monster = m;
 		selChoice = FIGHT;
 		playerTurn = true;
+		betweenTurn = false;
+		tFrame = 0;
 	}
 
 	private void checkKeys(Keys keys,byte leftRight, byte lrPress, byte upDown, byte udPress) {
@@ -82,6 +86,13 @@ public class Combat {
 				return 1;
 			} 
 		}
+		else if (betweenTurn) {
+			tFrame++;
+			if (tFrame >= 60) {
+				tFrame = 0;
+				betweenTurn = false;
+			}
+		}
 		else {
 			monsterTurn();
 			playerTurn = true;
@@ -95,7 +106,7 @@ public class Combat {
 	public void draw(Graphics2D g, ArroGraphics graphics) {
 		graphics.drawCombatOptions(g, selChoice, player);
 		graphics.drawBattleHUD(g, player);
-		graphics.drawCombatMonster(g, monster);
+		graphics.drawCombatMonster(g, monster, betweenTurn, tFrame);
 			
 		//draw defend
 		//draw heal
@@ -105,6 +116,8 @@ public class Combat {
 	private void playerTurn(int act) {
 		if(act == 6) {
 			playerTurn = false;
+			betweenTurn = true;
+			selChoice = -2;
 			System.out.println("Ended turn. " + player.getHealth());
 			return;
 		}
@@ -115,8 +128,9 @@ public class Combat {
 				System.out.println(player.getActions().get(act).toString());
 				perform(performed, player, monster);
 				if (player.getAP() <= 0){
+					selChoice = -2;
 					playerTurn = false;
-					System.out.println("Ended turn."+ player.getHealth());
+					betweenTurn = true;
 				}
 			}
 	}
