@@ -22,6 +22,7 @@ public class ArroGraphics {
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
 	Image numbers;
+	Image potion;
 	private Font alegreya;
 	private Font alegreya50;
 	private Font pressStart;
@@ -55,6 +56,7 @@ public class ArroGraphics {
 			this.opt_heal = ImageIO.read(new File("bttl_heal.png"));
 			this.opt_default = ImageIO.read(new File("bttl_default.png"));
 			this.opt_end = ImageIO.read(new File("bttl_end.png"));
+			this.potion = ImageIO.read(new File("elixir.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
