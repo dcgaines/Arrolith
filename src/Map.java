@@ -136,7 +136,7 @@ public class Map {
 					break;
 				}
 
-				map[i][j] = new Tile( type );
+				map[i][j] = new Tile( j, i, type );
 			}
 		}
 		scanner.close( );

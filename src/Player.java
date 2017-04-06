@@ -12,6 +12,8 @@ public abstract class Player extends Being {
 
 	protected int actionPoints;
 	protected int maxAP;
+	
+	protected int insignias;
 
 	public Player( String name ) {
 		this.name = name;
@@ -68,7 +70,7 @@ public abstract class Player extends Being {
 				return false;
 			else {
 				actionPoints--;
-				upTile.action( );
+				upTile.action( this );
 				return true;
 			}
 		} else {
@@ -93,7 +95,7 @@ public abstract class Player extends Being {
 				return false;
 			else {
 				actionPoints--;
-				rightTile.action( );
+				rightTile.action( this );
 				return true;
 			}
 			
@@ -118,7 +120,7 @@ public abstract class Player extends Being {
 			if(actionPoints == 0)
 				return false;
 			else {
-				downTile.action( );
+				downTile.action( this );
 				actionPoints--;
 				return true;
 			}
@@ -143,7 +145,7 @@ public abstract class Player extends Being {
 			if(actionPoints == 0)
 				return false;
 			else {
-				leftTile.action( );
+				leftTile.action( this );
 				actionPoints--;
 				return true;
 			}
@@ -163,5 +165,12 @@ public abstract class Player extends Being {
 	public void resetAP( ) {
 		actionPoints = maxAP;
 	}
+	
+	public int getInsignias(){
+		return insignias;
+	}
 
+	public void addInsignias(int i){
+		insignias += i;
+	}
 }

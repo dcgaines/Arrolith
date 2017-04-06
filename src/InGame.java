@@ -1,4 +1,3 @@
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
@@ -17,6 +16,7 @@ public class InGame {
 	
 	protected Map map;
 	ArrayList<Monster> monsters = null;
+	private ArrayList<Potion> potions = new ArrayList<Potion>();
 	protected Combat combat = null;
 	
 	private byte turnPhase;
@@ -81,6 +81,8 @@ public class InGame {
 			}
 			Update.players.get(i).setInitPos(i, map);
 		}
+		
+		placePotions();
 	}
 	
 	private int checkMonsters() {
@@ -170,4 +172,32 @@ public class InGame {
 		}
 	}
 	
+	public void placePotions(){
+		int x;
+		int y;
+		
+		if(potions.size( ) < 12){
+			x = (int)(Math.random( ) * map.getWidth( ));
+			y = (int)(Math.random( ) * map.getHeight( ));
+			Tile tile = map.getTile( y, x ); // Row, col
+			if(tile.getWalk( )){
+				potions.add( new Potion(x, y));
+				tile.setWalk( false );
+				tile.setAct( true );
+			}
+			placePotions();
+		} else
+			return;
+	}
+	
+	public void removePotion(int x, int y){
+		for(int i = 0; i < potions.size( ); i++){
+			Potion pot = potions.get( i );
+			if(pot.getX( ) == x && pot.getY( ) == y ){
+				potions.remove( i );
+				placePotions();
+				break;
+			}
+		}
+	}
 }
