@@ -164,7 +164,7 @@ public class InGame {
 		}
 		else {
 			graphics.centerMap(g, map, Update.players.get(currPlayer));
-			graphics.drawMap(g, map, Update.players, monsters);
+			graphics.drawMap(g, map, Update.players, monsters, potions);
 			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 			if (turnPhase == READY) {
 				graphics.drawReady(g);
