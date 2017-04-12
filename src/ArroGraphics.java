@@ -16,7 +16,6 @@ public class ArroGraphics {
 	double DIM = 100; //dimension of a space when drawn on a 1080p screen
 	
 	Image tileStrip;
-	Image sprites;
 	Animation juggernaut;
 	Animation savant;
 	Animation mason;
@@ -29,6 +28,8 @@ public class ArroGraphics {
 	Image enemyHealth;
 	Image numbers;
 	Image potion;
+	Image logo;
+	Image HGD;
 	private Font alegreya;
 	private Font pressStart;
 	private Font pressStart40;
@@ -56,7 +57,6 @@ public class ArroGraphics {
 		try {
 			//Loads images into memory
 			this.tileStrip = ImageIO.read(new File("img/tileStrip.png"));
-			this.sprites = ImageIO.read(new File("img/sprites.png"));
 			this.splash = ImageIO.read(new File("img/splash.png"));
 			this.monster = new Animation(ImageIO.read(new File("img/monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
 			this.juggernaut = new Animation(ImageIO.read(new File("img/juggernaut.png")), 32, 32, new int[]{15,30,45,60}, false);
@@ -78,6 +78,8 @@ public class ArroGraphics {
 			this.opt_end = ImageIO.read(new File("img/bttl_end.png"));
 			this.potion = ImageIO.read(new File("img/elixir.png"));
 			this.enemyHealth = ImageIO.read(new File("img/bttl_enemy_health.png"));
+			this.logo = ImageIO.read(new File("img/logo.png"));
+			this.HGD = ImageIO.read(new File("img/HGD.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -294,9 +296,6 @@ public class ArroGraphics {
 		g.drawImage(HUD_timer, multiplyer(808), 0, multiplyer(1112), multiplyer(56), 0, 0, 76, 14, null);
 		drawCustomNumbers(g, Update.players.get(currPlayer).getAP() - actionsUsed, multiplyer(916), multiplyer(8), multiplyer(40), multiplyer(20));
 		drawCustomNumbers(g, (InGame.moveTime - tFrame) / 30, multiplyer(1024), multiplyer(8), multiplyer(40), multiplyer(20));
-//		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
-//		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
-//		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));
 		for (int i = 0; i < 4; i++) {
 			g.drawImage(HUD, multiplyer(i * 480),
 							 multiplyer(800), 
@@ -310,7 +309,6 @@ public class ArroGraphics {
 				drawCustomNumbers(g, players.get(i).negotiation, multiplyer(i * 480 + 72), multiplyer(944), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).tact, multiplyer(i * 480 + 72), multiplyer(988), multiplyer(40), multiplyer(20));
 				drawCustomNumbers(g, players.get(i).strength, multiplyer(i * 480 + 72), multiplyer(1032), multiplyer(40), multiplyer(20));
-				g.drawImage(HUD_stats, multiplyer(i * 480 + 380), multiplyer(868), multiplyer(i * 480 + 416), multiplyer(1000), 0, 0, 9, 33, null);
 				//draw portrait
 				g.drawImage(portraits, 
 					multiplyer(i * 480 + 112),
@@ -321,6 +319,12 @@ public class ArroGraphics {
 					0,
 					(players.get(i).getType() + 1) * 64,
 					64, null);
+				g.setColor(gold);
+				int top = (int) (960 - 136 * ((1. * players.get(i).getHealth() / players.get(i).getMaxHealth())));
+				g.fillRect(multiplyer(i * 480 + 404), multiplyer(top), multiplyer(36), multiplyer(960-top));
+				drawCustomNumbers(g, players.get(i).getLevel(), multiplyer(i * 480 + 420), multiplyer(968), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).getInsignias(), multiplyer(i * 480 + 420), multiplyer(1010), multiplyer(40), multiplyer(20));
+				//g.drawImage(HUD_stats, multiplyer(i * 480 + 380), multiplyer(868), multiplyer(i * 480 + 416), multiplyer(1000), 0, 0, 9, 33, null);
 				}
 		}
 	}
@@ -415,6 +419,45 @@ public class ArroGraphics {
 			}
 			break;
 		}
+	}
+
+	public void drawEndGame(Graphics2D g, ArrayList<Player> players, int place1, int place2, int place3, int place4) {
+		g.setColor(Color.black);
+		g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
+		
+		g.setColor(Color.white);
+		// draw winner up top
+		g.drawImage(portraits, multiplyer(1145), multiplyer(50), multiplyer(1594), multiplyer(498),
+				players.get(place1).getType() * 64, 0, (players.get(place1).getType() + 1) * 64, 64, null);
+		drawCenteredString(g, players.get(place1).name + " wins!", multiplyer(340), multiplyer(100), multiplyer(700), multiplyer(50), pressStart);
+		drawCustomNumbers(g, 1, multiplyer(590), multiplyer(200), multiplyer(200), multiplyer(100));
+		
+		// draw 2nd place bottom left
+		g.drawImage(portraits, multiplyer(64), multiplyer(658), multiplyer(448), multiplyer(1042),
+				players.get(place2).getType() * 64, 0, (players.get(place2).getType() + 1) * 64, 64, null);
+		drawCenteredString(g, players.get(place2).name, multiplyer(64), multiplyer(595), multiplyer(384), multiplyer(50), pressStart);
+		drawCustomNumbers(g, 2, multiplyer(500), multiplyer(762), multiplyer(150), multiplyer(75));
+		
+		if (players.size() > 2) {
+			// draw 3rd place bottom middle
+			g.drawImage(portraits, multiplyer(800), multiplyer(720), multiplyer(1120), multiplyer(1042),
+					players.get(place3).getType() * 64, 0, (players.get(place3).getType() + 1) * 64, 64, null);
+			drawCenteredString(g, players.get(place3).name, multiplyer(800), multiplyer(660), multiplyer(320), multiplyer(50), pressStart);
+			drawCustomNumbers(g, 3, multiplyer(1160), multiplyer(813), multiplyer(100), multiplyer(50));
+			
+			if (players.size() > 3) {
+				// draw 4th place bottom right
+				g.drawImage(portraits, multiplyer(1442), multiplyer(786), multiplyer(1698), multiplyer(1042),
+						players.get(place4).getType() * 64, 0, (players.get(place4).getType() + 1) * 64, 64, null);
+				drawCenteredString(g, players.get(place4).name, multiplyer(1442), multiplyer(716), multiplyer(256), multiplyer(50), pressStart);
+				drawCustomNumbers(g, 4, multiplyer(1720), multiplyer(862), multiplyer(50), multiplyer(25));
+			}
+		}
+
+	}
+	public void drawStartup(Graphics2D g) {
+		g.drawImage(logo, multiplyer(489), multiplyer(62), multiplyer(1432), multiplyer(449), 0, 0, 943, 387, null);
+		g.drawImage(HGD, multiplyer(120), multiplyer(462), multiplyer(1800), multiplyer(1062), 0, 0, 2100, 750, null);
 	}
 }
 

@@ -3,6 +3,7 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -13,6 +14,7 @@ import java.util.Scanner;
 public class InGame {
 
 	public static final int moveTime = 30 * 30;
+	private final byte WIN = 5;
 	
 	protected Map map;
 	ArrayList<Monster> monsters = null;
@@ -25,6 +27,7 @@ public class InGame {
 	private final byte ACTION = 2;
 	private final byte PASS = 3;
 	private final byte COMBAT = 4;
+	private final byte END = 5;
 	public byte currPlayer;
 	public byte actionsUsed;
 	private boolean transition;
@@ -86,7 +89,7 @@ public class InGame {
 		return -1;
 	}
 	
-	public void calculate(Keys keys) {
+	public boolean calculate(Keys keys) {
 		switch (turnPhase) {
 		case READY:
 			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
@@ -104,17 +107,20 @@ public class InGame {
 					Update.players.get(currPlayer).resetAP();
 				}
 				Update.incFrame();
-				
 				break;
 			}
 		case ACTION:
 		case PASS:
 			Update.players.get(currPlayer).resetAP();
+			actionsUsed = 0;
+			Update.resetFrame();
+			if (Update.players.get(currPlayer).getInsignias() > WIN) {
+				turnPhase = END;
+				return false;
+			}
 			currPlayer++;
 			if (currPlayer >= Update.players.size())
 				currPlayer = 0;
-			actionsUsed = 0;
-			Update.resetFrame();
 			turnPhase = READY;
 			break;
 		case COMBAT:
@@ -145,14 +151,18 @@ public class InGame {
 				}
 			}
 			break;
+		case END:
+			Update.incFrame();
+			if (Update.getFrame() > 150) {
+				Update.resetFrame();
+				return true;
+			}
+			break;
 		}
+		return false;
 	}
 	
 	public void draw(Graphics2D g, ArroGraphics graphics) {
-		
-		
-		
-		
 		if (turnPhase == COMBAT) {
 			combat.draw(g, graphics);
 			//white transition
@@ -161,6 +171,22 @@ public class InGame {
 				g.setColor(new Color(rgb, rgb, rgb, rgb));
 				g.fillRect(0, 0, (int) (1920 * graphics.multiplyer), (int) (1080 * graphics.multiplyer));
 			}
+		}
+		else if (turnPhase == END) {
+			ArrayList<Byte> places = new ArrayList<Byte>(4);
+			places.add(currPlayer);
+			for (byte j = 0; j < Update.players.size(); j++) {
+				Byte maxPlayer = -1;
+				int max = Integer.MIN_VALUE;
+				for (Byte i = 0; i < Update.players.size(); i++) {
+					if (Update.players.get(i).getInsignias() > max && !places.contains(i)) {
+						maxPlayer = i;
+						max = Update.players.get(i).getInsignias();
+					}
+				}
+				places.add(maxPlayer);
+			}
+			graphics.drawEndGame(g, Update.players, currPlayer, places.get(1), (places.size() > 2) ? places.get(2) : -1, (places.size() > 3) ? places.get(3) : -1);
 		}
 		else {
 			graphics.centerMap(g, map, Update.players.get(currPlayer));

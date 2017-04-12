@@ -37,7 +37,6 @@ public class Update {
 	
 	
 	public static void init() {
-		
 		//Initialize game variables
 		currState = STARTUP;
 		
@@ -65,12 +64,18 @@ public class Update {
 			}
 			if (scrWidth == 0) scrWidth = 1024;
 			scrHeight = (int) (scrWidth * (9.0/16));
-			System.out.println(scrHeight);
 			scan.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+	}
+	private static void reset() {
+		graphics = null;
+		players = null;
+		prefs = null;
+		menu = null;
+		game = null;
+		init();
 	}
 		
 	private static void calculate(Input input) {
@@ -78,7 +83,11 @@ public class Update {
 		switch (currState)
 		{
 		case STARTUP:
-			currState = MENU;
+			incFrame();
+			if (tFrame > 90) {
+				resetFrame();
+				currState = MENU;
+			}
 			break;
 		case MENU:
 			int temp = menu.calculate(keys); //menu returns the number of players to be added, -1 if no selection
@@ -88,7 +97,9 @@ public class Update {
 			}
 			break;
 		case INGAME:	
-			game.calculate(keys);
+			if (game.calculate(keys)) {
+				reset();
+			}
 			break;
 		case PAUSED:
 			break;
@@ -102,7 +113,7 @@ public class Update {
 		switch (currState)
 		{
 		case STARTUP:
-			
+			graphics.drawStartup(g);
 			break;
 		case MENU:
 			menu.draw(g, graphics);
