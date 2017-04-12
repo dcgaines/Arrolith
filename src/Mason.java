@@ -13,6 +13,7 @@ public class Mason extends Player {
 		
 		updateStats();
 		health = maxHealth;
+		resetAP();
 		
 		actions.add( new Action( "Righteous Lash",	 	2, Action.ATTACK, Action.MELEE, Action.WEAK ) );
 		actions.add( new Action( "Hearth-Forged Bane", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );

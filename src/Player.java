@@ -22,8 +22,7 @@ public abstract class Player extends Being {
 	}
 
 	public void updateStats( ) {
-		actionPoints = 2 + ( tact / 3 );
-		maxAP = actionPoints;
+		maxAP = 2 + ( tact / 3 );
 		maxHealth = 2000 + ( perseverance * 200 );
 		level = coins / 40 + 1;
 
