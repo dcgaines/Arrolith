@@ -136,6 +136,7 @@ public class InGame {
 				if (result > 0) {
 					turnPhase = ACTION;
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
+					Update.players.get(currPlayer).walkDown(map);
 					//add insignias to players stuff
 				} else if (result < 0) {
 					turnPhase = ACTION;
@@ -164,7 +165,7 @@ public class InGame {
 		}
 		else {
 			graphics.centerMap(g, map, Update.players.get(currPlayer));
-			graphics.drawMap(g, map, Update.players, monsters);
+			graphics.drawMap(g, map, Update.players, monsters, potions);
 			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 			if (turnPhase == READY) {
 				graphics.drawReady(g);

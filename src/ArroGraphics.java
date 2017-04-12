@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
@@ -21,6 +22,7 @@ public class ArroGraphics {
 	Animation monster;
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
+	Image enemyHealth;
 	Image numbers;
 	Image potion;
 	private Font alegreya;
@@ -57,6 +59,7 @@ public class ArroGraphics {
 			this.opt_default = ImageIO.read(new File("bttl_default.png"));
 			this.opt_end = ImageIO.read(new File("bttl_end.png"));
 			this.potion = ImageIO.read(new File("elixir.png"));
+			this.enemyHealth = ImageIO.read(new File("bttl_enemy_health.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +80,7 @@ public class ArroGraphics {
 	}
 	
 	//Draws the map and players
-	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players, ArrayList<Monster> monsters)
+	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players, ArrayList<Monster> monsters, ArrayList<Potion> potions)
 	{
 		Tile tile; //temporary tile space
 		for (int i = 0; i < map.getHeight(); i++)
@@ -93,6 +96,7 @@ public class ArroGraphics {
 						0, (tile.getType() + 1) * 32, 32, null);
 			}
 		drawMonsters(g, monsters);
+		drawPotions(g, potions);
 		drawPlayers(g, players);
 	}
 	private int posX(double x) { return (int) ((x + offsetX) * multiplyer); }
@@ -123,11 +127,11 @@ public class ArroGraphics {
 				(player.getType() + 1) * 64,
 				64, null);
 		drawNumber(g, (byte) player.perseverance,  multiplyer(76), multiplyer(920), multiplyer(36), multiplyer(20));
-		drawNumber(g, (byte) player.observation,  multiplyer(172), multiplyer(920), multiplyer(36), multiplyer(20));
-		drawNumber(g, (byte) player.intellect,  multiplyer(268), multiplyer(920), multiplyer(36), multiplyer(20));
-		drawNumber(g, (byte) player.negotiation,  multiplyer(364), multiplyer(920), multiplyer(36), multiplyer(20));
-		drawNumber(g, (byte) player.tact,  multiplyer(460), multiplyer(920), multiplyer(36), multiplyer(20));
-		drawNumber(g, (byte) player.strength,  multiplyer(556), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.observation,  multiplyer(196), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.intellect,  multiplyer(316), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.negotiation,  multiplyer(436), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.tact,  multiplyer(556), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.strength,  multiplyer(676), multiplyer(920), multiplyer(36), multiplyer(20));
 		g.setColor(gold);
 		double rectWidth = 480 * (player.getHealth() / (double) player.getMaxHealth());
 		g.fillRect(multiplyer(1236), multiplyer(876), multiplyer(rectWidth), multiplyer(36));
@@ -135,12 +139,10 @@ public class ArroGraphics {
 		drawCustomNumbers(g, player.getAP(), multiplyer(1236), multiplyer(960), multiplyer(36), multiplyer(20));
 	}
 	private void drawAction(Graphics2D g, Player p, int index, int startX, int startY) {
+		//drawCenteredString(g, p.getActions().get(index).getName(), startX + multiplyer(70))
 		g.drawString(p.getActions().get(index).getName(), startX + multiplyer(70), startY + multiplyer(120));
 		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
 					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
-					  /*public static final int RANGED = 0;
-						public static final int MELEE = 1;
-						public static final int MAGIC = 2;*/
 		g.drawString(type, startX + multiplyer(70), startY + multiplyer(240));
 		g.drawString(Integer.toString(p.getActions().get(index).getCost()), startX + multiplyer(70), startY + multiplyer(360));
 	}
@@ -181,20 +183,58 @@ public class ArroGraphics {
 	}
 	public void drawCombatMonster(Graphics2D g, Monster m, boolean betweenTurn, int tFrame) {
 		monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
-		g.setColor(Color.white);
-		double width = 320 * (m.getHealth() / (double) m.getMaxHealth());
-		g.fillRect(multiplyer(800), multiplyer(600), multiplyer(width), multiplyer(100));
+		g.setColor(Color.red);
+		g.drawImage(enemyHealth, multiplyer(832), multiplyer(600), multiplyer(1088), multiplyer(664),
+					0, 0, 64, 16, null);
+		double width = 232 * (m.getHealth() / (double) m.getMaxHealth());
+		g.fillRect(multiplyer(844), multiplyer(612), multiplyer(width), multiplyer(40));
 		if (betweenTurn) {
+			g.setColor(Color.white);
 			g.setFont(pressStart);
 			String dots = tFrame < 20 ? "." : tFrame < 40 ? ".." : "...";
-			g.drawString(dots, multiplyer(950), multiplyer(100));
+			g.drawString(dots, multiplyer(890), multiplyer(200));
 		}
+	}
+	public void drawSelAction(Graphics2D g, Action action, boolean playerTurn, int amount) {
+		String drawn = playerTurn ? "Player " : "Monster ";
+		if (action.getActionType() == Action.ATTACK)  {
+			drawn += "attacked for " + amount + " damage!";
+		}
+		else if (action.getActionType() == Action.HEAL) {
+			drawn += "regained " + amount + " health!";
+		}
+		else if (action.getActionType() == Action.DEFEND) {
+			drawn += "raised their defense!";
+		}
+		g.setColor(Color.black);
+		g.fillRect(multiplyer(86), 0, multiplyer(1748), multiplyer(119));
+		g.setColor(gold);
+		g.setStroke(borderStroke);
+		g.drawRect(multiplyer(86), 0, multiplyer(1748), multiplyer(119));
+		g.setColor(Color.white);
+		drawCenteredString(g, drawn, multiplyer(86), 0, multiplyer(1748), multiplyer(119), pressStart);
+		
+	}
+	private void drawCenteredString(Graphics2D g, String text, int x1, int y1, int width, int height, Font font) {
+	    FontMetrics metrics = g.getFontMetrics(font);
+	    int x = (width - metrics.stringWidth(text)) / 2 + x1;
+	    int y = ((height - metrics.getHeight()) / 2) + metrics.getAscent() + y1;
+	    g.setFont(font);
+	    g.drawString(text, x, y);
 	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster temp = monsters.get(i);
 			monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+		}
+	}
+	public void drawPotions(Graphics2D g, ArrayList<Potion> potions) {
+		for (int i = 0; i < potions.size(); i++) {
+			Potion temp = potions.get(i);
+			g.drawImage(potion, posX(temp.getX() * DIM), posY(temp.getY() * DIM), 
+					posX(temp.getX() * DIM) + (int)(DIM * multiplyer),
+					posY(temp.getY() * DIM) + (int)(DIM * multiplyer), 0, 0, 32, 32, null);
 		}
 	}
 	private void drawCustomNumbers(Graphics2D g, int number, int posX, int posY, int height, int width) {
