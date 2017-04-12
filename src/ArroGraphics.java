@@ -23,6 +23,8 @@ public class ArroGraphics {
 	Image portraits;
 	Image splash;
 	Animation monster;
+	Animation monster2;
+	Animation monster3;
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
 	Image enemyHealth;
@@ -59,6 +61,8 @@ public class ArroGraphics {
 			this.tileStrip = ImageIO.read(new File("img/tileStrip.png"));
 			this.splash = ImageIO.read(new File("img/splash.png"));
 			this.monster = new Animation(ImageIO.read(new File("img/monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
+			this.monster2 = new Animation(ImageIO.read(new File("img/monster2.png")), 32, 32, new int[]{10,20,30,40}, false);
+			this.monster3 = new Animation(ImageIO.read(new File("img/monster3.png")), 32, 32, new int[]{5,10,15,20}, false);
 			this.juggernaut = new Animation(ImageIO.read(new File("img/juggernaut.png")), 32, 32, new int[]{15,30,45,60}, false);
 			this.savant = new Animation(ImageIO.read(new File("img/savant.png")), 32, 32, new int[]{15,30,45,60}, false);
 			this.mason = new Animation(ImageIO.read(new File("img/mason.png")), 32, 32, new int[]{15,30,45,60}, false);
@@ -226,7 +230,18 @@ public class ArroGraphics {
 		}
 	}
 	public void drawCombatMonster(Graphics2D g, Monster m, boolean betweenTurn, int tFrame) {
-		monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+		switch (m.getLevel()) {
+		case 1:
+			monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+			break;
+		case 2:
+			monster2.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+			break;
+		case 3:
+			monster3.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+			break;
+		}
+		
 		g.setColor(Color.red);
 		g.drawImage(enemyHealth, multiplyer(832), multiplyer(600), multiplyer(1088), multiplyer(664),
 					0, 0, 64, 16, null);
@@ -267,9 +282,21 @@ public class ArroGraphics {
 	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
+		monster2.calculate();
+		monster3.calculate();
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster temp = monsters.get(i);
-			monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+			switch (temp.getLevel()) {
+			case 1:
+				monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+				break;
+			case 2:
+				monster2.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+				break;
+			case 3:
+				monster3.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+				break;
+			}
 		}
 	}
 	public void drawPotions(Graphics2D g, ArrayList<Potion> potions) {
