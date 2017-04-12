@@ -3,9 +3,10 @@ public abstract class Player extends Being {
 	// Player class identifiers
 	static final int SAVANT = 1;
 	static final int OPERATIVE = 3;
-	static final int JUGGERNAUT = 0;
+	
 	static final int MASON = 2;
-
+	static final int JUGGERNAUT = 0;
+	
 	// Character name
 	protected String name;
 	protected int playerClass;

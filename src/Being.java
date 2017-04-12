@@ -49,7 +49,7 @@ public abstract class Being {
 			health = maxHealth;
 	}
 
-	public void subtractHealth( int hp ) {
+	public int subtractHealth( int hp ) {
 		if ( defense > 0 )
 			if ( hp > defense ) {
 				hp -= defense;
@@ -61,6 +61,7 @@ public abstract class Being {
 		health -= hp;
 		if ( health < 0 )
 			health = 0;
+		return hp;
 	}
 
 	public ArrayList<Action> getActions( ) {
@@ -68,7 +69,7 @@ public abstract class Being {
 	}
 
 	public void defend( ) {
-		defense = 50 + tact * 20;
+		defense += 50 + tact * 20;
 	}
 
 	public void setDamages( ) {

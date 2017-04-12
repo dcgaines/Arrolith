@@ -5,20 +5,56 @@ import java.util.Random;
 
 public class Menu {
 	private final byte PLAY = 0;
-	private final byte TWOPLAYERS = 1;
-	private final byte THREEPLAYERS = 2;
-	private final byte FOURPLAYERS = 3;
+	private final byte CHARACTERS = 1;
 	private final byte SOUND = 4;
 	public byte state;
 	private File prefs;
+	private int selChar = 0;
+	private int currPlayer = 0;
 	
 	public Menu() {
 		state = PLAY;
 		
 	}
 	
-	private void setup() {
-		
+	private int setup(Keys keys) {
+		if (keys.isKeyPressed(keys.UP)) {
+			selChar++;
+			if (selChar > 3)
+				selChar = 0;
+		}
+		else if (keys.isKeyPressed(keys.DOWN)) {
+			selChar--;
+			if (selChar < 0)
+				selChar = 3;
+		}
+		else if (keys.isKeyPressed(keys.A)) {
+			switch (selChar) {
+			case 0: Update.players.add(new Juggernaut("Player " + (currPlayer + 1))); break;
+			case 1: Update.players.add(new Savant("Player " + (currPlayer + 1))); break;
+			case 2: Update.players.add(new Mason("Player " + (currPlayer + 1)));break;
+			case 3: Update.players.add(new Operative("Player " + (currPlayer + 1))); break;
+			}
+			currPlayer++;
+			selChar = 0;
+			if (currPlayer > 3)
+				return 4;
+		}
+		else if (keys.isKeyPressed(keys.B)) {
+			if (currPlayer == 0) {
+				state = PLAY;
+				selChar = 0;
+			}
+			else {
+				Update.players.remove(currPlayer - 1);
+				currPlayer--;
+				selChar = 0;
+			}
+			
+		}
+		if (keys.isKeyPressed(keys.C) && currPlayer > 1)
+			return currPlayer;
+		return -1;
 	}
 	
 	//Returns false if moving into ingame
@@ -27,7 +63,7 @@ public class Menu {
 		{
 		case PLAY:
 			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
-				state = TWOPLAYERS;
+				state = CHARACTERS;
 			else if (keys.getKey(keys.DOWN) && keys.getBuffer(keys.DOWN))
 				state = SOUND;
 			break;
@@ -35,36 +71,15 @@ public class Menu {
 			if (keys.getKey(keys.UP) && keys.getBuffer(keys.DOWN))
 				state = PLAY;
 			break;
-		case TWOPLAYERS:
-			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
-				return 2;
-			else if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) 
-				state = THREEPLAYERS;
-			else if (keys.getKey(keys.B) && keys.getBuffer(keys.B))
-				state = PLAY;
-			break;
-		case THREEPLAYERS:
-			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
-				return 3;
-			if (keys.getKey(keys.RIGHT) && keys.getBuffer(keys.RIGHT)) 
-				state = FOURPLAYERS;
-			else if (keys.getKey(keys.LEFT) && keys.getBuffer(keys.LEFT))
-				state = TWOPLAYERS;
-			else if (keys.getKey(keys.B) && keys.getBuffer(keys.B))
-				state = PLAY;
-			break;
-		case FOURPLAYERS:
-			if (keys.getKey(keys.A) && keys.getBuffer(keys.A))
-				return 4;
-			if (keys.getKey(keys.LEFT) && keys.getBuffer(keys.LEFT))
-				state = THREEPLAYERS;
-			else if (keys.getKey(keys.B) && keys.getBuffer(keys.B))
-				state = PLAY;
+		case CHARACTERS:
+			int numOfPlayers = setup(keys);
+			if (numOfPlayers > 0)
+				return numOfPlayers;
 			break;
 		}
 		return -1;
 	}
 	public void draw(Graphics2D g, ArroGraphics graphics) {
-		graphics.drawMenu(g, state);
+		graphics.drawMenu(g, state, currPlayer, selChar);
 	}
 }

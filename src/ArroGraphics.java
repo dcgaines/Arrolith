@@ -1,6 +1,7 @@
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.io.File;
@@ -21,7 +22,9 @@ public class ArroGraphics {
 	Animation monster;
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
+	Image enemyHealth;
 	Image numbers;
+	Image potion;
 	private Font alegreya;
 	private Font alegreya50;
 	private Font pressStart;
@@ -31,6 +34,11 @@ public class ArroGraphics {
 	/*****			CUSTOM COLORS  			****/
 	Color shade = new Color(0,0,0,125);
 	Color gold = new Color(255,185,0);
+	
+	Color red = new Color(255, 0, 0, 125);
+	Color blue = new Color(0,0,255,125);
+	Color green = new Color(0,255,0,125);
+	Color yellow = new Color(255,255,0,125);
 	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
@@ -55,6 +63,8 @@ public class ArroGraphics {
 			this.opt_heal = ImageIO.read(new File("bttl_heal.png"));
 			this.opt_default = ImageIO.read(new File("bttl_default.png"));
 			this.opt_end = ImageIO.read(new File("bttl_end.png"));
+			this.potion = ImageIO.read(new File("elixir.png"));
+			this.enemyHealth = ImageIO.read(new File("bttl_enemy_health.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -62,7 +72,7 @@ public class ArroGraphics {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
 			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
-			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(100 * (float) multiplyer);
+			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(50 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -75,7 +85,7 @@ public class ArroGraphics {
 	}
 	
 	//Draws the map and players
-	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players, ArrayList<Monster> monsters)
+	public void drawMap(Graphics2D g, Map map, ArrayList<Player> players, ArrayList<Monster> monsters, ArrayList<Potion> potions)
 	{
 		Tile tile; //temporary tile space
 		for (int i = 0; i < map.getHeight(); i++)
@@ -91,6 +101,7 @@ public class ArroGraphics {
 						0, (tile.getType() + 1) * 32, 32, null);
 			}
 		drawMonsters(g, monsters);
+		drawPotions(g, potions);
 		drawPlayers(g, players);
 	}
 	private int posX(double x) { return (int) ((x + offsetX) * multiplyer); }
@@ -120,14 +131,23 @@ public class ArroGraphics {
 				0,
 				(player.getType() + 1) * 64,
 				64, null);
+		drawNumber(g, (byte) player.perseverance,  multiplyer(76), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.observation,  multiplyer(196), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.intellect,  multiplyer(316), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.negotiation,  multiplyer(436), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.tact,  multiplyer(556), multiplyer(920), multiplyer(36), multiplyer(20));
+		drawNumber(g, (byte) player.strength,  multiplyer(676), multiplyer(920), multiplyer(36), multiplyer(20));
+		g.setColor(gold);
+		double rectWidth = 480 * (player.getHealth() / (double) player.getMaxHealth());
+		g.fillRect(multiplyer(1236), multiplyer(876), multiplyer(rectWidth), multiplyer(36));
+		drawCustomNumbers(g, player.getHealth(), multiplyer(1256 + rectWidth), multiplyer(876), multiplyer(36), multiplyer(20));
+		drawCustomNumbers(g, player.getAP(), multiplyer(1236), multiplyer(960), multiplyer(36), multiplyer(20));
 	}
 	private void drawAction(Graphics2D g, Player p, int index, int startX, int startY) {
+		//drawCenteredString(g, p.getActions().get(index).getName(), startX + multiplyer(70))
 		g.drawString(p.getActions().get(index).getName(), startX + multiplyer(70), startY + multiplyer(120));
 		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
 					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
-					  /*public static final int RANGED = 0;
-						public static final int MELEE = 1;
-						public static final int MAGIC = 2;*/
 		g.drawString(type, startX + multiplyer(70), startY + multiplyer(240));
 		g.drawString(Integer.toString(p.getActions().get(index).getCost()), startX + multiplyer(70), startY + multiplyer(360));
 	}
@@ -138,7 +158,7 @@ public class ArroGraphics {
 			g.drawImage(opt_default, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
-			g.setFont(alegreya);
+			g.setFont(pressStart);
 			g.setColor(Color.white);
 			drawAction(g, p, 0, 0, 0);
 			drawAction(g, p, 1, multiplyer(960), 0);
@@ -153,7 +173,7 @@ public class ArroGraphics {
 		}
 		
 		g.setColor(shade);
-		if (selChoice > 0) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
+		if (selChoice > 0 || selChoice == -2) g.fillRect(0, 0, multiplyer(960), multiplyer(400));
 		if (selChoice != 4 && selChoice != 1) g.fillRect(multiplyer(960), 0, multiplyer(960), multiplyer(400));
 		if (selChoice != 5 && selChoice != 2) g.fillRect(0, multiplyer(400), multiplyer(960), multiplyer(400));
 		if (selChoice != 6 && selChoice != 3) g.fillRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400));
@@ -166,14 +186,60 @@ public class ArroGraphics {
 		case 6: case 3: g.drawRect(multiplyer(960), multiplyer(400), multiplyer(960), multiplyer(400)); break;
 		}
 	}
-	public void drawCombatMonster(Graphics2D g, Monster m) {
+	public void drawCombatMonster(Graphics2D g, Monster m, boolean betweenTurn, int tFrame) {
 		monster.draw(g, multiplyer(800), multiplyer(240), multiplyer(320), multiplyer(320), true);
+		g.setColor(Color.red);
+		g.drawImage(enemyHealth, multiplyer(832), multiplyer(600), multiplyer(1088), multiplyer(664),
+					0, 0, 64, 16, null);
+		double width = 232 * (m.getHealth() / (double) m.getMaxHealth());
+		g.fillRect(multiplyer(844), multiplyer(612), multiplyer(width), multiplyer(40));
+		if (betweenTurn) {
+			g.setColor(Color.white);
+			g.setFont(pressStart);
+			String dots = tFrame < 20 ? "." : tFrame < 40 ? ".." : "...";
+			g.drawString(dots, multiplyer(890), multiplyer(200));
+		}
+	}
+	public void drawSelAction(Graphics2D g, Action action, boolean playerTurn, Player player, int amount) {
+		String drawn = playerTurn ? player.name + " " : "Monster ";
+		if (action.getActionType() == Action.ATTACK)  {
+			drawn += "attacked for " + amount + " damage!";
+		}
+		else if (action.getActionType() == Action.HEAL) {
+			drawn += "regained " + amount + " health!";
+		}
+		else if (action.getActionType() == Action.DEFEND) {
+			drawn += "raised their defense!";
+		}
+		g.setColor(Color.black);
+		g.fillRect(multiplyer(86), 0, multiplyer(1748), multiplyer(119));
+		g.setColor(gold);
+		g.setStroke(borderStroke);
+		g.drawRect(multiplyer(86), 0, multiplyer(1748), multiplyer(119));
+		g.setColor(Color.white);
+		drawCenteredString(g, drawn, multiplyer(86), 0, multiplyer(1748), multiplyer(119), pressStart);
+		
+	}
+	private void drawCenteredString(Graphics2D g, String text, int x1, int y1, int width, int height, Font font) {
+	    FontMetrics metrics = g.getFontMetrics(font);
+	    int x = (width - metrics.stringWidth(text)) / 2 + x1;
+	    int y = ((height - metrics.getHeight()) / 2) + metrics.getAscent() + y1;
+	    g.setFont(font);
+	    g.drawString(text, x, y);
 	}
 	public void drawMonsters(Graphics2D g, ArrayList<Monster> monsters) {
 		monster.calculate();
 		for (int i = 0; i < monsters.size(); i++) {
 			Monster temp = monsters.get(i);
 			monster.draw(g, posX(temp.getX() * DIM), posY(temp.getY() * DIM), (int) (DIM * multiplyer), (int) (DIM * multiplyer), false);
+		}
+	}
+	public void drawPotions(Graphics2D g, ArrayList<Potion> potions) {
+		for (int i = 0; i < potions.size(); i++) {
+			Potion temp = potions.get(i);
+			g.drawImage(potion, posX(temp.getX() * DIM), posY(temp.getY() * DIM), 
+					posX(temp.getX() * DIM) + (int)(DIM * multiplyer),
+					posY(temp.getY() * DIM) + (int)(DIM * multiplyer), 0, 0, 32, 32, null);
 		}
 	}
 	private void drawCustomNumbers(Graphics2D g, int number, int posX, int posY, int height, int width) {
@@ -188,7 +254,7 @@ public class ArroGraphics {
 		
 	}
 	private void drawNumber(Graphics2D g, byte number, int posX, int posY, int height, int width) {
-		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 10, null);
+		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 9, null);
 	}
 	//Draws the HUD on the screen
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
@@ -262,9 +328,12 @@ public class ArroGraphics {
 	
 	//Draws the menu
 	//TODO: Change when menu has been designed
-	public void drawMenu(Graphics2D g, int menuState) {
+	public void drawMenu(Graphics2D g, int menuState, int currPlayer, int selChar) {
+//		if (menuState == 1)
+//			g.setColor(Color.white);
 		g.fillRect(0, 0, multiplyer(1920), multiplyer(1080)); // allows a clean reset of the image
-		g.drawImage(splash,multiplyer(-233), multiplyer(-355), multiplyer(2167), multiplyer(996), 0,0, 4106, 2310, null);
+		if (menuState != 1)
+			g.drawImage(splash,multiplyer(-233), multiplyer(-355), multiplyer(2167), multiplyer(996), 0,0, 4106, 2310, null);
 		g.setColor(Color.WHITE);
 		g.setFont(alegreya);
 		switch (menuState)
@@ -277,11 +346,30 @@ public class ArroGraphics {
 			g.drawString("Play", multiplyer(865), multiplyer(762));
 			g.drawString(">  Sound  <", multiplyer(759), multiplyer(882));
 			break;
-		case 1: case 2: case 3: // 2 players
-			g.drawString(Integer.toString(menuState + 1), multiplyer(935), multiplyer(762));
-			if (menuState == 1 || menuState == 2) g.drawString(">", multiplyer(1004), multiplyer(762));
-			if (menuState == 2 || menuState == 3) g.drawString("<", multiplyer(875),  multiplyer(762));
-			g.drawString("Players", multiplyer(801), multiplyer(882));
+		case 1:
+			switch (currPlayer) {
+			case 0: g.setColor(blue); break;
+			case 1: g.setColor(red); break;
+			case 2: g.setColor(green); break;
+			case 3: g.setColor(yellow); break;
+			}
+			g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
+			g.drawImage(portraits, 
+					multiplyer(736),
+					multiplyer(62),
+					multiplyer(1184),
+					multiplyer(510),
+					selChar * 64, 
+					0,
+					(selChar + 1) * 64,
+					64, null);
+			g.setColor(Color.white);
+			switch (selChar) {
+			case 0: drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw juggernaut options
+			case 1: drawCenteredString(g, "SAVANT of the Rumination Guild", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw savant options
+			case 2: drawCenteredString(g, "MASON of the Hearth and Eye Clergy", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw mason options
+			case 3: drawCenteredString(g, "OPERATIVE of the Caligo Company", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw operative options
+			}
 			break;
 		}
 	}

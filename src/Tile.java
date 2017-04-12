@@ -12,7 +12,8 @@ public class Tile {
 
 	public Tile( int x, int y, int type ) {
 		this.type = type;
-
+		this.x = x;
+		this.y = y;
 		switch ( type ) {
 		case TileType.GRASS:
 			walkable = true;

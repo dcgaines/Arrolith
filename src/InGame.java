@@ -70,16 +70,7 @@ public class InGame {
 			scan.close();		
 		} catch (IOException e1) { e1.printStackTrace(); }
 		
-		//TODO: Generate players
-		Random rand = new Random();
 		for (byte i = 0; i < numPlayers; i++) {
-			int n = rand.nextInt(4) + 1;
-			switch (n) {
-			case 1: Update.players.add(new Savant("")); break;
-			case 2: Update.players.add(new Mason("")); break;
-			case 3: Update.players.add(new Juggernaut("")); break;
-			case 4: Update.players.add(new Operative("")); break;
-			}
 			Update.players.get(i).setInitPos(i, map);
 		}
 		
@@ -140,6 +131,7 @@ public class InGame {
 					turnPhase = ACTION;
 					mon.getOwner( ).addInsignias( -result );
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
+          p.walkDown(map);
 					p.addInsignias( result );
 					p.addCoins( result * 20 * ( 1 + ((p.negotiation) / 10) ) );
 					p.updateStats( );
@@ -172,7 +164,7 @@ public class InGame {
 		}
 		else {
 			graphics.centerMap(g, map, Update.players.get(currPlayer));
-			graphics.drawMap(g, map, Update.players, monsters);
+			graphics.drawMap(g, map, Update.players, monsters, potions);
 			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 			if (turnPhase == READY) {
 				graphics.drawReady(g);
