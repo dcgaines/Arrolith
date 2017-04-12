@@ -129,7 +129,7 @@ public class InGame {
 				Player p = Update.players.get( currPlayer );
 				if (result > 0) {
 					turnPhase = ACTION;
-					mon.getOwner( ).addInsignias( -result );
+					if (mon.getOwner() != null) mon.getOwner( ).addInsignias( -result );
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
           p.walkDown(map);
 					p.addInsignias( result );

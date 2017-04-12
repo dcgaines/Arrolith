@@ -95,13 +95,14 @@ public class Combat {
 					playerTurn = true;
 					if (player.getHealth() <= 0) {
 						player.resetAP();
-						return -1;
+						double mod = 1 - (player.negotiation / 10);
+						return (int)(-monster.getLevel( ) * 20 * mod);
 					}
 				}
 				tFrame++;
 			}
-			
-		} else {
+		}
+		 else {
 			if (playerTurn) {
 				switch (selChoice) {
 				case FIGHT:
@@ -166,16 +167,7 @@ public class Combat {
 				return monster.getLevel( );
 			} 
 		}
-		else {
-			monsterTurn();
-			playerTurn = true;
-			if ( player.getHealth( ) <= 0 ) {
-				player.resetAP();
-				double mod = 1 - (player.negotiation / 10);
-				return (int)(-monster.getLevel( ) * 100 * mod);
-			}	
-
-		}
+		
 		return 0;
 	}
 
