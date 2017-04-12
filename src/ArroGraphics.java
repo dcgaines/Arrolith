@@ -35,6 +35,11 @@ public class ArroGraphics {
 	Color shade = new Color(0,0,0,125);
 	Color gold = new Color(255,185,0);
 	
+	Color red = new Color(255, 0, 0, 125);
+	Color blue = new Color(0,0,255,125);
+	Color green = new Color(0,255,0,125);
+	Color yellow = new Color(255,255,0,125);
+	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
 	
@@ -195,8 +200,8 @@ public class ArroGraphics {
 			g.drawString(dots, multiplyer(890), multiplyer(200));
 		}
 	}
-	public void drawSelAction(Graphics2D g, Action action, boolean playerTurn, int amount) {
-		String drawn = playerTurn ? "Player " : "Monster ";
+	public void drawSelAction(Graphics2D g, Action action, boolean playerTurn, Player player, int amount) {
+		String drawn = playerTurn ? player.name + " " : "Monster ";
 		if (action.getActionType() == Action.ATTACK)  {
 			drawn += "attacked for " + amount + " damage!";
 		}
@@ -323,9 +328,12 @@ public class ArroGraphics {
 	
 	//Draws the menu
 	//TODO: Change when menu has been designed
-	public void drawMenu(Graphics2D g, int menuState) {
+	public void drawMenu(Graphics2D g, int menuState, int currPlayer, int selChar) {
+//		if (menuState == 1)
+//			g.setColor(Color.white);
 		g.fillRect(0, 0, multiplyer(1920), multiplyer(1080)); // allows a clean reset of the image
-		g.drawImage(splash,multiplyer(-233), multiplyer(-355), multiplyer(2167), multiplyer(996), 0,0, 4106, 2310, null);
+		if (menuState != 1)
+			g.drawImage(splash,multiplyer(-233), multiplyer(-355), multiplyer(2167), multiplyer(996), 0,0, 4106, 2310, null);
 		g.setColor(Color.WHITE);
 		g.setFont(alegreya);
 		switch (menuState)
@@ -338,11 +346,30 @@ public class ArroGraphics {
 			g.drawString("Play", multiplyer(865), multiplyer(762));
 			g.drawString(">  Sound  <", multiplyer(759), multiplyer(882));
 			break;
-		case 1: case 2: case 3: // 2 players
-			g.drawString(Integer.toString(menuState + 1), multiplyer(935), multiplyer(762));
-			if (menuState == 1 || menuState == 2) g.drawString(">", multiplyer(1004), multiplyer(762));
-			if (menuState == 2 || menuState == 3) g.drawString("<", multiplyer(875),  multiplyer(762));
-			g.drawString("Players", multiplyer(801), multiplyer(882));
+		case 1:
+			switch (currPlayer) {
+			case 0: g.setColor(blue); break;
+			case 1: g.setColor(red); break;
+			case 2: g.setColor(green); break;
+			case 3: g.setColor(yellow); break;
+			}
+			g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
+			g.drawImage(portraits, 
+					multiplyer(736),
+					multiplyer(62),
+					multiplyer(1184),
+					multiplyer(510),
+					selChar * 64, 
+					0,
+					(selChar + 1) * 64,
+					64, null);
+			g.setColor(Color.white);
+			switch (selChar) {
+			case 0: drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw juggernaut options
+			case 1: drawCenteredString(g, "SAVANT of the Rumination Guild", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw savant options
+			case 2: drawCenteredString(g, "MASON of the Hearth and Eye Clergy", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw mason options
+			case 3: drawCenteredString(g, "OPERATIVE of the Caligo Company", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw operative options
+			}
 			break;
 		}
 	}

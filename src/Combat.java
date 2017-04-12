@@ -170,7 +170,7 @@ public class Combat {
 		graphics.drawCombatMonster(g, monster, betweenTurn, tFrame);
 		if (drawAction)
 				graphics.drawSelAction(g, playerTurn? actionQueue.get(actionIndex) : monsterAction,
-						playerTurn, amount);
+						playerTurn, player, amount);
 		// draw defend
 		// draw heal
 		// draw endturn
