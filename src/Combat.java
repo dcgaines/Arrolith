@@ -79,7 +79,7 @@ public class Combat {
 			}
 			if (!playerTurn && monster.getHealth( ) <= 0 ) {
 				player.resetAP();
-				return 1;
+				return monster.getLevel( );
 			} 
 		}
 		else {
@@ -87,7 +87,10 @@ public class Combat {
 			playerTurn = true;
 			if ( player.getHealth( ) <= 0 ) {
 				player.resetAP();
-				return -1;
+				double mod = 1 - (player.negotiation / 10);
+				if(mod < .2)
+					mod = .2;
+				return (int)(-monster.getLevel( ) * 100 * mod);
 			}	
 		}
 		return 0;
