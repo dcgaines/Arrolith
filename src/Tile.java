@@ -3,6 +3,7 @@ public class Tile {
 	private int type;
 	private int x;
 	private int y;
+	private int owner = -1;
 	
 	private boolean walkable;
 	private double itemChance;
@@ -126,5 +127,13 @@ public class Tile {
 				break;
 			}
 		}
+	}
+	
+	public int getOwner(){
+		return owner;
+	}
+	
+	public void setOwner(int o){
+		owner = o;
 	}
 }
