@@ -62,7 +62,8 @@ public class InGame {
 			for (int i = 0; i < numOfMonsters; i++) {
 				int x = scan.nextInt();
 				int y = scan.nextInt();
-				monsters.add(new Monster(x, y));
+				int level = scan.nextInt( );
+				monsters.add(new Monster(x, y, level));
 			}
 			
 			
@@ -135,8 +136,9 @@ public class InGame {
 				int result = combat.calculate(keys);
 				if (result > 0) {
 					turnPhase = ACTION;
-					monsters.get( currMonster ).getOwner( ).addInsignias( -result );
-					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
+					Monster mon = monsters.get( currMonster );
+					mon.getOwner( ).addInsignias( -result );
+					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
 					Update.players.get( currPlayer ).addInsignias( result );
 				} else if (result < 0) {
 					turnPhase = ACTION;

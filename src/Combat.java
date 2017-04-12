@@ -24,7 +24,7 @@ public class Combat {
 		player = p;
 		actions = p.getActions();
 		if (m == null) 
-			monster = new Monster(0, 0);
+			monster = new Monster(0, 0, 1);
 		else
 			monster = m;
 		selChoice = FIGHT;
