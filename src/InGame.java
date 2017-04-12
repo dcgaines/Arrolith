@@ -131,11 +131,11 @@ public class InGame {
 					turnPhase = ACTION;
 					if (mon.getOwner() != null) mon.getOwner( ).addInsignias( -result );
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
+					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 					p.walkDown(map);
 					p.addInsignias( result );
 					p.addCoins( (int) ( result * 20 * ( 1 + ((p.negotiation) / 10.) ) ) );
 					p.updateStats( );
-					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 				} else if (result < 0) {
 					turnPhase = ACTION;
 					p.setInitPos(currPlayer, map);
@@ -167,7 +167,7 @@ public class InGame {
 			graphics.drawMap(g, map, Update.players, monsters, potions);
 			graphics.drawHud(g, Update.players, actionsUsed, Update.getFrame(), currPlayer);
 			if (turnPhase == READY) {
-				graphics.drawReady(g);
+				graphics.drawReady(g, currPlayer);
 			}
 		}
 	}

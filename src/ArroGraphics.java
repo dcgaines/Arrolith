@@ -17,6 +17,10 @@ public class ArroGraphics {
 	
 	Image tileStrip;
 	Image sprites;
+	Animation juggernaut;
+	Animation savant;
+	Animation mason;
+	Animation operative;
 	Image portraits;
 	Image splash;
 	Animation monster;
@@ -27,6 +31,7 @@ public class ArroGraphics {
 	Image potion;
 	private Font alegreya;
 	private Font pressStart;
+	private Font pressStart40;
 	BasicStroke borderStroke;
 	
 	
@@ -35,9 +40,14 @@ public class ArroGraphics {
 	Color gold = new Color(255,185,0);
 	
 	Color red = new Color(255, 0, 0, 125);
+	Color redFull = new Color(255,0,0);
 	Color blue = new Color(0,0,255,125);
+	Color blueFull = new Color(0,0,255);
 	Color green = new Color(0,255,0,125);
+	Color greenFull = new Color(0,255,0);
 	Color yellow = new Color(255,255,0,125);
+	Color yellowFull = new Color(255,255,0);
+	Color transparent = new Color(0,0,0,0);
 	
 	double offsetX, offsetY;
 	float multiplyer = (float) (Game.HEIGHT / 1080.);
@@ -49,6 +59,10 @@ public class ArroGraphics {
 			this.sprites = ImageIO.read(new File("img/sprites.png"));
 			this.splash = ImageIO.read(new File("img/splash.png"));
 			this.monster = new Animation(ImageIO.read(new File("img/monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
+			this.juggernaut = new Animation(ImageIO.read(new File("img/juggernaut.png")), 32, 32, new int[]{15,30,45,60}, false);
+			this.savant = new Animation(ImageIO.read(new File("img/savant.png")), 32, 32, new int[]{15,30,45,60}, false);
+			this.mason = new Animation(ImageIO.read(new File("img/mason.png")), 32, 32, new int[]{15,30,45,60}, false);
+			this.operative = new Animation(ImageIO.read(new File("img/operative.png")), 32, 32, new int[]{15,30,45,60}, false);
 			this.portraits = ImageIO.read(new File("img/portraits.png"));
 			this.HUD = ImageIO.read(new File("img/hud.png"));
 			this.HUD_pts = ImageIO.read(new File("img/hud_pts.png"));
@@ -71,9 +85,20 @@ public class ArroGraphics {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
 			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/pressStart.ttf")).deriveFont(50 * (float) multiplyer);
+			pressStart40 = pressStart.deriveFont(40 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private Color getPlayerColor(int currPlayer) {
+		switch (currPlayer) {
+		case 0: return blue;
+		case 1: return red;
+		case 2: return green;
+		case 3: return yellow;
+		}
+		return transparent;
 	}
 	
 	//Centers the map around the current player
@@ -97,6 +122,9 @@ public class ArroGraphics {
 						(int) (((i + 1) * DIM + offsetY)* multiplyer),
 						(int) tile.getType() * 32, 
 						0, (tile.getType() + 1) * 32, 32, null);
+				
+				g.setColor(getPlayerColor(tile.getOwner()));
+				g.fillRect((int) ((j * DIM + offsetX) * multiplyer), (int) ((i * DIM + offsetY)* multiplyer), (int) (DIM * multiplyer), (int) (DIM * multiplyer));
 			}
 		drawMonsters(g, monsters);
 		drawPotions(g, potions);
@@ -107,13 +135,25 @@ public class ArroGraphics {
 	//Draws the players on the map
 	private void drawPlayers(Graphics2D g, ArrayList<Player> players) {
 		for (int i = 0; i < players.size(); i++) {
-			g.drawImage(sprites, 
-					posX(players.get(i).getX() * DIM),
-					posY(players.get(i).getY() * DIM),
-					posX((players.get(i).getX() + 1) * DIM),
-					posY((players.get(i).getY() + 1) * DIM),
-			 		players.get(i).getType() * 32, 0,  (players.get(i).getType() + 1) * 32, 32, null);
+			switch (players.get(i).getType()) {
+			case 0:
+				juggernaut.draw(g, posX(players.get(i).getX() * DIM), posY(players.get(i).getY() * DIM), multiplyer(DIM), multiplyer(DIM), false);
+				break;
+			case 1:
+				savant.draw(g, posX(players.get(i).getX() * DIM), posY(players.get(i).getY() * DIM), multiplyer(DIM), multiplyer(DIM), false);
+				break;
+			case 2:
+				mason.draw(g, posX(players.get(i).getX() * DIM), posY(players.get(i).getY() * DIM), multiplyer(DIM), multiplyer(DIM), false);
+				break;
+			case 3:
+				operative.draw(g, posX(players.get(i).getX() * DIM), posY(players.get(i).getY() * DIM), multiplyer(DIM), multiplyer(DIM), false);
+				break;
+			}
 		}
+		juggernaut.calculate();
+		savant.calculate();
+		mason.calculate();
+		operative.calculate();
 	}
 	public void drawBattleHUD(Graphics2D g, Player player) {
 		g.drawImage(HUD_battle, 0,
@@ -142,12 +182,13 @@ public class ArroGraphics {
 		drawCustomNumbers(g, player.getAP(), multiplyer(1236), multiplyer(960), multiplyer(36), multiplyer(20));
 	}
 	private void drawAction(Graphics2D g, Player p, int index, int startX, int startY) {
-		//drawCenteredString(g, p.getActions().get(index).getName(), startX + multiplyer(70))
-		g.drawString(p.getActions().get(index).getName(), startX + multiplyer(70), startY + multiplyer(120));
+		g.setColor(Color.white);
+		drawCenteredString(g, p.getActions().get(index).getName(), startX + multiplyer(48), startY + multiplyer(48), multiplyer(864), multiplyer(101), pressStart40);
 		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
 					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
-		g.drawString(type, startX + multiplyer(70), startY + multiplyer(240));
-		g.drawString(Integer.toString(p.getActions().get(index).getCost()), startX + multiplyer(70), startY + multiplyer(360));
+		drawCenteredString(g, type, startX + multiplyer(48), startY + multiplyer(120), multiplyer(864), multiplyer(101), pressStart40);
+		
+		drawCustomNumbers(g, p.getActions().get(index).getCost(), startX + multiplyer(465), startY + multiplyer(250), multiplyer(60), multiplyer(30));
 	}
 	public void drawCombatOptions(Graphics2D g, int selChoice, Player p) {
 		if (selChoice >= 0 && selChoice <= 3) {
@@ -156,8 +197,6 @@ public class ArroGraphics {
 			g.drawImage(opt_default, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
 			g.drawImage(opt_default, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
-			g.setFont(pressStart);
-			g.setColor(Color.white);
 			drawAction(g, p, 0, 0, 0);
 			drawAction(g, p, 1, multiplyer(960), 0);
 			drawAction(g, p, 2, 0, multiplyer(400));
@@ -215,8 +254,7 @@ public class ArroGraphics {
 		g.setStroke(borderStroke);
 		g.drawRect(multiplyer(86), 0, multiplyer(1748), multiplyer(119));
 		g.setColor(Color.white);
-		drawCenteredString(g, drawn, multiplyer(86), 0, multiplyer(1748), multiplyer(119), pressStart);
-		
+		drawCenteredString(g, drawn, multiplyer(86), 0, multiplyer(1748), multiplyer(119), pressStart);		
 	}
 	private void drawCenteredString(Graphics2D g, String text, int x1, int y1, int width, int height, Font font) {
 	    FontMetrics metrics = g.getFontMetrics(font);
@@ -286,17 +324,30 @@ public class ArroGraphics {
 				}
 		}
 	}
-	public void drawReady(Graphics2D g) {
-		g.setColor(Color.BLACK);
-		g.setFont(alegreya);
-		g.fillRect(multiplyer(760), multiplyer(340), 
-			multiplyer(400), (int) (400 * multiplyer));
-		g.setColor(Color.WHITE);
+	public void drawReady(Graphics2D g, int currPlayer) {
+		g.setColor(Color.black);
+		g.setFont(pressStart);
+		g.fillRect(multiplyer(370), multiplyer(270), multiplyer(1180), multiplyer(260));
 		g.setStroke(borderStroke);
-		g.drawRect(multiplyer(760), multiplyer(340), 
-			multiplyer(400), multiplyer(400));
-		g.drawString("Press A", multiplyer(800), multiplyer(504));
-		g.drawString("to start.", multiplyer(800), multiplyer(640));
+		g.setColor(gold);
+		g.drawRect(multiplyer(370), multiplyer(270), multiplyer(1180), multiplyer(260));
+		g.setColor(Color.white);
+		drawCenteredString(g, "Press A to start!", multiplyer(370), multiplyer(380), multiplyer(1180), multiplyer(130), pressStart);
+		drawCenteredString(g, "Player " + (currPlayer + 1), multiplyer(370), multiplyer(290), multiplyer(1180), multiplyer(130), pressStart);
+		g.setColor(getPlayerColor(currPlayer));
+		drawCenteredString(g, "Player " + (currPlayer + 1), multiplyer(370), multiplyer(290), multiplyer(1180), multiplyer(130), pressStart);
+		
+		
+//		g.setColor(Color.BLACK);
+//		g.setFont(alegreya);
+//		g.fillRect(multiplyer(760), multiplyer(340), 
+//			multiplyer(400), (int) (400 * multiplyer));
+//		g.setColor(Color.WHITE);
+//		g.setStroke(borderStroke);
+//		g.drawRect(multiplyer(760), multiplyer(340), 
+//			multiplyer(400), multiplyer(400));
+//		g.drawString("Press A", multiplyer(800), multiplyer(504));
+//		g.drawString("to start.", multiplyer(800), multiplyer(640));
 	}
 	private int multiplyer(double num) {
 		return (int) (num * multiplyer);
@@ -342,12 +393,7 @@ public class ArroGraphics {
 			g.drawString(">  Sound  <", multiplyer(759), multiplyer(882));
 			break;
 		case 1:
-			switch (currPlayer) {
-			case 0: g.setColor(blue); break;
-			case 1: g.setColor(red); break;
-			case 2: g.setColor(green); break;
-			case 3: g.setColor(yellow); break;
-			}
+			g.setColor(getPlayerColor(currPlayer));
 			g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
 			g.drawImage(portraits, 
 					multiplyer(736),
