@@ -46,33 +46,33 @@ public class ArroGraphics {
 	public ArroGraphics() {
 		try {
 			//Loads images into memory
-			this.tileStrip = ImageIO.read(new File("tileStrip.png"));
-			this.sprites = ImageIO.read(new File("sprites.png"));
-			this.splash = ImageIO.read(new File("splash.png"));
-			this.monster = new Animation(ImageIO.read(new File("monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
-			this.portraits = ImageIO.read(new File("portraits.png"));
-			this.HUD = ImageIO.read(new File("hud.png"));
-			this.HUD_pts = ImageIO.read(new File("hud_pts.png"));
-			this.HUD_timer = ImageIO.read(new File("hud_timer.png"));
-			this.HUD_stats = ImageIO.read(new File("hud_stats.png"));
-			this.numbers = ImageIO.read(new File("nums.png"));
-			this.HUD_battle = ImageIO.read(new File("hud_battle.png"));
+			this.tileStrip = ImageIO.read(new File("img/tileStrip.png"));
+			this.sprites = ImageIO.read(new File("img/sprites.png"));
+			this.splash = ImageIO.read(new File("img/splash.png"));
+			this.monster = new Animation(ImageIO.read(new File("img/monster.png")), 32, 32, new int[]{60, 65, 70, 75}, false);
+			this.portraits = ImageIO.read(new File("img/portraits.png"));
+			this.HUD = ImageIO.read(new File("img/hud.png"));
+			this.HUD_pts = ImageIO.read(new File("img/hud_pts.png"));
+			this.HUD_timer = ImageIO.read(new File("img/hud_timer.png"));
+			this.HUD_stats = ImageIO.read(new File("img/hud_stats.png"));
+			this.numbers = ImageIO.read(new File("img/nums.png"));
+			this.HUD_battle = ImageIO.read(new File("img/hud_battle.png"));
 			this.borderStroke = new BasicStroke(multiplyer(15));
-			this.opt_fight = ImageIO.read(new File("bttl_fight.png"));
-			this.opt_defend = ImageIO.read(new File("bttl_defend.png"));
-			this.opt_heal = ImageIO.read(new File("bttl_heal.png"));
-			this.opt_default = ImageIO.read(new File("bttl_default.png"));
-			this.opt_end = ImageIO.read(new File("bttl_end.png"));
-			this.potion = ImageIO.read(new File("elixir.png"));
-			this.enemyHealth = ImageIO.read(new File("bttl_enemy_health.png"));
+			this.opt_fight = ImageIO.read(new File("img/bttl_fight.png"));
+			this.opt_defend = ImageIO.read(new File("img/bttl_defend.png"));
+			this.opt_heal = ImageIO.read(new File("img/bttl_heal.png"));
+			this.opt_default = ImageIO.read(new File("img/bttl_default.png"));
+			this.opt_end = ImageIO.read(new File("img/bttl_end.png"));
+			this.potion = ImageIO.read(new File("img/elixir.png"));
+			this.enemyHealth = ImageIO.read(new File("img/bttl_enemy_health.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		try {
-			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("Alegreya.ttf"))
+			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
 			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
-			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("pressStart.ttf")).deriveFont(50 * (float) multiplyer);
+			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/pressStart.ttf")).deriveFont(50 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -260,7 +260,7 @@ public class ArroGraphics {
 	public void drawHud(Graphics2D g, ArrayList<Player> players, byte actionsUsed, int tFrame, byte currPlayer) {
 		g.drawImage(HUD_timer, multiplyer(808), 0, multiplyer(1112), multiplyer(56), 0, 0, 76, 14, null);
 		drawCustomNumbers(g, Update.players.get(currPlayer).getAP() - actionsUsed, multiplyer(916), multiplyer(8), multiplyer(40), multiplyer(20));
-		drawCustomNumbers(g, (420 - tFrame) / 30, multiplyer(1024), multiplyer(8), multiplyer(40), multiplyer(20));
+		drawCustomNumbers(g, (InGame.moveTime - tFrame) / 30, multiplyer(1024), multiplyer(8), multiplyer(40), multiplyer(20));
 //		g.drawString("Actions Left: " + Integer.toString(Update.players.get(currPlayer).getAP() - actionsUsed), 119 * multiplyer, 132 * multiplyer);
 //		String timeLeft = String.format("%.2f", (420 - tFrame) / 30.);
 //		g.drawString(timeLeft, (1568 * multiplyer), (132 * multiplyer));

@@ -10,13 +10,13 @@ public class Map {
 	public Map( int players ) throws IOException {
 		switch ( players ) {
 		case 2:
-			readMapFile("map2P.txt");
+			readMapFile("maps/map2P.txt");
 			break;
 		case 3:
-			readMapFile("map3P.txt");
+			readMapFile("maps/map3P.txt");
 			break;
 		case 4:
-			readMapFile("map4P.txt");
+			readMapFile("maps/map4P.txt");
 			break;
 		default:
 			break;

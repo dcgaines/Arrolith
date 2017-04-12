@@ -19,7 +19,7 @@ public class Arrolith extends Game {
 
 	public Image cover() {
 		try {
-			return ImageIO.read(new File("splash.png"));
+			return ImageIO.read(new File("img/splash.png"));
 		} catch (Exception e) {
 			return null;
 		}

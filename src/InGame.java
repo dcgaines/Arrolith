@@ -13,6 +13,7 @@ import java.util.Scanner;
  */
 public class InGame {
 
+	public static final int moveTime = 30 * 30;
 	
 	protected Map map;
 	ArrayList<Monster> monsters = null;
@@ -52,9 +53,9 @@ public class InGame {
 			Scanner scan = null;
 			//read in monsters
 			switch (numPlayers) {
-			case 2:  scan = new Scanner(new File("monsters2p.txt")); break;
-			case 3:  scan = new Scanner(new File("monsters3p.txt")); break;
-			case 4:  scan = new Scanner(new File("monsters4p.txt")); break;
+			case 2:  scan = new Scanner(new File("monsters/monsters2p.txt")); break;
+			case 3:  scan = new Scanner(new File("monsters/monsters3p.txt")); break;
+			case 4:  scan = new Scanner(new File("monsters/monsters4p.txt")); break;
 			default: throw new IOException();
 			}
 			int numOfMonsters = scan.nextInt();
@@ -93,7 +94,7 @@ public class InGame {
 				turnPhase = MOVE;
 			break;
 		case MOVE:
-			if (Update.players.get(currPlayer).getAP() > 0 && Update.getFrame() < 420) {
+			if (Update.players.get(currPlayer).getAP() > 0 && Update.getFrame() < moveTime) {
 				checkMovement(keys); //if any key is pressed whatsoever
 				currMonster = checkMonsters();
 				if (currMonster != -1) {
@@ -131,7 +132,7 @@ public class InGame {
 					turnPhase = ACTION;
 					if (mon.getOwner() != null) mon.getOwner( ).addInsignias( -result );
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
-          p.walkDown(map);
+					p.walkDown(map);
 					p.addInsignias( result );
 					p.addCoins( (int) ( result * 20 * ( 1 + ((p.negotiation) / 10.) ) ) );
 					p.updateStats( );
