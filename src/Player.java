@@ -14,6 +14,7 @@ public abstract class Player extends Being {
 	protected int maxAP;
 	
 	protected int insignias;
+	protected int coins;
 
 	public Player( String name ) {
 		this.name = name;
@@ -172,5 +173,13 @@ public abstract class Player extends Being {
 
 	public void addInsignias(int i){
 		insignias += i;
+	}
+	
+	public int getCoins(){
+		return coins;
+	}
+	
+	public void addCoins(int c){
+		coins += c;
 	}
 }
