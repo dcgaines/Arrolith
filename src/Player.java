@@ -34,6 +34,13 @@ public abstract class Player extends Being {
 			strength++;
 			lastLeveled += 2;
 		}
+		if(level < lastLeveled){
+			perseverance--;
+			observation--;
+			intellect--;
+			strength--;
+			lastLeveled -= 2;
+		}
 
 		setDamages( );
 	}
@@ -190,6 +197,8 @@ public abstract class Player extends Being {
 	
 	public void addCoins(int c){
 		coins += c;
+		if(coins < 0)
+			coins = 0;
 	}
 	
 	public int getLevel(){
