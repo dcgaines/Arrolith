@@ -134,17 +134,21 @@ public class InGame {
 			}
 			else {
 				int result = combat.calculate(keys);
+				Monster mon = monsters.get( currMonster );
+				Player p = Update.players.get( currPlayer );
 				if (result > 0) {
 					turnPhase = ACTION;
-					Monster mon = monsters.get( currMonster );
 					mon.getOwner( ).addInsignias( -result );
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
-					Update.players.get( currPlayer ).addInsignias( result );
+					p.addInsignias( result );
+					p.addCoins( result * 20 * ( 1 + ((p.negotiation) / 10) ) );
+					p.updateStats( );
 				} else if (result < 0) {
 					turnPhase = ACTION;
-					Update.players.get(currPlayer).setInitPos(currPlayer, map);
-					Update.players.get(currPlayer).addHealth(Update.players.get(currPlayer).getMaxHealth());
-					Update.players.get( currMonster ).addCoins( result );
+					p.setInitPos(currPlayer, map);
+					p.addHealth(p.getMaxHealth());
+					p.addCoins( result );
+					p.updateStats( );
 				}
 			}
 			break;

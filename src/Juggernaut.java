@@ -12,6 +12,7 @@ public class Juggernaut extends Player {
 		strength = 6;
 		
 		updateStats();
+		health = maxHealth;
 		
 		actions.add( new Action( "Quelling Slash",	 	2, Action.ATTACK, Action.MELEE, Action.WEAK ) );
 		actions.add( new Action( "Hornan Incision", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );

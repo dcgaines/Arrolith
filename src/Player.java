@@ -15,6 +15,7 @@ public abstract class Player extends Being {
 	
 	protected int insignias;
 	protected int coins;
+	protected int level;
 
 	public Player( String name ) {
 		this.name = name;
@@ -24,7 +25,7 @@ public abstract class Player extends Being {
 		actionPoints = 2 + ( tact / 3 );
 		maxAP = actionPoints;
 		maxHealth = 2000 + ( perseverance * 200 );
-		health = maxHealth;
+		level = coins / 40 + 1;
 
 		setDamages( );
 	}
@@ -182,4 +183,8 @@ public abstract class Player extends Being {
 	public void addCoins(int c){
 		coins += c;
 	}
+	
+	public int getLevel(){
+		return level;
+	}	
 }

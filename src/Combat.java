@@ -88,8 +88,6 @@ public class Combat {
 			if ( player.getHealth( ) <= 0 ) {
 				player.resetAP();
 				double mod = 1 - (player.negotiation / 10);
-				if(mod < .2)
-					mod = .2;
 				return (int)(-monster.getLevel( ) * 100 * mod);
 			}	
 		}
