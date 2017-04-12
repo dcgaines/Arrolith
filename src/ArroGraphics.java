@@ -26,7 +26,6 @@ public class ArroGraphics {
 	Image numbers;
 	Image potion;
 	private Font alegreya;
-	private Font alegreya50;
 	private Font pressStart;
 	BasicStroke borderStroke;
 	
@@ -71,7 +70,6 @@ public class ArroGraphics {
 		try {
 			alegreya = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/Alegreya.ttf"))
 					.deriveFont(100 * (float) multiplyer);
-			alegreya50 = alegreya.deriveFont(50 * (float) multiplyer);
 			pressStart = Font.createFont(Font.TRUETYPE_FONT, new File("fonts/pressStart.ttf")).deriveFont(50 * (float) multiplyer);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -249,9 +247,6 @@ public class ArroGraphics {
 					posX, posY, height, width);
 			posX += width + (width / 5);
 		}
-	}
-	private void drawCustomNumbers(Graphics2D g, double number, int posX, int posY, int height, int width) {
-		
 	}
 	private void drawNumber(Graphics2D g, byte number, int posX, int posY, int height, int width) {
 		g.drawImage(numbers, posX, posY, posX + width, posY + height, number * 5, 0, (number + 1) * 5, 9, null);

@@ -1,7 +1,5 @@
 import java.awt.Graphics2D;
 import java.io.File;
-import java.io.IOException;
-import java.util.Random;
 
 public class Menu {
 	private final byte PLAY = 0;

@@ -1,6 +1,6 @@
-	import arcadia.Arcadia;
 import arcadia.Button;
-	import arcadia.Input;
+import arcadia.Input;
+
 public class Keys {
 	public final byte A = 0;
 	public final byte B = 1;

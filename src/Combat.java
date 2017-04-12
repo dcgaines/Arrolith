@@ -1,7 +1,5 @@
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Combat {
 
@@ -215,27 +213,6 @@ public class Combat {
 
 		int act = (int) (Math.random() * numActions);
 		monsterAction = monster.getActions().get(act);
-	}
-	
-	
-	private void listActions(Graphics2D g) {
-		// TODO: change to drawing actions to screen
-
-		for (int i = 0; i < actions.size(); i++) {
-
-			System.out.println(i + ". " + actions.get(i).toString());
-		}
-		System.out.println("6. End Turn");
-	}
-
-	private void printStats() {
-		// TODO: change to drawing hud
-		System.out.println("Player:");
-		System.out.printf("Health: %d/%d\tAP: %d\n\n", player.getHealth(), player.getMaxHealth(), player.getMaxAP());
-
-		System.out.println("Monster:");
-		System.out.printf("Health: %d/%d\n\n", monster.getHealth(), monster.getMaxHealth());
-
 	}
 
 	private void perform(Action a, Being p, Being o) {
