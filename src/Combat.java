@@ -64,7 +64,7 @@ public class Combat {
 					actionIndex = 0;
 					if (monster.getHealth() <= 0) {
 						player.resetAP();
-						return 1;
+						return monster.getLevel();
 					}
 				}
 				else {
@@ -95,7 +95,7 @@ public class Combat {
 					playerTurn = true;
 					if (player.getHealth() <= 0) {
 						player.resetAP();
-						double mod = 1 - (player.negotiation / 10);
+						double mod = 1 - (player.negotiation / 10.);
 						return (int)(-monster.getLevel( ) * 20 * mod);
 					}
 				}

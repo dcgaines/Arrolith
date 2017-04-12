@@ -133,7 +133,7 @@ public class InGame {
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
           p.walkDown(map);
 					p.addInsignias( result );
-					p.addCoins( result * 20 * ( 1 + ((p.negotiation) / 10) ) );
+					p.addCoins( (int) ( result * 20 * ( 1 + ((p.negotiation) / 10.) ) ) );
 					p.updateStats( );
 					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 				} else if (result < 0) {
