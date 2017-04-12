@@ -16,6 +16,7 @@ public abstract class Player extends Being {
 	protected int insignias;
 	protected int coins;
 	protected int level;
+	private int lastLeveled = 1;
 
 	public Player( String name ) {
 		this.name = name;
@@ -25,6 +26,13 @@ public abstract class Player extends Being {
 		maxAP = 2 + ( tact / 3 );
 		maxHealth = 2000 + ( perseverance * 200 );
 		level = coins / 40 + 1;
+		if(level - lastLeveled >= 2){
+			perseverance++;
+			observation++;
+			intellect++;
+			strength++;
+			lastLeveled += 2;
+		}
 
 		setDamages( );
 	}
