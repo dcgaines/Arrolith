@@ -12,6 +12,8 @@ public class Savant extends Player {
 		strength = 1;
 		
 		updateStats();
+		health = maxHealth;
+		resetAP();
 		
 		actions.add( new Action( "Serpentine Stun",	 	2, Action.ATTACK, Action.MAGIC, Action.WEAK ) );
 		actions.add( new Action( "Thrashing Thunder", 	4, Action.ATTACK, Action.MAGIC, Action.STRONG ) );

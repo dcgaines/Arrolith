@@ -12,6 +12,8 @@ public class Operative extends Player {
 		strength = 1;
 		
 		updateStats( );
+		health = maxHealth;
+		resetAP();
 
 		actions.add( new Action( "Talon's Fury",	 	2, Action.ATTACK, Action.MELEE, Action.WEAK ) );
 		actions.add( new Action( "Mortal Puncture", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );

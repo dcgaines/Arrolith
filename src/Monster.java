@@ -2,26 +2,29 @@
 public class Monster extends Being {
 
 	protected Player owner;
+	protected int level;
 
-	public Monster( Player p ) {
+	public Monster( Player p, int lvl ) {
 		owner = p;
+		level = lvl;
 		updateStats( );
 		act( );
 	}
 
-	public Monster( int x, int y ) {
+	public Monster( int x, int y, int lvl ) {
 		owner = null;
 		xCoord = x;
 		yCoord = y;
+		level = lvl;
 
-		perseverance = 2;
-		observation = 2;
-		intellect = 2;
-		negotiation = 2;
-		tact = 2;
-		strength = 2;
+		perseverance = 2 * level;
+		observation = 2 * level;
+		intellect = 2 * level;
+		negotiation = 2 * level;
+		tact = 2 * level;
+		strength = 2 * level;
 
-		maxHealth = 2000;
+		maxHealth = 1500 + 500 * level;
 
 		health = maxHealth;
 
@@ -49,7 +52,7 @@ public class Monster extends Being {
 		xCoord = owner.xCoord;
 		yCoord = owner.yCoord;
 
-		maxHealth = 1800 + ( perseverance * 100 );
+		maxHealth = 2400 + ( perseverance * 200 );
 
 		// Make monsters weaker than players
 		maxHealth /= 2;
@@ -61,6 +64,10 @@ public class Monster extends Being {
 	
 	public Player getOwner(){
 		return owner;
+	}
+	
+	public int getLevel(){
+		return level;
 	}
 
 }

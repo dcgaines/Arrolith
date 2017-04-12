@@ -32,9 +32,10 @@ public class Combat {
 	public Combat(Player p, Monster m) {
 		player = p;
 		actions = p.getActions();
+
 		actionQueue = new ArrayList<Action>(2);
 		if (m == null)
-			monster = new Monster(0, 0);
+			monster = new Monster(0, 0, 1);
 		else
 			monster = m;
 		selChoice = FIGHT;
@@ -160,6 +161,20 @@ public class Combat {
 				transition = true;
 				selChoice = -2;
 			}
+			if (!playerTurn && monster.getHealth( ) <= 0 ) {
+				player.resetAP();
+				return monster.getLevel( );
+			} 
+		}
+		else {
+			monsterTurn();
+			playerTurn = true;
+			if ( player.getHealth( ) <= 0 ) {
+				player.resetAP();
+				double mod = 1 - (player.negotiation / 10);
+				return (int)(-monster.getLevel( ) * 100 * mod);
+			}	
+
 		}
 		return 0;
 	}

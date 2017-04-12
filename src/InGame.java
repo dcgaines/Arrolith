@@ -62,7 +62,8 @@ public class InGame {
 			for (int i = 0; i < numOfMonsters; i++) {
 				int x = scan.nextInt();
 				int y = scan.nextInt();
-				monsters.add(new Monster(x, y));
+				int level = scan.nextInt( );
+				monsters.add(new Monster(x, y, level));
 			}
 			
 			
@@ -124,16 +125,23 @@ public class InGame {
 			}
 			else {
 				int result = combat.calculate(keys);
+				Monster mon = monsters.get( currMonster );
+				Player p = Update.players.get( currPlayer );
 				if (result > 0) {
 					turnPhase = ACTION;
-					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
-					Update.players.get(currPlayer).walkDown(map);
-					//add insignias to players stuff
+					mon.getOwner( ).addInsignias( -result );
+					monsters.set(currMonster, new Monster(Update.players.get(currPlayer), mon.getLevel( )));
+          p.walkDown(map);
+					p.addInsignias( result );
+					p.addCoins( result * 20 * ( 1 + ((p.negotiation) / 10) ) );
+					p.updateStats( );
+					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 				} else if (result < 0) {
 					turnPhase = ACTION;
-					Update.players.get(currPlayer).setInitPos(currPlayer, map);
-					Update.players.get(currPlayer).addHealth(Update.players.get(currPlayer).getMaxHealth());
-					//remove coins
+					p.setInitPos(currPlayer, map);
+					p.addHealth(p.getMaxHealth());
+					p.addCoins( result );
+					p.updateStats( );
 				}
 			}
 			break;
