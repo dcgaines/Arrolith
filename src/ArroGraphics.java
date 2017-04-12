@@ -351,13 +351,15 @@ public class ArroGraphics {
 			g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
 			g.drawImage(portraits, 
 					multiplyer(736),
-					multiplyer(62),
+					multiplyer(91),
 					multiplyer(1184),
-					multiplyer(510),
+					multiplyer(539),
 					selChar * 64, 
 					0,
 					(selChar + 1) * 64,
 					64, null);
+			g.setColor(Color.black);
+			g.fillRect(0, multiplyer(630), multiplyer(1920), multiplyer(450));
 			g.setColor(Color.white);
 			switch (selChar) {
 			case 0: drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw juggernaut options
