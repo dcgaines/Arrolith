@@ -143,6 +143,7 @@ public class InGame {
 					p.addInsignias( result );
 					p.addCoins( result * 20 * ( 1 + ((p.negotiation) / 10) ) );
 					p.updateStats( );
+					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 				} else if (result < 0) {
 					turnPhase = ACTION;
 					p.setInitPos(currPlayer, map);
