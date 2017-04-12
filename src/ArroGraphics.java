@@ -201,7 +201,7 @@ public class ArroGraphics {
 			drawn += "attacked for " + amount + " damage!";
 		}
 		else if (action.getActionType() == Action.HEAL) {
-			drawn += "healed " + amount + " health!";
+			drawn += "regained " + amount + " health!";
 		}
 		else if (action.getActionType() == Action.DEFEND) {
 			drawn += "raised their defense!";

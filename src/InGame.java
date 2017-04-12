@@ -136,6 +136,7 @@ public class InGame {
 				if (result > 0) {
 					turnPhase = ACTION;
 					monsters.set(currMonster, new Monster(Update.players.get(currPlayer)));
+					Update.players.get(currPlayer).walkDown(map);
 					//add insignias to players stuff
 				} else if (result < 0) {
 					turnPhase = ACTION;
