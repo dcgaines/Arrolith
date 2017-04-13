@@ -153,7 +153,7 @@ public class InGame {
 			break;
 		case END:
 			Update.incFrame();
-			if (Update.getFrame() > 150) {
+			if (Update.getFrame() > 300) {
 				Update.resetFrame();
 				return true;
 			}
