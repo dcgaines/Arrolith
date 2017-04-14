@@ -222,21 +222,21 @@ public class Combat {
 			switch (a.getWeaponType()) {
 			case Action.MELEE:
 				if (a.getAttackType() == Action.WEAK)
-					amount = p.meleeDmg;
+					amount = randDmg(p.meleeDmg, p.tact);
 				else
-					amount = p.meleeDmg * 2;
+					amount = randDmg(2 * p.meleeDmg, p.tact);
 				break;
 			case Action.RANGED:
 				if (a.getAttackType() == Action.WEAK)
-					amount = p.rangeDmg;
+					amount = randDmg(p.rangeDmg, p.tact);
 				else
-					amount = p.rangeDmg * 2;
+					amount = randDmg(p.rangeDmg * 2, p.tact);
 				break;
 			case Action.MAGIC:
 				if (a.getAttackType() == Action.WEAK)
-					amount = p.magicDmg;
+					amount = randDmg(p.magicDmg, p.tact);
 				else
-					amount = p.magicDmg * 2;
+					amount = randDmg(p.magicDmg * 2, p.tact);
 				break;
 			}
 			amount = o.subtractHealth(amount);
@@ -249,5 +249,17 @@ public class Combat {
 			p.defend();
 			break;
 		}
+	}
+	
+	private int randDmg(int damage, int tact){
+		double dmg = damage * ( (Math.random( ) * .4) + .8);
+		
+		double crit = Math.random( );
+		if (crit < tact / 30.){
+			dmg *= 1.5;
+		}
+			
+		
+		return (int) dmg;
 	}
 }
