@@ -68,6 +68,7 @@ public abstract class Player extends Being {
 			yCoord = 0;
 			break;
 		}
+		map.getTile( yCoord, xCoord ).setOccupied( true );
 	}
 
 	public boolean walkUp( Map map ) {
@@ -80,7 +81,9 @@ public abstract class Player extends Being {
 			return false;
 		}
 		if ( upTile.getWalk( ) ) {
+			map.getTile( yCoord, xCoord ).setOccupied( false );
 			yCoord--;
+			map.getTile( yCoord, xCoord ).setOccupied( true );
 			return true;
 		} else if ( upTile.getAction( ) ) {
 			if(actionPoints == 0)
@@ -105,7 +108,9 @@ public abstract class Player extends Being {
 			return false;
 		}
 		if ( rightTile.getWalk( ) ) {
+			map.getTile( yCoord, xCoord ).setOccupied( false );
 			xCoord++;
+			map.getTile( yCoord, xCoord ).setOccupied( true );
 			return true;
 		} else if ( rightTile.getAction( ) ) {
 			if(actionPoints == 0)
@@ -131,7 +136,9 @@ public abstract class Player extends Being {
 			return false;
 		}
 		if ( downTile.getWalk( ) ) {
+			map.getTile( yCoord, xCoord ).setOccupied( false );
 			yCoord++;
+			map.getTile( yCoord, xCoord ).setOccupied( true );
 			return true;
 		} else if ( downTile.getAction( ) ) {
 			if(actionPoints == 0)
@@ -156,7 +163,9 @@ public abstract class Player extends Being {
 			return false;
 		}
 		if ( leftTile.getWalk( ) ) {
+			map.getTile( yCoord, xCoord ).setOccupied( false );
 			xCoord--;
+			map.getTile( yCoord, xCoord ).setOccupied( true );
 			return true;
 		} else if ( leftTile.getAction( ) ) {
 			if(actionPoints == 0)

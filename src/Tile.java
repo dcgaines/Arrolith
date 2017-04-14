@@ -9,6 +9,7 @@ public class Tile {
 	private double itemChance;
 	private double goldChance;
 	private boolean actionable;
+	private boolean occupied;
 
 	public Tile( int x, int y, int type ) {
 		this.type = type;
@@ -136,5 +137,13 @@ public class Tile {
 	
 	public void setOwner(int o){
 		owner = o;
+	}
+	
+	public boolean getOccupied(){
+		return occupied;
+	}
+	
+	public void setOccupied(boolean occ){
+		occupied = occ;
 	}
 }

@@ -67,6 +67,7 @@ public class InGame {
 				int y = scan.nextInt();
 				int level = scan.nextInt( );
 				monsters.add(new Monster(x, y, level));
+				map.getTile( y, x ).setOccupied( true );
 			}
 			
 			
@@ -206,7 +207,7 @@ public class InGame {
 			x = (int)(Math.random( ) * map.getWidth( ));
 			y = (int)(Math.random( ) * map.getHeight( ));
 			Tile tile = map.getTile( y, x ); // Row, col
-			if(tile.getWalk( )){
+			if(tile.getWalk( ) && !tile.getOccupied( )){
 				potions.add( new Potion(x, y));
 				tile.setWalk( false );
 				tile.setAct( true );
