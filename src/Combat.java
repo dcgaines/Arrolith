@@ -252,7 +252,7 @@ public class Combat {
 	}
 	
 	private int randDmg(int damage, int tact){
-		double min = tact / 10 + .4;
+		double min = tact / 10. + .4;
 		double dmg = damage * ( (Math.random( ) * (1 - min) + min));
 		
 		double crit = Math.random( );
