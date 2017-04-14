@@ -242,7 +242,7 @@ public class Combat {
 			amount = o.subtractHealth(amount);
 			break;
 		case Action.HEAL:
-			amount = 100 + 10 * p.intellect;
+			amount = 400 + 20 * p.intellect;
 			p.addHealth(amount);
 			break;
 		case Action.DEFEND:

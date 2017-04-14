@@ -69,7 +69,7 @@ public abstract class Being {
 	}
 
 	public void defend( ) {
-		defense += 50 + tact * 20;
+		defense += 150 + tact * 50;
 	}
 
 	public void setDamages( ) {
