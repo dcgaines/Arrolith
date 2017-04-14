@@ -16,12 +16,12 @@ public class Menu {
 	}
 	
 	private int setup(Keys keys) {
-		if (keys.isKeyPressed(keys.UP)) {
+		if (keys.isKeyPressed(keys.RIGHT)) {
 			selChar++;
 			if (selChar > 3)
 				selChar = 0;
 		}
-		else if (keys.isKeyPressed(keys.DOWN)) {
+		else if (keys.isKeyPressed(keys.LEFT)) {
 			selChar--;
 			if (selChar < 0)
 				selChar = 3;
