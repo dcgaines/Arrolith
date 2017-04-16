@@ -28,11 +28,6 @@ public class Arrolith extends Game {
 							Game.WIDTH = scan.nextInt();
 							Game.HEIGHT = scan.nextInt();
 						}
-							//Game.WIDTH = 
-							//System.out.println(scan.nextInt()); //set graphics
-						//System.out.println(prefs.getAbsolutePath());
-						//System.out.println(Game.WIDTH);
-							//Game.HEIGHT = scan.nextInt();
 					}
 					scan.close();
 				} catch (FileNotFoundException e) {
