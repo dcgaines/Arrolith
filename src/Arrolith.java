@@ -24,11 +24,15 @@ public class Arrolith extends Game {
 						String tmp = scan.nextLine();
 						if (tmp.contains("[SOUND]"))
 							sound = (scan.nextLine().contains("true")); //set sound
-						else if (tmp.contains("[GRAPHICS]"))
-							WIDTH = scan.nextInt(); //set graphics
-						System.out.println(prefs.getAbsolutePath());
-						System.out.println(WIDTH);
-							HEIGHT = scan.nextInt();
+						else if (tmp.contains("[GRAPHICS]")) {
+							Game.WIDTH = scan.nextInt();
+							Game.HEIGHT = scan.nextInt();
+						}
+							//Game.WIDTH = 
+							//System.out.println(scan.nextInt()); //set graphics
+						//System.out.println(prefs.getAbsolutePath());
+						//System.out.println(Game.WIDTH);
+							//Game.HEIGHT = scan.nextInt();
 					}
 					scan.close();
 				} catch (FileNotFoundException e) {
