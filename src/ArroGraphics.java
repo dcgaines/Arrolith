@@ -332,12 +332,12 @@ public class ArroGraphics {
 							 multiplyer(1080), 0, 0, 120, 70, null);
 			if (i < players.size()) {
 				g.drawImage(HUD_pts, multiplyer(i * 480 + 23), multiplyer(812), multiplyer(i * 480 + 64), multiplyer(1072), 0, 0, 13, 65, null);
-				drawCustomNumbers(g, players.get(i).perseverance, multiplyer(i * 480 + 72), multiplyer(812), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).observation, multiplyer(i * 480 + 72), multiplyer(856), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).intellect, multiplyer(i * 480 + 72), multiplyer(900), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).negotiation, multiplyer(i * 480 + 72), multiplyer(944), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).tact, multiplyer(i * 480 + 72), multiplyer(988), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).strength, multiplyer(i * 480 + 72), multiplyer(1032), multiplyer(40), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).perseverance, multiplyer(i * 480 + 72), multiplyer(812), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).observation, multiplyer(i * 480 + 72), multiplyer(856), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).intellect, multiplyer(i * 480 + 72), multiplyer(900), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).negotiation, multiplyer(i * 480 + 72), multiplyer(944), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).tact, multiplyer(i * 480 + 72), multiplyer(988), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).strength, multiplyer(i * 480 + 72), multiplyer(1032), multiplyer(36), multiplyer(20));
 				//draw portrait
 				g.drawImage(portraits, 
 					multiplyer(i * 480 + 112),
@@ -349,10 +349,10 @@ public class ArroGraphics {
 					(players.get(i).getType() + 1) * 64,
 					64, null);
 				g.setColor(gold);
-				int top = (int) (960 - 136 * ((1. * players.get(i).getHealth() / players.get(i).getMaxHealth())));
-				g.fillRect(multiplyer(i * 480 + 404), multiplyer(top), multiplyer(36), multiplyer(960-top));
-				drawCustomNumbers(g, players.get(i).getLevel(), multiplyer(i * 480 + 420), multiplyer(968), multiplyer(40), multiplyer(20));
-				drawCustomNumbers(g, players.get(i).getInsignias(), multiplyer(i * 480 + 420), multiplyer(1010), multiplyer(40), multiplyer(20));
+				int top = (int) (980 - 148 * ((1. * players.get(i).getHealth() / players.get(i).getMaxHealth())));
+				g.fillRect(multiplyer(i * 480 + 404), multiplyer(top), multiplyer(40), multiplyer(980-top));
+				drawCustomNumbers(g, players.get(i).getLevel(), multiplyer(i * 480 + 420), multiplyer(992), multiplyer(36), multiplyer(20));
+				drawCustomNumbers(g, players.get(i).getInsignias(), multiplyer(i * 480 + 420), multiplyer(1032), multiplyer(36), multiplyer(20));
 				//g.drawImage(HUD_stats, multiplyer(i * 480 + 380), multiplyer(868), multiplyer(i * 480 + 416), multiplyer(1000), 0, 0, 9, 33, null);
 				}
 		}
