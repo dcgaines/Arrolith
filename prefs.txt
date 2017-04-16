@@ -1,4 +1,4 @@
 [SOUND]
 true
 [GRAPHICS]
-1920
+1600

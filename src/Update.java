@@ -23,11 +23,6 @@ public class Update {
 	public static ArrayList<Player> players;
 	
 	
-	//Settings variables
-	private static boolean sound;
-	private static int scrWidth;
-	private static int scrHeight;
-	
 	//Objects
 	public static Menu menu;
 	public static File prefs;
@@ -44,30 +39,10 @@ public class Update {
 		keys = new Keys();
 		graphics = new ArroGraphics();
 		players = new ArrayList<Player>();
-		prefs = new File("prefs.txt");
 		menu = new Menu();
 		game  = new InGame();
-		
 		keys.setBuffer(keys.A); //fixes a glitch with startup
 		
-		//Set vars based on preferences
-		try {
-			
-			Scanner scan = new Scanner(prefs);
-			while (scan.hasNext())
-			{
-				String tmp = scan.nextLine();
-				if (tmp.contains("[SOUND]"))
-					sound = (scan.nextLine().contains("true")); //set sound
-				else if (tmp.contains("[GRAPHICS]"))
-					scrWidth = scan.nextInt(); //set graphics
-			}
-			if (scrWidth == 0) scrWidth = 1024;
-			scrHeight = (int) (scrWidth * (9.0/16));
-			scan.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 	}
 	private static void reset() {
 		graphics = null;
