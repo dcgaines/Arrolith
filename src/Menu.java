@@ -1,12 +1,10 @@
 import java.awt.Graphics2D;
-import java.io.File;
 
 public class Menu {
 	private final byte PLAY = 0;
 	private final byte CHARACTERS = 1;
 	private final byte SOUND = 4;
 	public byte state;
-	private File prefs;
 	private int selChar = 0;
 	private int currPlayer = 0;
 	

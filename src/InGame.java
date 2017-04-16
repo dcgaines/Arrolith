@@ -3,7 +3,6 @@ import java.awt.Graphics2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**

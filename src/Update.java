@@ -1,10 +1,7 @@
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Scanner;
-
 import arcadia.Input;
 import arcadia.Sound;
 
