@@ -30,6 +30,7 @@ public class ArroGraphics {
 	Image enemyHealth;
 	Image numbers;
 	Image potion;
+	Image AP;
 	Image logo;
 	Image HGD;
 	private Font alegreya;
@@ -81,6 +82,7 @@ public class ArroGraphics {
 			this.opt_default = ImageIO.read(new File("img/bttl_default.png"));
 			this.opt_end = ImageIO.read(new File("img/bttl_end.png"));
 			this.potion = ImageIO.read(new File("img/elixir.png"));
+			this.AP = ImageIO.read(new File("img/bttl_AP.png"));
 			this.enemyHealth = ImageIO.read(new File("img/bttl_enemy_health.png"));
 			this.logo = ImageIO.read(new File("img/logo.png"));
 			this.HGD = ImageIO.read(new File("img/HGD.png"));
@@ -193,8 +195,8 @@ public class ArroGraphics {
 		String type = (p.getActions().get(index).getAttackType() == 1 ? "Strong" : "Weak") + " - " +
 					  (p.getActions().get(index).getWeaponType() == 2 ? "Magic" : p.getActions().get(index).getWeaponType() == 1 ? "Melee" : "Ranged");
 		drawCenteredString(g, type, startX + multiplyer(48), startY + multiplyer(120), multiplyer(864), multiplyer(101), pressStart40);
-		
-		drawCustomNumbers(g, p.getActions().get(index).getCost(), startX + multiplyer(465), startY + multiplyer(250), multiplyer(60), multiplyer(30));
+		g.drawImage(AP, startX + multiplyer(416), startY + multiplyer(224), startX + multiplyer(520), startY + multiplyer(328), 0, 0, 13, 13, null);
+		drawCustomNumbers(g, p.getActions().get(index).getCost(), startX + multiplyer(512), startY + multiplyer(264), multiplyer(72), multiplyer(40));
 	}
 	public void drawCombatOptions(Graphics2D g, int selChoice, Player p) {
 		if (selChoice >= 0 && selChoice <= 3) {

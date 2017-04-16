@@ -9,12 +9,15 @@ import arcadia.Sound;
 
 public class Arrolith extends Game {
 	
-	public Arrolith() {
+	public Arrolith(int w, int h) {
+		this.WIDTH = w;
+		this.HEIGHT = h;
 		Update.init();
 	}
 	
 	public void tick(Graphics2D g, Input input, Sound sound) {
 		Update.tick(g, input, sound);
+		
 	}
 
 	public Image cover() {
@@ -26,6 +29,6 @@ public class Arrolith extends Game {
 	}
 
 	public static void main(String[] args) {
-		Arcadia.display(new Arcadia(new Game[] { new Arrolith() }));
+		Arcadia.display(new Arcadia(new Game[] { new Arrolith(1280, 720) }));
 	}
 }
