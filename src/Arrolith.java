@@ -26,9 +26,9 @@ public class Arrolith extends Game {
 							sound = (scan.nextLine().contains("true")); //set sound
 						else if (tmp.contains("[GRAPHICS]"))
 							WIDTH = scan.nextInt(); //set graphics
+						System.out.println(WIDTH);
+							HEIGHT = scan.nextInt();
 					}
-					if (WIDTH == 0) WIDTH = 1024;
-					HEIGHT = (int) (WIDTH * (9.0/16));
 					scan.close();
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
