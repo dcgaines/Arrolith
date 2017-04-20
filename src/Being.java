@@ -3,9 +3,7 @@ import java.util.ArrayList;
 public abstract class Being {
 
 	// Base damages, subject to balancing
-	static final double baseMeleeDmg = 200;
-	static final double baseRangeDmg = 140;
-	static final double baseMagicDmg = 170;
+	static final double baseDmg = 200;
 
 	protected int perseverance;
 	protected int observation;
@@ -76,8 +74,8 @@ public abstract class Being {
 	}
 
 	public void setDamages( ) {
-		meleeDmg = (int) ( Being.baseMeleeDmg * ( 1 + ( strength + observation - 1 ) / 10. ) );
-		rangeDmg = (int) ( Being.baseRangeDmg * ( 1 + ( observation + intellect - 1 ) / 10. ) );
-		magicDmg = (int) ( Being.baseMagicDmg * ( 1 + ( intellect + strength - 1 ) / 10. ) );
+		meleeDmg = (int) ( Being.baseDmg * ( 1 + ( strength + observation - 1 ) / 10. ) );
+		rangeDmg = (int) ( Being.baseDmg * ( 1 + ( observation + intellect - 1 ) / 10. ) );
+		magicDmg = (int) ( Being.baseDmg * ( 1 + ( intellect + strength - 1 ) / 10. ) );
 	}
 }
