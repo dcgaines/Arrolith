@@ -214,8 +214,8 @@ public class Combat {
 	private void makeMonsterAction( ) {
 		int act = 0;
 		boolean heal = false;
-		if ( monster.getHealth( ) < monster.getMaxHealth( ) )
-			heal = true;
+		if ( monster.getHealth( ) < .67 * monster.getMaxHealth( ) )
+			heal = true; // Only heal if below 2/3
 		double rand = Math.random( );
 		if(heal){
 			if(rand > .8) // 20% to defend
