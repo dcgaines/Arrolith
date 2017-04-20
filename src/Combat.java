@@ -243,6 +243,8 @@ public class Combat {
 			break;
 		case Action.HEAL:
 			amount = 400 + 20 * p.intellect;
+			if(p instanceof Player)
+				amount /= 2;
 			p.addHealth(amount);
 			break;
 		case Action.DEFEND:

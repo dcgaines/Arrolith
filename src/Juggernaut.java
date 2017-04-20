@@ -19,8 +19,8 @@ public class Juggernaut extends Player {
 		actions.add( new Action( "Hornan Incision", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );
 		actions.add( new Action( "Parry",		 		2, Action.ATTACK, Action.MELEE, Action.WEAK ) );
 		actions.add( new Action( "Barbed Pummel",	 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );
-		actions.add( new Action( "Heal with Potion", 	2, Action.HEAL ) );
-		actions.add( new Action( "Defend", 				2, Action.DEFEND ) );
+		actions.add( new Action( "Heal with Potion", 	1, Action.HEAL ) );
+		actions.add( new Action( "Defend", 				1, Action.DEFEND ) );
 	}
 
 }
