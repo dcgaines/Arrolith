@@ -202,7 +202,7 @@ public class InGame {
 		int x;
 		int y;
 		
-		if(potions.size( ) < 12){
+		if(potions.size( ) < Update.players.size() * 3){
 			x = (int)(Math.random( ) * map.getWidth( ));
 			y = (int)(Math.random( ) * map.getHeight( ));
 			Tile tile = map.getTile( y, x ); // Row, col
