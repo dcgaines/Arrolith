@@ -212,13 +212,29 @@ public class Combat {
 	}
 
 	private void makeMonsterAction( ) {
-		int numActions;
+		int act = 0;
+		boolean heal = false;
 		if ( monster.getHealth( ) < monster.getMaxHealth( ) )
-			numActions = 4;
-		else
-			numActions = 3;
-
-		int act = (int) ( Math.random( ) * numActions );
+			heal = true;
+		double rand = Math.random( );
+		if(heal){
+			if(rand > .8) // 20% to defend
+				act = 2;
+			if(rand > .6) // 20% to heal
+				act = 3;
+			if(rand > .25) // 35% to strong attack
+				act = 1;
+			else // 25% to weak attack
+				act = 0;
+		} else{
+			if(rand > .8) // 20% to defend
+				act = 2;
+			if(rand > .3) // 50% to strong attack
+				act = 1;
+			else 		  // 30% to weak attack
+				act = 0;
+			
+		}
 		monsterAction = monster.getActions( ).get( act );
 	}
 
