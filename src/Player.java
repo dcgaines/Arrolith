@@ -25,8 +25,8 @@ public abstract class Player extends Being {
 
 	public void updateStats( ) {
 		maxAP = 2 + ( tact / 3 );
-		maxHealth = 2000 + ( perseverance * 200 );
 		level = coins / 40 + 1;
+		
 		if(level - lastLeveled >= 2){
 			perseverance++;
 			observation++;
@@ -42,6 +42,7 @@ public abstract class Player extends Being {
 			lastLeveled -= 2;
 		}
 
+		maxHealth = 2000 + ( perseverance * 200 );
 		setDamages( );
 	}
 

@@ -140,7 +140,7 @@ public class InGame {
 					map.getTile( p.yCoord, p.xCoord ).setOwner( currPlayer );
 					p.walkDown(map);
 					p.addInsignias( result );
-					p.addCoins( (int) ( result * 20 * ( 1 + ((p.negotiation) / 10.) ) ) );
+					p.addCoins( (int) ( result * 20 * ( 1 + ((p.negotiation) / 6.) ) ) );
 					p.updateStats( );
 				} else if (result < 0) {
 					turnPhase = ACTION;
