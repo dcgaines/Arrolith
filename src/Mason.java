@@ -19,8 +19,8 @@ public class Mason extends Player {
 		actions.add( new Action( "Hearth-Forged Bane", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );
 		actions.add( new Action( "Sacred Burst", 		2, Action.ATTACK, Action.MAGIC, Action.WEAK ) );
 		actions.add( new Action( "Fragmented Barrage", 	4, Action.ATTACK, Action.MAGIC, Action.STRONG ) );
-		actions.add( new Action( "Heal with Potion", 	2, Action.HEAL ) );
-		actions.add( new Action( "Defend", 				2, Action.DEFEND ) );
+		actions.add( new Action( "Heal with Potion", 	1, Action.HEAL ) );
+		actions.add( new Action( "Defend", 				1, Action.DEFEND ) );
 	}
 
 }

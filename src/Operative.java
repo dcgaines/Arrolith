@@ -19,8 +19,8 @@ public class Operative extends Player {
 		actions.add( new Action( "Mortal Puncture", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );
 		actions.add( new Action( "Precise Fire", 		2, Action.ATTACK, Action.RANGED, Action.WEAK ) );
 		actions.add( new Action( "Targeted Volley", 	4, Action.ATTACK, Action.RANGED, Action.STRONG ) );
-		actions.add( new Action( "Heal with Potion", 	2, Action.HEAL ) );
-		actions.add( new Action( "Defend", 				2, Action.DEFEND ) );
+		actions.add( new Action( "Heal with Potion", 	1, Action.HEAL ) );
+		actions.add( new Action( "Defend", 				1, Action.DEFEND ) );
 	}
 
 }
