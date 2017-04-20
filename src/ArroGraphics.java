@@ -27,12 +27,14 @@ public class ArroGraphics {
 	Animation monster3;
 	Image HUD, HUD_pts, HUD_timer, HUD_stats, HUD_battle;
 	Image opt_fight, opt_defend, opt_heal, opt_end, opt_default;
+	Image A,B,C, left, right;
 	Image enemyHealth;
 	Image numbers;
 	Image potion;
 	Image AP;
 	Image logo;
 	Image HGD;
+	Image end;
 	private Font alegreya;
 	private Font pressStart;
 	private Font pressStart40;
@@ -86,6 +88,12 @@ public class ArroGraphics {
 			this.enemyHealth = ImageIO.read(new File("img/bttl_enemy_health.png"));
 			this.logo = ImageIO.read(new File("img/logo.png"));
 			this.HGD = ImageIO.read(new File("img/HGD.png"));
+			this.A = ImageIO.read(new File("img/A.png"));
+			this.B = ImageIO.read(new File("img/B.png"));
+			this.C = ImageIO.read(new File("img/C.png"));
+			this.left = ImageIO.read(new File("img/left.png"));
+			this.right = ImageIO.read(new File("img/right.png"));
+			this.end = ImageIO.read(new File("img/win.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -442,19 +450,48 @@ public class ArroGraphics {
 			g.setColor(Color.black);
 			g.fillRect(0, multiplyer(630), multiplyer(1920), multiplyer(450));
 			g.setColor(Color.white);
+			g.drawImage(A, multiplyer(37), multiplyer(37), multiplyer(101), multiplyer(101), 0, 0, 16, 16, null);
+			drawCenteredString(g, "- Choose", multiplyer(121), multiplyer(52), multiplyer(400), multiplyer(51), pressStart);
+			g.drawImage(B, multiplyer(37), multiplyer(138), multiplyer(101), multiplyer(202), 0, 0, 16, 16, null);
+			drawCenteredString(g, "- Back", multiplyer(121), multiplyer(152), multiplyer(300), multiplyer(51), pressStart);
+			if (currPlayer > 1) {
+				g.drawImage(C, multiplyer(1429), multiplyer(37), multiplyer(1493), multiplyer(101), 0, 0, 16, 16, null);
+				drawCenteredString(g, "- Start", multiplyer(1528), multiplyer(52), multiplyer(350), multiplyer(51), pressStart);
+			}
+			g.drawImage(left, multiplyer(400), multiplyer(240), multiplyer(640), multiplyer(480), 0, 0, 16, 16, null);
+			g.drawImage(right, multiplyer(1280), multiplyer(240), multiplyer(1520), multiplyer(480), 0,0,16,16,null);
 			switch (selChar) {
-			case 0: drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw juggernaut options
-			case 1: drawCenteredString(g, "SAVANT of the Rumination Guild", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw savant options
-			case 2: drawCenteredString(g, "MASON of the Hearth and Eye Clergy", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw mason options
-			case 3: drawCenteredString(g, "OPERATIVE of the Caligo Company", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);break; //draw operative options
+			case 0: 
+				drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);
+				g.setColor(gold);
+				drawCenteredString(g, "-- Ruthless, brutish warrior --", 0, multiplyer(670), multiplyer(1920), multiplyer(410), pressStart);
+				//Ruthless, brutish warrior
+				break; //draw juggernaut options
+			case 1: 
+				drawCenteredString(g, "SAVANT of the Rumination Guild", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);
+				g.setColor(gold);
+				drawCenteredString(g, "-- Mystic healer and explorer --", 0, multiplyer(670), multiplyer(1920), multiplyer(410), pressStart);
+				//Mystic healer and explorer
+				break; //draw savant options
+			case 2:
+				drawCenteredString(g, "MASON of the Hearth and Eye Clergy", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);
+				g.setColor(gold);
+				drawCenteredString(g, "-- Zealous engineer with good luck --", 0, multiplyer(670), multiplyer(1920), multiplyer(410), pressStart);
+				//Zealous engineer with good luck
+				break; //draw mason options
+			case 3: 
+				drawCenteredString(g, "OPERATIVE of the Caligo Company", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);
+				g.setColor(gold);
+				drawCenteredString(g, "-- Cunning killer of the shadows --", 0, multiplyer(670), multiplyer(1920), multiplyer(410), pressStart);
+				//Cunning killer of the shadows
+				break; //draw operative options
 			}
 			break;
 		}
 	}
 
 	public void drawEndGame(Graphics2D g, ArrayList<Player> players, int place1, int place2, int place3, int place4) {
-		g.setColor(Color.black);
-		g.fillRect(0, 0, multiplyer(1920), multiplyer(1080));
+		g.drawImage(end, 0, 0, multiplyer(1920), multiplyer(1080), 0, 0, 240, 135, null);
 		
 		g.setColor(Color.white);
 		// draw winner up top
