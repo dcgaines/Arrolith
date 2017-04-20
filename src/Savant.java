@@ -17,8 +17,8 @@ public class Savant extends Player {
 		
 		actions.add( new Action( "Serpentine Stun",	 	2, Action.ATTACK, Action.MAGIC, Action.WEAK ) );
 		actions.add( new Action( "Thrashing Thunder", 	4, Action.ATTACK, Action.MAGIC, Action.STRONG ) );
-		actions.add( new Action( "Bloody Bludgeon", 	1, Action.ATTACK, Action.MELEE, Action.WEAK ) );
-		actions.add( new Action( "Pulverizing Pulse", 	3, Action.ATTACK, Action.MELEE, Action.STRONG ) );
+		actions.add( new Action( "Bloody Bludgeon", 	2, Action.ATTACK, Action.MELEE, Action.WEAK ) );
+		actions.add( new Action( "Pulverizing Pulse", 	4, Action.ATTACK, Action.MELEE, Action.STRONG ) );
 		actions.add( new Action( "Heal with Potion", 	1, Action.HEAL ) );
 		actions.add( new Action( "Defend", 				1, Action.DEFEND ) );
 	}
