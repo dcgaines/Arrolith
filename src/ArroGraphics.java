@@ -213,7 +213,9 @@ public class ArroGraphics {
 		else {
 			g.drawImage(opt_fight, 0, 0, multiplyer(960), multiplyer(400), 0, 0, 120, 50, null);
 			g.drawImage(opt_defend, 0, multiplyer(400), multiplyer(960), multiplyer(800), 0, 0, 120, 50, null);
+			drawCustomNumbers(g, p.getActions().get(5).getCost(), multiplyer(136), multiplyer(488), multiplyer(72), multiplyer(40));
 			g.drawImage(opt_heal, multiplyer(960), 0, multiplyer(1920), multiplyer(400), 0, 0, 120, 50, null);
+			drawCustomNumbers(g, p.getActions().get(4).getCost(), multiplyer(1096), multiplyer(88), multiplyer(72), multiplyer(40));
 			g.drawImage(opt_end, multiplyer(960), multiplyer(400), multiplyer(1920), multiplyer(800), 0, 0, 120, 50, null);
 		}
 		
