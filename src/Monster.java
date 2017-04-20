@@ -54,9 +54,6 @@ public class Monster extends Being {
 
 		maxHealth = 2400 + ( perseverance * 200 );
 
-		// Make monsters weaker than players
-		maxHealth /= 2;
-
 		health = maxHealth;
 
 		setDamages( );
