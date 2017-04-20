@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public abstract class Being {
 
 	// Base damages, subject to balancing
-	static final double baseDmg = 200;
+	static final double baseDmg = 170;
 
 	protected int perseverance;
 	protected int observation;
