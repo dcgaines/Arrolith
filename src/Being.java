@@ -71,7 +71,7 @@ public abstract class Being {
 	public void defend( ) {
 		int def = 150 + tact * 50;
 		if(this instanceof Player)
-			def /= 2;
+			def /= 3;
 		defense += def;
 	}
 
