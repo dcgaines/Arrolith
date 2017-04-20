@@ -460,6 +460,7 @@ public class ArroGraphics {
 			}
 			g.drawImage(left, multiplyer(400), multiplyer(240), multiplyer(640), multiplyer(480), 0, 0, 16, 16, null);
 			g.drawImage(right, multiplyer(1280), multiplyer(240), multiplyer(1520), multiplyer(480), 0,0,16,16,null);
+			drawCenteredString(g, "Player " + (currPlayer + 1),0,multiplyer(539),multiplyer(1920), multiplyer(91), pressStart40);
 			switch (selChar) {
 			case 0: 
 				drawCenteredString(g, "JUGGERNAUT of the Hornan Subjugation", 0, multiplyer(670), multiplyer(1920), multiplyer(50), pressStart);
