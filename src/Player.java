@@ -16,7 +16,6 @@ public abstract class Player extends Being {
 	
 	protected int insignias;
 	protected int coins;
-	protected int level;
 	private int lastLeveled = 1;
 
 	public Player( String name ) {

@@ -2,7 +2,6 @@
 public class Monster extends Being {
 
 	protected Player owner;
-	protected int level;
 
 	public Monster( Player p, int lvl ) {
 		owner = p;

@@ -22,6 +22,8 @@ public abstract class Being {
 	protected int meleeDmg;
 	protected int rangeDmg;
 	protected int magicDmg;
+	
+	int level = 1;
 
 	protected ArrayList<Action> actions = new ArrayList<Action>( );
 
@@ -67,7 +69,7 @@ public abstract class Being {
 	}
 
 	public void defend( ) {
-		int def = 150 + tact * 50;
+		int def = 150 + (tact + level / 2) * 50;
 		if(this instanceof Player)
 			def /= 3;
 		defense += def;
